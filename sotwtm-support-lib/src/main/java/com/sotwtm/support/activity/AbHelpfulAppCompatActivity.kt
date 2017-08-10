@@ -260,7 +260,6 @@ abstract class AbHelpfulAppCompatActivity<DataBindingClass : ViewDataBinding> : 
             return
         }
 
-        onShowLoadingDialog()
         if (viewModel.isActivityPaused) {
             Log.d("Activity is paused.")
             return
@@ -286,7 +285,6 @@ abstract class AbHelpfulAppCompatActivity<DataBindingClass : ViewDataBinding> : 
     @Synchronized fun dismissLoadingDialog() {
 
         loadingDialogMsg = NONE
-        onDismissLoadingDialog()
         if (viewModel.isActivityPaused) {
             Log.d("Activity is paused.")
             return
@@ -308,16 +306,6 @@ abstract class AbHelpfulAppCompatActivity<DataBindingClass : ViewDataBinding> : 
     }
 
     @Synchronized fun dismissedLoading(): Boolean = loadingDialogMsg == NONE
-
-    /**For child class to override */
-    fun onShowLoadingDialog() {
-        // Default do nothing
-    }
-
-    /**For child class to override */
-    fun onDismissLoadingDialog() {
-        // Default do nothing
-    }
 
     /**
      * @param actionBarTitleId The title of this activity. [.NONE] if no title
