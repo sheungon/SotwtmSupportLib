@@ -250,7 +250,6 @@ abstract class AbHelpfulAppCompatActivity<DataBindingClass : ViewDataBinding> : 
      * @param msgRes The message on loading dialog
      * *
      */
-    @JvmOverloads
     @Synchronized fun showLoadingDialog(@StringRes msgRes: Int? = R.string.loading) {
 
         loadingDialogMsg = msgRes

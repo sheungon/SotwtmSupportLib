@@ -123,7 +123,7 @@ abstract class AbHelpfulFragment<DataBindingClass : ViewDataBinding> : Fragment(
         @AnimRes
         get() = R.anim.fragment_slide_out_to_right
 
-    protected fun showLoadingDialog() {
+    fun showLoadingDialog() {
 
         val activity = activity
         if (activity != null) {
@@ -133,7 +133,7 @@ abstract class AbHelpfulFragment<DataBindingClass : ViewDataBinding> : Fragment(
         }
     }
 
-    protected fun showLoadingDialog(@StringRes msgRes: Int) {
+    fun showLoadingDialog(@StringRes msgRes: Int?) {
 
         val activity = activity
         if (activity != null) {
@@ -143,7 +143,7 @@ abstract class AbHelpfulFragment<DataBindingClass : ViewDataBinding> : Fragment(
         }
     }
 
-    protected fun dismissLoadingDialog() {
+    fun dismissLoadingDialog() {
 
         val activity = activity
         if (activity != null) {
