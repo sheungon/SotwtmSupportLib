@@ -29,12 +29,11 @@
             android:layout_gravity="center"/>
 
         <TextView
-            android:id="@+id/sotwtm_loading_msg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:text='@{loadingMsg == 0 ? "" : SotwtmDataBindingUtil.getString(sotwtmLoadingMsg.getContext(), loadingMsg)}'
+            android:text='@{loadingMsg == 0 ? "" : SotwtmDataBindingUtil.getString(context, loadingMsg)}'
             android:textColor="#DDD"
             android:textSize="@dimen/text_small"
             android:visibility="@{loadingMsg == null ? View.GONE : View.VISIBLE}"
