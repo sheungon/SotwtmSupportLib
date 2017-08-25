@@ -82,7 +82,7 @@ abstract class AbHelpfulAppCompatActivity<DataBindingClass : ViewDataBinding> : 
         super.onCreate(savedInstanceState)
 
         dataBinding?.unbind()
-        dataBinding = DataBindingUtil.setContentView<DataBindingClass>(this, layoutResId)
+        dataBinding = DataBindingUtil.setContentView(this, layoutResId)
 
         if (toolbarId != NONE) {
             val toolbar = findViewById<Toolbar?>(toolbarId)
@@ -239,9 +239,7 @@ abstract class AbHelpfulAppCompatActivity<DataBindingClass : ViewDataBinding> : 
         }
     }
 
-    override fun isDestroyed(): Boolean {
-        return viewModel.isActivityDestroyed
-    }
+    override fun isDestroyed(): Boolean = viewModel.isActivityDestroyed
 
     val isViewBound: Boolean
         get() = !viewModel.isActivityPaused || dataBinding != null
