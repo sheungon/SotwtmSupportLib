@@ -19,6 +19,7 @@ import com.sotwtm.support.util.SnackbarUtil
 import com.sotwtm.support.util.UIUtil
 import com.sotwtm.util.Log
 import java.lang.ref.WeakReference
+import java.util.concurrent.atomic.AtomicReference
 
 /**
  * Activity applied animation on transit.
@@ -51,6 +52,7 @@ abstract class AbHelpfulAppCompatActivity<DataBindingClass : ViewDataBinding> : 
                 findViewById<View?>(android.R.id.content)
         )
     }
+    protected val savedInstanceStateRef = AtomicReference<Bundle?>()
 
     private var actionBarTitle: String? = null
 
@@ -59,7 +61,8 @@ abstract class AbHelpfulAppCompatActivity<DataBindingClass : ViewDataBinding> : 
 
     private var backStackListener: MyOnBackStackChangedListener? = null
 
-    @Volatile var dataBinding: DataBindingClass? = null
+    @Volatile
+    var dataBinding: DataBindingClass? = null
         private set
     private var fullScreenFlag = 0x0
 
@@ -72,13 +75,10 @@ abstract class AbHelpfulAppCompatActivity<DataBindingClass : ViewDataBinding> : 
      * Indicate if there should be back button on toolbar
      * */
     open val menuBackEnabled: Boolean = false
-    open var viewModel: AbActivityViewModel = object: AbActivityViewModel(){}
-        @Synchronized
-        set(value) {
-            field = value.syncStatus(field)
-        }
+    abstract val viewModel: AbActivityViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        savedInstanceStateRef.set(savedInstanceState)
         super.onCreate(savedInstanceState)
 
         dataBinding?.unbind()
@@ -248,7 +248,8 @@ abstract class AbHelpfulAppCompatActivity<DataBindingClass : ViewDataBinding> : 
      * @param msgRes The message on loading dialog
      * *
      */
-    @Synchronized fun showLoadingDialog(@StringRes msgRes: Int? = R.string.loading) {
+    @Synchronized
+    fun showLoadingDialog(@StringRes msgRes: Int? = R.string.loading) {
 
         loadingDialogMsg = msgRes
         if (msgRes == NONE) {
@@ -279,7 +280,8 @@ abstract class AbHelpfulAppCompatActivity<DataBindingClass : ViewDataBinding> : 
         UIUtil.hideSoftKeyboard(this)
     }
 
-    @Synchronized fun dismissLoadingDialog() {
+    @Synchronized
+    fun dismissLoadingDialog() {
 
         loadingDialogMsg = NONE
         if (viewModel.isActivityPaused) {
@@ -302,7 +304,8 @@ abstract class AbHelpfulAppCompatActivity<DataBindingClass : ViewDataBinding> : 
         // No loading dialog
     }
 
-    @Synchronized fun dismissedLoading(): Boolean = loadingDialogMsg == NONE
+    @Synchronized
+    fun dismissedLoading(): Boolean = loadingDialogMsg == NONE
 
     /**
      * @param actionBarTitleId The title of this activity. [.NONE] if no title
