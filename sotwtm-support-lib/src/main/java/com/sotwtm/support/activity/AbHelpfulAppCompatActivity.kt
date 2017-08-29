@@ -215,6 +215,17 @@ abstract class AbHelpfulAppCompatActivity<DataBindingClass : ViewDataBinding> : 
         overridePendingTransitionForStartActivity()
     }
 
+    fun startActivity(intent: Intent,
+                      overridePendingTransition: Boolean) {
+
+        if (overridePendingTransition) {
+            startActivity(intent)
+            return
+        }
+
+        super.startActivity(intent)
+    }
+
     override fun finish() {
         super.finish()
 
