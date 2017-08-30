@@ -1,5 +1,7 @@
 package com.sotwtm.support.activity
 
+import android.content.pm.PackageManager
+import android.os.Build
 import android.support.annotation.StringRes
 import com.sotwtm.support.R
 import com.sotwtm.support.util.SnackbarUtil
@@ -15,7 +17,6 @@ class ActivityMessenger(private val activityRef: WeakReference<out AbHelpfulAppC
 
     private val activity: AbHelpfulAppCompatActivity<*>?
         get() = activityRef.get()
-
 
     /**
      * @param msgRes The message on loading dialog
@@ -47,8 +48,30 @@ class ActivityMessenger(private val activityRef: WeakReference<out AbHelpfulAppC
         activity?.showSnackBar(message, duration)
     }
 
-    fun getString(@StringRes stringRes: Int,
-                  vararg formatArg: Any?): String? {
-        return activity?.getString(stringRes, formatArg)
+    fun checkSelfPermission(permission: String): Int? =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                activity?.checkSelfPermission(permission)
+            } else {
+                // In previous version always has permission
+                PackageManager.PERMISSION_GRANTED
+            }
+
+    fun shouldShowRequestPermissionRationale(permission: String): Boolean =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                activity?.shouldShowRequestPermissionRationale(permission) ?: false
+            } else {
+                // In previous version always has permission. So, no need to show request permission rationale
+                false
+            }
+
+    fun requestPermissions(permissions: Array<String>,
+                           requestCode: Int) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            activity?.requestPermissions(permissions, requestCode)
+        }
     }
+
+
+    fun getString(@StringRes stringRes: Int,
+                  vararg formatArg: Any?): String? = activity?.getString(stringRes, formatArg)
 }

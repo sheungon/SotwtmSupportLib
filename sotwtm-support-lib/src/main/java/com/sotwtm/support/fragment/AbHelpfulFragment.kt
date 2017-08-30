@@ -4,14 +4,12 @@ import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.os.Bundle
-import android.support.annotation.AnimRes
 import android.support.annotation.LayoutRes
 import android.support.annotation.StringRes
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.sotwtm.support.R
 import com.sotwtm.support.activity.AbHelpfulAppCompatActivity
 import com.sotwtm.support.activity.IOverridePendingTransition
 import com.sotwtm.support.util.SnackbarUtil
@@ -32,8 +30,16 @@ abstract class AbHelpfulFragment<DataBindingClass : ViewDataBinding> : Fragment(
     @get:LayoutRes
     abstract protected val layoutResId: Int
 
-    @Volatile var dataBinding: DataBindingClass? = null
+    @Volatile
+    var dataBinding: DataBindingClass? = null
         private set
+    abstract val viewModel: AbFragmentViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        viewModel.onCreate()
+    }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -43,11 +49,49 @@ abstract class AbHelpfulFragment<DataBindingClass : ViewDataBinding> : Fragment(
         return dataBinding?.root ?: inflater?.inflate(layoutResId, container, false)
     }
 
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel.onViewCreatedInternal(view, savedInstanceState)
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        viewModel.onStart()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        viewModel.onResumeInternal()
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        viewModel.onPauseInternal()
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        viewModel.onStop()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
 
         dataBinding?.unbind()
         dataBinding = null
+
+        viewModel.onDestroyViewInternal()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        viewModel.onDestroy()
     }
 
     override fun startActivity(intent: Intent) {
@@ -86,42 +130,6 @@ abstract class AbHelpfulFragment<DataBindingClass : ViewDataBinding> : Fragment(
      */
     val isViewBound: Boolean
         get() = isResumed || dataBinding != null
-
-    /**
-     * The Enter screen animation to override on start activity
-     * @return 0 means no animation the activity animation
-     * *
-     */
-    val startEnterAnim: Int
-        @AnimRes
-        get() = R.anim.fragment_slide_in_from_right
-
-    /**
-     * The Exit screen animation to override on start activity
-     * @return `null` means not override the activity animation
-     * *
-     */
-    val startExitAnim: Int
-        @AnimRes
-        get() = R.anim.fragment_slide_out_to_left
-
-    /**
-     * The Enter screen animation to override on finish activity
-     * @return `null` means not override the activity animation
-     * *
-     */
-    val finishEnterAnim: Int
-        @AnimRes
-        get() = R.anim.fragment_slide_in_from_left
-
-    /**
-     * The Exit screen animation to override on finish activity
-     * @return `null` means not override the activity animation
-     * *
-     */
-    val finishExitAnim: Int
-        @AnimRes
-        get() = R.anim.fragment_slide_out_to_right
 
     fun showLoadingDialog() {
 

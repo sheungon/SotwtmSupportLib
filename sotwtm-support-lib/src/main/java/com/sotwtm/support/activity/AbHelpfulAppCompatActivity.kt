@@ -5,7 +5,10 @@ import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.os.Build
 import android.os.Bundle
-import android.support.annotation.*
+import android.support.annotation.IdRes
+import android.support.annotation.LayoutRes
+import android.support.annotation.MenuRes
+import android.support.annotation.StringRes
 import android.support.design.widget.CoordinatorLayout
 import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
@@ -27,7 +30,8 @@ import java.util.concurrent.atomic.AtomicReference
 
  * @author John
  */
-abstract class AbHelpfulAppCompatActivity<DataBindingClass : ViewDataBinding> : AppCompatActivity(), IOverridePendingTransition {
+abstract class AbHelpfulAppCompatActivity<DataBindingClass : ViewDataBinding>
+    : AppCompatActivity(), IOverridePendingTransition {
 
     @IdRes
     private var toolbarId = R.id.toolbar
@@ -86,7 +90,9 @@ abstract class AbHelpfulAppCompatActivity<DataBindingClass : ViewDataBinding> : 
 
         if (toolbarId != NONE) {
             val toolbar = findViewById<Toolbar?>(toolbarId)
-            setSupportActionBar(toolbar)
+            if (toolbar != null) {
+                setSupportActionBar(toolbar)
+            }
         }
 
         viewModel.onCreateInternal(savedInstanceState)
@@ -203,6 +209,12 @@ abstract class AbHelpfulAppCompatActivity<DataBindingClass : ViewDataBinding> : 
         }
     }
 
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        viewModel.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
     override fun startActivity(intent: Intent) {
         super.startActivity(intent)
 
@@ -234,8 +246,8 @@ abstract class AbHelpfulAppCompatActivity<DataBindingClass : ViewDataBinding> : 
 
     override fun overridePendingTransitionForStartActivity() {
 
-        val startEnterAnim = startEnterAnim
-        val startExitAnim = startExitAnim
+        val startEnterAnim = viewModel.startEnterAnim
+        val startExitAnim = viewModel.startExitAnim
         if (startEnterAnim != null && startExitAnim != null) {
             overridePendingTransition(startEnterAnim, startExitAnim)
         }
@@ -243,8 +255,8 @@ abstract class AbHelpfulAppCompatActivity<DataBindingClass : ViewDataBinding> : 
 
     override fun overridePendingTransitionForFinish() {
 
-        val finishEnterAnim = finishEnterAnim
-        val finishExitAnim = finishExitAnim
+        val finishEnterAnim = viewModel.finishEnterAnim
+        val finishExitAnim = viewModel.finishExitAnim
         if (finishEnterAnim != null && finishExitAnim != null) {
             overridePendingTransition(finishEnterAnim, finishExitAnim)
         }
@@ -375,56 +387,20 @@ abstract class AbHelpfulAppCompatActivity<DataBindingClass : ViewDataBinding> : 
     }
 
     fun setHideNavigationBar(hideNavigation: Boolean) {
-        if (hideNavigation) {
-            fullScreenFlag = fullScreenFlag or FLAG_HIDE_NAVIGATION_BAR
+        fullScreenFlag = if (hideNavigation) {
+            fullScreenFlag or FLAG_HIDE_NAVIGATION_BAR
         } else {
-            fullScreenFlag = fullScreenFlag and FLAG_HIDE_NAVIGATION_BAR.inv()
+            fullScreenFlag and FLAG_HIDE_NAVIGATION_BAR.inv()
         }
     }
 
     fun setHideStatusBar(hideStatusBar: Boolean) {
-        if (hideStatusBar) {
-            fullScreenFlag = fullScreenFlag or FLAG_HIDE_STATUS_BAR
+        fullScreenFlag = if (hideStatusBar) {
+            fullScreenFlag or FLAG_HIDE_STATUS_BAR
         } else {
-            fullScreenFlag = fullScreenFlag and FLAG_HIDE_STATUS_BAR.inv()
+            fullScreenFlag and FLAG_HIDE_STATUS_BAR.inv()
         }
     }
-
-    /**
-     * The Enter screen animation to override on start activity
-     * @return `null` means not override the activity animation
-     * *
-     */
-    protected val startEnterAnim: Int?
-        @AnimRes
-        get() = R.anim.slide_in_from_right
-
-    /**
-     * The Exit screen animation to override on start activity
-     * @return `null` means not override the activity animation
-     * *
-     */
-    protected val startExitAnim: Int?
-        @AnimRes
-        get() = R.anim.slide_out_to_left
-
-    /**
-     * The Enter screen animation to override on finish activity
-     * @return `null` means not override the activity animation
-     * *
-     */
-    protected val finishEnterAnim: Int?
-        @AnimRes
-        get() = R.anim.slide_in_from_left
-
-    /**
-     * The Exit screen animation to override on finish activity
-     * @return `null` means not override the activity animation
-     * *
-     */
-    protected val finishExitAnim: Int?
-        @AnimRes
-        get() = R.anim.slide_out_to_right
 
     /**
      * @param toolbarId The toolbar view ID in this layout. Set as [.NONE] if no toolbar in this activity
