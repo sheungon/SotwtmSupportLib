@@ -110,7 +110,7 @@ dependencies {
     /*
     * https://github.com/sheungon/AndroidEasyLog
     * */
-    compile('com.sotwtm.util:ec-log:0.1.0')
+    compile "com.sotwtm.util:ec-log:$ANDROID_EC_LOG"
 
     androidTestCompile("com.android.support.test.espresso:espresso-core:$ESPRESSO_VERSION", {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -126,8 +126,14 @@ dependencies {
     androidTestCompile "org.mockito:mockito-android:$MOCKITO_VERSION"
     testCompile "org.mockito:mockito-core:$MOCKITO_VERSION"
 
-    androidTestCompile "com.github.fabioCollini:DaggerMock:$DAGGER_MOCK_VERSION"
-    testCompile "com.github.fabioCollini:DaggerMock:$DAGGER_MOCK_VERSION"
+    androidTestCompile("com.github.fabioCollini.daggermock:daggermock-kotlin:$DAGGER_MOCK_VERSION", {
+        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jre7'
+        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib'
+    })
+    testCompile("com.github.fabioCollini.daggermock:daggermock-kotlin:$DAGGER_MOCK_VERSION", {
+        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jre7'
+        exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib'
+    })
 
     testCompile "org.powermock:powermock-api-mockito2:$POWER_MOCK_VERSION"
     testCompile "org.powermock:powermock-module-junit4-rule-agent:$POWER_MOCK_VERSION"
