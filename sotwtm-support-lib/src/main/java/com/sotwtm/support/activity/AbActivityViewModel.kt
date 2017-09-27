@@ -99,6 +99,9 @@ abstract class AbActivityViewModel {
     open fun onDestroy() {
     }
 
+    open fun onSaveInstanceState(outState: Bundle) {
+    }
+
     open fun onRequestPermissionsResult(requestCode: Int,
                                         permissions: Array<out String>,
                                         grantResults: IntArray) {

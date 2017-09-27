@@ -150,6 +150,12 @@ abstract class AbHelpfulAppCompatActivity<DataBindingClass : ViewDataBinding>
         viewModel.onDestroyInternal()
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        viewModel.onSaveInstanceState(outState)
+    }
+
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
 
