@@ -75,7 +75,7 @@ class LoadingDialogFragment : DialogFragment() {
         super.onResume()
 
         // Sometime dismiss event called before loading dialog ready
-        if ((activity as? AbHelpfulAppCompatActivity<*>)?.dismissedLoading() ?: true) {
+        if ((activity as? AbHelpfulAppCompatActivity<*>)?.dismissedLoading() != false) {
             dismiss()
         }
     }
