@@ -69,12 +69,23 @@ object SotwtmDataBindingUtil {
     @JvmStatic
     @BindingAdapter(value = *arrayOf(
             "bind:setLayoutManagerOrientation",
-            "bind:setLayoutManagerReverseLayout"))
+            "bind:setLayoutManagerReverseLayout",
+            "bind:setAutoMeasureEnabled",
+            "bind:setNestedScrollingEnabled"),
+            requireAll = false)
     fun setLayoutManager(recyclerView: RecyclerView,
                          orientation: Int,
-                         reverseLayout: Boolean) {
-        val layoutManager = LinearLayoutManager(recyclerView.context, orientation, reverseLayout)
+                         reverseLayout: Boolean?,
+                         autoMeasureEnabled: Boolean?,
+                         nestedScrollingEnabled: Boolean?) {
+        val layoutManager = LinearLayoutManager(recyclerView.context, orientation, reverseLayout == true)
+        if (autoMeasureEnabled != null) {
+            layoutManager.isAutoMeasureEnabled = autoMeasureEnabled
+        }
         recyclerView.layoutManager = layoutManager
+        if (nestedScrollingEnabled != null) {
+            recyclerView.isNestedScrollingEnabled = nestedScrollingEnabled
+        }
     }
 
     @JvmStatic
@@ -121,7 +132,7 @@ object SotwtmDataBindingUtil {
     fun stringToDouble(charSequence: CharSequence?): Double {
 
         try {
-            if (charSequence?.isEmpty() ?: true) {
+            if (charSequence?.isEmpty() != false) {
                 return 0.0
             }
             return java.lang.Double.valueOf(charSequence.toString())
@@ -134,22 +145,14 @@ object SotwtmDataBindingUtil {
 
     @JvmStatic
     fun getBoolean(context: Context,
-                   @BoolRes boolRes: Int): Boolean {
-        return context
-                .resources
-                .getBoolean(boolRes)
-    }
+                   @BoolRes boolRes: Int): Boolean = context.resources.getBoolean(boolRes)
 
     @JvmStatic
     @ColorInt
     fun getColor(context: Context,
-                 @ColorRes colorRes: Int): Int {
-        return ContextCompat.getColor(context, colorRes)
-    }
+                 @ColorRes colorRes: Int): Int = ContextCompat.getColor(context, colorRes)
 
     @JvmStatic
     fun getString(context: Context,
-                  @StringRes stringRes: Int): String {
-        return context.getString(stringRes)
-    }
+                  @StringRes stringRes: Int): String = context.getString(stringRes)
 }
