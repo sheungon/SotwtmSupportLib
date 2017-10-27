@@ -41,15 +41,15 @@ abstract class AbHelpfulFragment<DataBindingClass : ViewDataBinding> : Fragment(
         viewModel.onCreate()
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         dataBinding?.unbind()
         dataBinding = DataBindingUtil.inflate<DataBindingClass>(inflater, layoutResId, container, false)
 
-        return dataBinding?.root ?: inflater?.inflate(layoutResId, container, false)
+        return dataBinding?.root ?: inflater.inflate(layoutResId, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.onViewCreatedInternal(view, savedInstanceState)

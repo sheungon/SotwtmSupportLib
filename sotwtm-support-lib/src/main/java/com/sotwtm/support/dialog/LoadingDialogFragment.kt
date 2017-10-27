@@ -49,17 +49,17 @@ class LoadingDialogFragment : DialogFragment() {
         return dialog
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         val layoutId = R.layout.dialog_loading
 
         dataBinding?.unbind()
         dataBinding = DataBindingUtil.inflate<DialogLoadingBinding>(inflater, layoutId, container, false)
 
-        return dataBinding?.root ?: inflater?.inflate(layoutId, container, false)
+        return dataBinding?.root ?: inflater.inflate(layoutId, container, false)
     }
 
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val msgRes = loadingMsgRes
