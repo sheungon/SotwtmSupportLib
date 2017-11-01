@@ -180,18 +180,14 @@ abstract class AbHelpfulAppCompatActivity<DataBindingClass : ViewDataBinding>
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
-        val itemId = item.itemId
-        when (itemId) {
-            android.R.id.home -> {
-                onBackPressed()
-                return true
+    override fun onOptionsItemSelected(item: MenuItem): Boolean =
+            when (item.itemId) {
+                android.R.id.home -> {
+                    onBackPressed()
+                    true
+                }
+                else -> viewModel.onOptionsItemSelected(item)
             }
-        }
-
-        return super.onOptionsItemSelected(item)
-    }
 
     override fun onBackPressed() {
 

@@ -2,6 +2,7 @@ package com.sotwtm.support.activity
 
 import android.os.Bundle
 import android.support.annotation.AnimRes
+import android.view.MenuItem
 import com.sotwtm.support.R
 
 /**
@@ -106,4 +107,6 @@ abstract class AbActivityViewModel {
                                         permissions: Array<out String>,
                                         grantResults: IntArray) {
     }
+
+    open fun onOptionsItemSelected(item: MenuItem): Boolean = false
 }
