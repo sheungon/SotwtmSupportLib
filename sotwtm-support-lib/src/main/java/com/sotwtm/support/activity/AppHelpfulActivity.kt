@@ -5,9 +5,6 @@ import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.os.Build
 import android.os.Bundle
-import android.support.annotation.IdRes
-import android.support.annotation.LayoutRes
-import android.support.annotation.MenuRes
 import android.support.annotation.StringRes
 import android.support.design.widget.CoordinatorLayout
 import android.support.v4.app.FragmentManager
@@ -30,25 +27,14 @@ import java.util.concurrent.atomic.AtomicReference
 
  * @author John
  */
-abstract class AbHelpfulAppCompatActivity<DataBindingClass : ViewDataBinding>
+abstract class AppHelpfulActivity<DataBindingClass : ViewDataBinding>
     : AppCompatActivity(), IOverridePendingTransition {
 
-    @IdRes
-    private var toolbarId = R.id.toolbar
-    @MenuRes
-    private var menuResId = NONE
-
-    protected var coordinatorLayoutId: Int = R.id.coordinator_layout
-        set(@IdRes value) {
-            field = value
-        }
-        @IdRes get
     protected val coordinatorLayoutRef: WeakReference<CoordinatorLayout?> by lazy {
         WeakReference(
-                if (coordinatorLayoutId == NONE)
-                    null
-                else
-                    dataBinding?.root?.findViewById<CoordinatorLayout?>(coordinatorLayoutId)
+                viewModel.coordinatorLayoutId?.let {
+                    dataBinding?.root?.findViewById<CoordinatorLayout?>(it)
+                }
         )
     }
     protected val rootView: WeakReference<View?> by lazy {
@@ -71,24 +57,19 @@ abstract class AbHelpfulAppCompatActivity<DataBindingClass : ViewDataBinding>
     private var fullScreenFlag = 0x0
 
     /**
-     * The layout ID for this activity
-     */
-    @get:LayoutRes
-    abstract protected val layoutResId: Int
-    /**
      * Indicate if there should be back button on toolbar
      * */
     open val menuBackEnabled: Boolean = false
-    abstract val viewModel: AbActivityViewModel
+    abstract val viewModel: AppHelpfulActivityViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         savedInstanceStateRef.set(savedInstanceState)
         super.onCreate(savedInstanceState)
 
         dataBinding?.unbind()
-        dataBinding = DataBindingUtil.setContentView(this, layoutResId)
+        dataBinding = DataBindingUtil.setContentView(this, viewModel.layoutResId)
 
-        if (toolbarId != NONE) {
+        viewModel.toolbarId?.let { toolbarId ->
             val toolbar = findViewById<Toolbar?>(toolbarId)
             if (toolbar != null) {
                 setSupportActionBar(toolbar)
@@ -173,8 +154,8 @@ abstract class AbHelpfulAppCompatActivity<DataBindingClass : ViewDataBinding>
             }
         }
 
-        if (menuResId != NONE) {
-            menuInflater.inflate(menuResId, menu)
+        viewModel.menuResId?.let {
+            menuInflater.inflate(it, menu)
         }
 
         return true
@@ -380,7 +361,7 @@ abstract class AbHelpfulAppCompatActivity<DataBindingClass : ViewDataBinding>
         runOnUiThread {
             dismissLoadingDialog()
 
-            val activity = this@AbHelpfulAppCompatActivity
+            val activity = this@AppHelpfulActivity
             UIUtil.hideSoftKeyboard(activity)
 
             val snackbar = SnackbarUtil.create(activity, rootView, message, duration)
@@ -402,22 +383,6 @@ abstract class AbHelpfulAppCompatActivity<DataBindingClass : ViewDataBinding>
         } else {
             fullScreenFlag and FLAG_HIDE_STATUS_BAR.inv()
         }
-    }
-
-    /**
-     * @param toolbarId The toolbar view ID in this layout. Set as [.NONE] if no toolbar in this activity
-     * *
-     */
-    protected fun setToolbarId(@IdRes toolbarId: Int) {
-        this.toolbarId = toolbarId
-    }
-
-    /**
-     * @param menuResId Menu ID for this activity. Set as [.NONE] if no menu
-     * *
-     */
-    protected fun setMenuResId(@MenuRes menuResId: Int) {
-        this.menuResId = menuResId
     }
 
     protected fun updateActionBarHomeButton() {
@@ -451,9 +416,9 @@ abstract class AbHelpfulAppCompatActivity<DataBindingClass : ViewDataBinding>
     ///////////////////////////////
     // Class and interface
     ///////////////////////////////
-    private class MyOnBackStackChangedListener internal constructor(activity: AbHelpfulAppCompatActivity<*>) : FragmentManager.OnBackStackChangedListener {
+    private class MyOnBackStackChangedListener internal constructor(activity: AppHelpfulActivity<*>) : FragmentManager.OnBackStackChangedListener {
 
-        private val activityRef: WeakReference<AbHelpfulAppCompatActivity<*>> = WeakReference(activity)
+        private val activityRef: WeakReference<AppHelpfulActivity<*>> = WeakReference(activity)
 
         override fun onBackStackChanged() {
 
@@ -463,9 +428,9 @@ abstract class AbHelpfulAppCompatActivity<DataBindingClass : ViewDataBinding>
         }
     }
 
-    private class MyOnSystemUiVisibilityChangeListener internal constructor(activity: AbHelpfulAppCompatActivity<*>) : View.OnSystemUiVisibilityChangeListener {
+    private class MyOnSystemUiVisibilityChangeListener internal constructor(activity: AppHelpfulActivity<*>) : View.OnSystemUiVisibilityChangeListener {
 
-        internal val activityRef: WeakReference<AbHelpfulAppCompatActivity<*>> = WeakReference(activity)
+        internal val activityRef: WeakReference<AppHelpfulActivity<*>> = WeakReference(activity)
 
         override fun onSystemUiVisibilityChange(visibility: Int) {
 

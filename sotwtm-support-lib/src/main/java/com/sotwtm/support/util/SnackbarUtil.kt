@@ -10,6 +10,7 @@ import com.sotwtm.support.R
 
 
 /**
+ * Util for [Snackbar] creation
  * @author John
  */
 

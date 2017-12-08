@@ -1,5 +1,6 @@
 package com.sotwtm.support.fragment
 
+import android.arch.lifecycle.ViewModel
 import android.os.Bundle
 import android.support.annotation.AnimRes
 import android.view.View
@@ -9,7 +10,7 @@ import com.sotwtm.support.R
  * @author John
  */
 
-abstract class AbFragmentViewModel {
+abstract class AppHelpfulFragmentViewModel : ViewModel() {
 
     /**
      * The Enter screen animation to override on start activity
@@ -55,7 +56,7 @@ abstract class AbFragmentViewModel {
         private set
 
     @Synchronized
-    internal fun syncStatus(viewModel: AbFragmentViewModel): AbFragmentViewModel {
+    internal fun syncStatus(viewModel: AppHelpfulFragmentViewModel): AppHelpfulFragmentViewModel {
         isPaused = viewModel.isPaused
         isViewDestroyed = viewModel.isViewDestroyed
         return this

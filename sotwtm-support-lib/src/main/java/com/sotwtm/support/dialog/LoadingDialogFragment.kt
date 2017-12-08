@@ -1,18 +1,14 @@
 package com.sotwtm.support.dialog
 
 import android.app.Dialog
-import android.databinding.DataBindingUtil
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.annotation.StringRes
-import android.support.v4.app.DialogFragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.Window
 import com.sotwtm.support.R
-import com.sotwtm.support.activity.AbHelpfulAppCompatActivity
+import com.sotwtm.support.activity.AppHelpfulActivity
 import com.sotwtm.support.databinding.DialogLoadingBinding
 import com.sotwtm.util.Log
 
@@ -23,15 +19,16 @@ import com.sotwtm.util.Log
  * Created by johntsai on 29/7/15.
  * @author John
  */
-class LoadingDialogFragment : DialogFragment() {
-
-    @StringRes
-    private var loadingMsgRes: Int? = R.string.loading
-    private var dataBinding: DialogLoadingBinding? = null
+class LoadingDialogFragment : AppHelpfulDialogFragment<DialogLoadingBinding>() {
 
     init {
         isCancelable = CANCELABLE
     }
+
+    override val viewModel: AppHelpfulDialogFragmentViewModel? = null
+
+    @StringRes
+    private var loadingMsgRes: Int? = R.string.loading
 
     fun setLoadingMsg(@StringRes msgRes: Int?) {
         loadingMsgRes = msgRes
@@ -49,21 +46,11 @@ class LoadingDialogFragment : DialogFragment() {
         return dialog
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-
-        val layoutId = R.layout.dialog_loading
-
-        dataBinding?.unbind()
-        dataBinding = DataBindingUtil.inflate<DialogLoadingBinding>(inflater, layoutId, container, false)
-
-        return dataBinding?.root ?: inflater.inflate(layoutId, container, false)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         val msgRes = loadingMsgRes
-        if (msgRes == AbHelpfulAppCompatActivity.NONE) {
+        if (msgRes == AppHelpfulActivity.NONE) {
             Log.e("Showing NONE msg loading dialog?!")
             dismiss()
             return
@@ -75,16 +62,9 @@ class LoadingDialogFragment : DialogFragment() {
         super.onResume()
 
         // Sometime dismiss event called before loading dialog ready
-        if ((activity as? AbHelpfulAppCompatActivity<*>)?.dismissedLoading() != false) {
+        if ((activity as? AppHelpfulActivity<*>)?.dismissedLoading() != false) {
             dismiss()
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-
-        dataBinding?.unbind()
-        dataBinding = null
     }
 
     companion object {

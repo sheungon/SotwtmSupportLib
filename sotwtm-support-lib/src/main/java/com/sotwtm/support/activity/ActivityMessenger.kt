@@ -12,10 +12,10 @@ import java.lang.ref.WeakReference
  * @author John
  */
 
-class ActivityMessenger(private val activityRef: WeakReference<out AbHelpfulAppCompatActivity<*>>) {
-    constructor(_activity: AbHelpfulAppCompatActivity<*>) : this(WeakReference(_activity))
+class ActivityMessenger(private val activityRef: WeakReference<out AppHelpfulActivity<*>>) {
+    constructor(_activity: AppHelpfulActivity<*>) : this(WeakReference(_activity))
 
-    private val activity: AbHelpfulAppCompatActivity<*>?
+    private val activity: AppHelpfulActivity<*>?
         get() = activityRef.get()
 
     /**

@@ -13,7 +13,7 @@ import com.sotwtm.util.Log
 
 
 /**
- * UI Utils for handling UI actions.
+ * UI Utils for handling UI actions or calculation.
  * @author John
  */
 object UIUtil {

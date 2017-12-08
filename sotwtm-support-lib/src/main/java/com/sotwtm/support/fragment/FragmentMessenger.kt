@@ -8,10 +8,10 @@ import java.lang.ref.WeakReference
  * @author John
  */
 
-class FragmentMessenger(private val fragmentRef: WeakReference<out AbHelpfulFragment<*>>) {
-    constructor(_fragment: AbHelpfulFragment<*>) : this(WeakReference(_fragment))
+class FragmentMessenger(private val fragmentRef: WeakReference<out AppHelpfulFragment<*>>) {
+    constructor(_fragment: AppHelpfulFragment<*>) : this(WeakReference(_fragment))
 
-    private val fragment: AbHelpfulFragment<*>?
+    private val fragment: AppHelpfulFragment<*>?
         get() = fragmentRef.get()
 
     fun showLoadingDialog() {

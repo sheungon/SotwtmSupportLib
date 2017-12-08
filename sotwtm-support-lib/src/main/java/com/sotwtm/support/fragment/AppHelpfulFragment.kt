@@ -10,7 +10,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.sotwtm.support.activity.AbHelpfulAppCompatActivity
+import com.sotwtm.support.activity.AppHelpfulActivity
 import com.sotwtm.support.activity.IOverridePendingTransition
 import com.sotwtm.support.util.SnackbarUtil
 import com.sotwtm.support.util.UIUtil
@@ -22,7 +22,7 @@ import com.sotwtm.util.Log
  * Created by sheun on 10/11/2015.
  * @author John
  */
-abstract class AbHelpfulFragment<DataBindingClass : ViewDataBinding> : Fragment() {
+abstract class AppHelpfulFragment<DataBindingClass : ViewDataBinding> : Fragment() {
 
     /**
      * The layout ID for this fragment
@@ -33,7 +33,7 @@ abstract class AbHelpfulFragment<DataBindingClass : ViewDataBinding> : Fragment(
     @Volatile
     var dataBinding: DataBindingClass? = null
         private set
-    abstract val viewModel: AbFragmentViewModel
+    abstract val viewModel: AppHelpfulFragmentViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -135,7 +135,7 @@ abstract class AbHelpfulFragment<DataBindingClass : ViewDataBinding> : Fragment(
 
         val activity = activity
         if (activity != null) {
-            (activity as? AbHelpfulAppCompatActivity<*>)?.showLoadingDialog() ?: Log.wtf("This method can only work with parent is AbHelpfulAppCompatActivity")
+            (activity as? AppHelpfulActivity<*>)?.showLoadingDialog() ?: Log.wtf("This method can only work with parent is AppHelpfulActivity")
         } else {
             Log.v("Fragment released")
         }
@@ -145,7 +145,7 @@ abstract class AbHelpfulFragment<DataBindingClass : ViewDataBinding> : Fragment(
 
         val activity = activity
         if (activity != null) {
-            (activity as? AbHelpfulAppCompatActivity<*>)?.showLoadingDialog(msgRes) ?: Log.wtf("This method can only work with parent is AbHelpfulAppCompatActivity")
+            (activity as? AppHelpfulActivity<*>)?.showLoadingDialog(msgRes) ?: Log.wtf("This method can only work with parent is AppHelpfulActivity")
         } else {
             Log.v("Fragment released")
         }
@@ -155,7 +155,7 @@ abstract class AbHelpfulFragment<DataBindingClass : ViewDataBinding> : Fragment(
 
         val activity = activity
         if (activity != null) {
-            (activity as? AbHelpfulAppCompatActivity<*>)?.dismissLoadingDialog() ?: Log.wtf("This method can only work with parent is AbHelpfulAppCompatActivity")
+            (activity as? AppHelpfulActivity<*>)?.dismissLoadingDialog() ?: Log.wtf("This method can only work with parent is AppHelpfulActivity")
         } else {
             Log.v("Fragment released")
         }
@@ -169,7 +169,7 @@ abstract class AbHelpfulFragment<DataBindingClass : ViewDataBinding> : Fragment(
                      @SnackbarUtil.SnackbarDuration duration: Int) {
 
         val activity = activity
-        (activity as? AbHelpfulAppCompatActivity<*>)?.showSnackBar(messageRes, duration) ?: if (activity != null) {
+        (activity as? AppHelpfulActivity<*>)?.showSnackBar(messageRes, duration) ?: if (activity != null) {
             showSnackBar(activity.getString(messageRes), duration)
         } else {
             Log.e("Fragment is not attached! message lost : " + messageRes)
@@ -188,7 +188,7 @@ abstract class AbHelpfulFragment<DataBindingClass : ViewDataBinding> : Fragment(
         }
 
         val activity = activity
-        (activity as? AbHelpfulAppCompatActivity<*>)?.showSnackBar(message, duration) ?: if (activity != null) {
+        (activity as? AppHelpfulActivity<*>)?.showSnackBar(message, duration) ?: if (activity != null) {
 
             val rootView = view
             if (rootView == null) {
