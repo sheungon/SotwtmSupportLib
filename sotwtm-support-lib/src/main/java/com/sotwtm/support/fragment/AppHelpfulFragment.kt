@@ -4,7 +4,6 @@ import android.content.Intent
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.os.Bundle
-import android.support.annotation.LayoutRes
 import android.support.annotation.StringRes
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -24,12 +23,6 @@ import com.sotwtm.util.Log
  */
 abstract class AppHelpfulFragment<DataBindingClass : ViewDataBinding> : Fragment() {
 
-    /**
-     * The layout ID for this fragment
-     */
-    @get:LayoutRes
-    abstract protected val layoutResId: Int
-
     @Volatile
     var dataBinding: DataBindingClass? = null
         private set
@@ -44,9 +37,9 @@ abstract class AppHelpfulFragment<DataBindingClass : ViewDataBinding> : Fragment
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         dataBinding?.unbind()
-        dataBinding = DataBindingUtil.inflate<DataBindingClass>(inflater, layoutResId, container, false)
+        dataBinding = DataBindingUtil.inflate<DataBindingClass>(inflater, viewModel.layoutResId, container, false)
 
-        return dataBinding?.root ?: inflater.inflate(layoutResId, container, false)
+        return dataBinding?.root ?: inflater.inflate(viewModel.layoutResId, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

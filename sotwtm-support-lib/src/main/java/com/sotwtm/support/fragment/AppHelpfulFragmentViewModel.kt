@@ -1,8 +1,10 @@
 package com.sotwtm.support.fragment
 
-import android.arch.lifecycle.ViewModel
+import android.app.Application
+import android.arch.lifecycle.AndroidViewModel
 import android.os.Bundle
 import android.support.annotation.AnimRes
+import android.support.annotation.LayoutRes
 import android.view.View
 import com.sotwtm.support.R
 
@@ -10,7 +12,13 @@ import com.sotwtm.support.R
  * @author John
  */
 
-abstract class AppHelpfulFragmentViewModel : ViewModel() {
+abstract class AppHelpfulFragmentViewModel(application: Application) : AndroidViewModel(application) {
+
+    /**
+     * The layout ID for this fragment
+     */
+    @get:LayoutRes
+    abstract val layoutResId: Int
 
     /**
      * The Enter screen animation to override on start activity
