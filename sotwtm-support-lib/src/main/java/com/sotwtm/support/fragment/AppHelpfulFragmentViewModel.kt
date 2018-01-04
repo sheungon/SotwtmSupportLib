@@ -3,58 +3,13 @@ package com.sotwtm.support.fragment
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.os.Bundle
-import android.support.annotation.AnimRes
-import android.support.annotation.LayoutRes
 import android.view.View
-import com.sotwtm.support.R
 
 /**
  * @author John
  */
 
 abstract class AppHelpfulFragmentViewModel(application: Application) : AndroidViewModel(application) {
-
-    /**
-     * The layout ID for this fragment
-     */
-    @get:LayoutRes
-    abstract val layoutResId: Int
-
-    /**
-     * The Enter screen animation to override on start activity
-     * @return 0 means no animation the activity animation
-     * *
-     */
-    open val startEnterAnim: Int
-        @AnimRes
-        get() = R.anim.fragment_slide_in_from_right
-
-    /**
-     * The Exit screen animation to override on start activity
-     * @return `null` means not override the activity animation
-     * *
-     */
-    open val startExitAnim: Int
-        @AnimRes
-        get() = R.anim.fragment_slide_out_to_left
-
-    /**
-     * The Enter screen animation to override on finish activity
-     * @return `null` means not override the activity animation
-     * *
-     */
-    open val finishEnterAnim: Int
-        @AnimRes
-        get() = R.anim.fragment_slide_in_from_left
-
-    /**
-     * The Exit screen animation to override on finish activity
-     * @return `null` means not override the activity animation
-     * *
-     */
-    open val finishExitAnim: Int
-        @AnimRes
-        get() = R.anim.fragment_slide_out_to_right
 
     @Volatile
     var isPaused = true

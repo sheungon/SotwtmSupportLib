@@ -22,7 +22,9 @@ import java.lang.ref.WeakReference
  */
 abstract class AppHelpfulDialogFragment<DataBindingClass : ViewDataBinding> : DialogFragment() {
 
-    @Volatile var dataBinding: DataBindingClass? = null
+    abstract val layoutId: Int?
+    @Volatile
+    var dataBinding: DataBindingClass? = null
         private set
     abstract val viewModel: AppHelpfulDialogFragmentViewModel?
 
@@ -32,15 +34,13 @@ abstract class AppHelpfulDialogFragment<DataBindingClass : ViewDataBinding> : Di
         viewModel?.onCreate()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+            layoutId?.let {
+                dataBinding?.unbind()
+                dataBinding = DataBindingUtil.inflate(inflater, it, container, false)
 
-        val layoutId = R.layout.dialog_loading
-
-        dataBinding?.unbind()
-        dataBinding = DataBindingUtil.inflate(inflater, layoutId, container, false)
-
-        return dataBinding?.root ?: inflater.inflate(layoutId, container, false)
-    }
+                dataBinding?.root ?: inflater.inflate(it, container, false)
+            } ?: super.onCreateView(inflater, container, savedInstanceState)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -5,7 +5,7 @@ import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.os.Build
 import android.os.Bundle
-import android.support.annotation.StringRes
+import android.support.annotation.*
 import android.support.design.widget.CoordinatorLayout
 import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
@@ -30,9 +30,68 @@ import java.util.concurrent.atomic.AtomicReference
 abstract class AppHelpfulActivity<DataBindingClass : ViewDataBinding>
     : AppCompatActivity(), IOverridePendingTransition {
 
+    /**
+     * The layout ID for this activity
+     */
+    @get:LayoutRes
+    abstract val layoutResId: Int
+
+    /**
+     * The [android.support.v7.widget.Toolbar] view ID in this activity.
+     * Override as null if no [android.support.v7.widget.Toolbar] in this activity
+     */
+    @get:IdRes
+    open val toolbarId: Int? = R.id.toolbar
+
+    /**
+     * The [android.support.design.widget.CoordinatorLayout] ID in this activity.
+     * Override as null if no [android.support.design.widget.CoordinatorLayout] in this activity
+     * */
+    @get:IdRes
+    open val coordinatorLayoutId: Int? = R.id.coordinator_layout
+
+    /**
+     * Menu ID for the activity.
+     * Override as null if no menu in this activity
+     */
+    @get:MenuRes
+    open val menuResId: Int? = null
+
+    /**
+     * The Enter screen animation to override on start activity
+     * @return `null` means not override the activity animation
+     * *
+     */
+    @get:AnimRes
+    open val startEnterAnim: Int? = R.anim.slide_in_from_right
+
+    /**
+     * The Exit screen animation to override on start activity
+     * @return `null` means not override the activity animation
+     * *
+     */
+    @get:AnimRes
+    open val startExitAnim: Int? = R.anim.slide_out_to_left
+
+    /**
+     * The Enter screen animation to override on finish activity
+     * @return `null` means not override the activity animation
+     * *
+     */
+    @get:AnimRes
+    open val finishEnterAnim: Int? = R.anim.slide_in_from_left
+
+    /**
+     * The Exit screen animation to override on finish activity
+     * @return `null` means not override the activity animation
+     * *
+     */
+    @get:AnimRes
+    open val finishExitAnim: Int? = R.anim.slide_out_to_right
+
     protected val coordinatorLayoutRef: WeakReference<CoordinatorLayout?> by lazy {
         WeakReference(
-                viewModel.coordinatorLayoutId?.let {
+                coordinatorLayoutId?.let {
                     dataBinding?.root?.findViewById<CoordinatorLayout?>(it)
                 }
         )
@@ -67,9 +126,9 @@ abstract class AppHelpfulActivity<DataBindingClass : ViewDataBinding>
         super.onCreate(savedInstanceState)
 
         dataBinding?.unbind()
-        dataBinding = DataBindingUtil.setContentView(this, viewModel.layoutResId)
+        dataBinding = DataBindingUtil.setContentView(this, layoutResId)
 
-        viewModel.toolbarId?.let { toolbarId ->
+        toolbarId?.let { toolbarId ->
             val toolbar = findViewById<Toolbar?>(toolbarId)
             if (toolbar != null) {
                 setSupportActionBar(toolbar)
@@ -154,7 +213,7 @@ abstract class AppHelpfulActivity<DataBindingClass : ViewDataBinding>
             }
         }
 
-        viewModel.menuResId?.let {
+        menuResId?.let {
             menuInflater.inflate(it, menu)
         }
 
@@ -229,8 +288,8 @@ abstract class AppHelpfulActivity<DataBindingClass : ViewDataBinding>
 
     override fun overridePendingTransitionForStartActivity() {
 
-        val startEnterAnim = viewModel.startEnterAnim
-        val startExitAnim = viewModel.startExitAnim
+        val startEnterAnim = startEnterAnim
+        val startExitAnim = startExitAnim
         if (startEnterAnim != null && startExitAnim != null) {
             overridePendingTransition(startEnterAnim, startExitAnim)
         }
@@ -238,8 +297,8 @@ abstract class AppHelpfulActivity<DataBindingClass : ViewDataBinding>
 
     override fun overridePendingTransitionForFinish() {
 
-        val finishEnterAnim = viewModel.finishEnterAnim
-        val finishExitAnim = viewModel.finishExitAnim
+        val finishEnterAnim = finishEnterAnim
+        val finishExitAnim = finishExitAnim
         if (finishEnterAnim != null && finishExitAnim != null) {
             overridePendingTransition(finishEnterAnim, finishExitAnim)
         }

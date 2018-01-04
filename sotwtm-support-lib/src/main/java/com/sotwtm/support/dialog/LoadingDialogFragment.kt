@@ -25,6 +25,7 @@ class LoadingDialogFragment : AppHelpfulDialogFragment<DialogLoadingBinding>() {
         isCancelable = CANCELABLE
     }
 
+    override val layoutId: Int? = R.layout.dialog_loading
     override val viewModel: AppHelpfulDialogFragmentViewModel? = null
 
     @StringRes
