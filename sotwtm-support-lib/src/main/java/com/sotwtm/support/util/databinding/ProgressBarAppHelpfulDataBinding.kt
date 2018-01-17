@@ -18,18 +18,14 @@ import android.widget.ProgressBar
 object ProgressBarAppHelpfulDataBinding {
 
     @JvmStatic
-    @BindingAdapter(value = *arrayOf(
-            "app:setProgressColorRes"
-    ))
+    @BindingAdapter(value = ["app:setProgressColorRes"])
     fun setProgressBarColorRes(view: ProgressBar,
                                @ColorRes colorRes: Int) {
         setProgressBarColor(view, ContextCompat.getColor(view.context, colorRes))
     }
 
     @JvmStatic
-    @BindingAdapter(value = *arrayOf(
-            "app:setProgressColor"
-    ))
+    @BindingAdapter(value = ["app:setProgressColor"])
     fun setProgressBarColor(view: ProgressBar,
                             @ColorInt color: Int) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

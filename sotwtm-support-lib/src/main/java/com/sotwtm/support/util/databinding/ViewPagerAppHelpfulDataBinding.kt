@@ -19,9 +19,9 @@ import android.support.v4.view.ViewPager
 object ViewPagerAppHelpfulDataBinding {
 
     @JvmStatic
-    @BindingAdapter(value = *arrayOf(
-            "bind:setAdapter",
-            "bind:setCurrentItem"),
+    @BindingAdapter(value = [
+        "bind:setAdapter",
+        "bind:setCurrentItem"],
             requireAll = false)
     fun setAdapter(view: ViewPager,
                    adapter: PagerAdapter?,

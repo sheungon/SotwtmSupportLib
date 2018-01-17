@@ -18,11 +18,11 @@ import android.support.v7.widget.RecyclerView
 object RecyclerViewAppHelpfulDataBinding {
 
     @JvmStatic
-    @BindingAdapter(value = *arrayOf(
-            "bind:setLayoutManagerOrientation",
-            "bind:setLayoutManagerReverseLayout",
-            "bind:setAutoMeasureEnabled",
-            "bind:setNestedScrollingEnabled"),
+    @BindingAdapter(value = [
+        "bind:setLayoutManagerOrientation",
+        "bind:setLayoutManagerReverseLayout",
+        "bind:setAutoMeasureEnabled",
+        "bind:setNestedScrollingEnabled"],
             requireAll = false)
     fun setLayoutManager(recyclerView: RecyclerView,
                          orientation: Int,
