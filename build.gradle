@@ -7,7 +7,7 @@ buildscript {
         target_sdk_version = 27
 
         versions = [
-                'kotlin_plugin'      : '1.2.10',
+                'kotlin_plugin'      : '1.2.20',
                 'android_plugin'     : '3.0.1',
 
                 // Support library version
@@ -55,6 +55,7 @@ buildscript {
     }
     repositories {
         jcenter()
+        google()
     }
     dependencies {
         classpath "com.android.tools.build:gradle:$versions.android_plugin"
@@ -67,20 +68,12 @@ buildscript {
 
 allprojects {
     repositories {
-
         /*
          * For DaggerMock
          */
         maven { url "https://jitpack.io" }
-
-        /*
-        * For Android Support Library
-        * https://developer.android.com/topic/libraries/support-library/setup.html
-        * */
-        maven { url "https://maven.google.com" }
-
         jcenter()
-
+        google()
         mavenCentral()
     }
 }
