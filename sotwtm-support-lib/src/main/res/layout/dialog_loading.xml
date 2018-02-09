@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:text='@{loadingMsg == 0 ? "" : AppHelpfulDataBindingUtil.getString(context, loadingMsg)}'
+            android:text='@{loadingMsg == null || loadingMsg == 0 ? "" : AppHelpfulDataBindingUtil.getString(context, loadingMsg)}'
             android:textColor="#DDD"
             android:textSize="@dimen/text_small"
             android:visibility="@{loadingMsg == null ? View.GONE : View.VISIBLE}"

@@ -2,4 +2,6 @@
 <resources>
     <item name="coordinator_layout" type="id"/>
     <item name="toolbar" type="id"/>
+    <item name="setLayoutManagerReverseLayout" type="id"/>
+    <item name="setAutoMeasureEnabled" type="id"/>
 </resources>
