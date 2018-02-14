@@ -2,15 +2,13 @@ package com.sotwtm.support.util
 
 import android.app.Activity
 import android.content.Context
-import android.content.Context.WINDOW_SERVICE
+import android.content.res.Configuration
 import android.os.Build
 import android.support.annotation.IdRes
 import android.support.annotation.RequiresApi
 import android.support.v4.app.Fragment
 import android.util.TypedValue
-import android.view.Surface
 import android.view.View
-import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import com.sotwtm.util.Log
 
@@ -70,14 +68,8 @@ object UIUtil {
                 (if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) View.SYSTEM_UI_FLAG_IMMERSIVE else 0)
     }
 
-    fun isCurrentActivityLandscape(activity: Activity) : Boolean {
-        val display = (activity.getSystemService(WINDOW_SERVICE) as? WindowManager)?.defaultDisplay
-        val orientation = display?.rotation
-        return when (orientation) {
-            Surface.ROTATION_90, Surface.ROTATION_270 -> true
-            else -> false
-        }
-    }
+    fun isCurrentlyLandscape(context: Context): Boolean =
+            context.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
     fun dpToPixel(context: Context, dp: Float) = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.resources.displayMetrics)
 
