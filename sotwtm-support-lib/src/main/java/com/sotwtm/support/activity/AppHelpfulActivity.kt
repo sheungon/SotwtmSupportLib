@@ -55,7 +55,7 @@ abstract class AppHelpfulActivity<DataBindingClass : ViewDataBinding>
      * Override as null if no menu in this activity
      */
     @get:MenuRes
-    open val menuResId: Int? = null
+    open var menuResId: Int? = null
 
     /**
      * The Enter screen animation to override on start activity
