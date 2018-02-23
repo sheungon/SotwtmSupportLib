@@ -56,6 +56,16 @@ abstract class AppHelpfulActivity<DataBindingClass : ViewDataBinding>
      */
     @get:MenuRes
     open var menuResId: Int? = null
+        set(value) {
+            field = value
+            if (value != null) {
+                toolbarId?.let {
+                    findViewById<Toolbar?>(it)?.menu?.let { menu ->
+                        menuInflater?.inflate(value, menu)
+                    }
+                }
+            }
+        }
 
     /**
      * The Enter screen animation to override on start activity
