@@ -3,6 +3,7 @@ package com.sotwtm.support.util.databinding
 import android.databinding.BindingAdapter
 import android.databinding.BindingMethod
 import android.databinding.BindingMethods
+import android.support.design.widget.TabLayout
 import android.support.v4.view.PagerAdapter
 import android.support.v4.view.ViewPager
 
@@ -21,11 +22,13 @@ object ViewPagerAppHelpfulDataBinding {
     @JvmStatic
     @BindingAdapter(value = [
         "bind:setAdapter",
-        "bind:setCurrentItem"],
+        "bind:setCurrentItem",
+        "app:setTabLayout"],
             requireAll = false)
     fun setAdapter(view: ViewPager,
                    adapter: PagerAdapter?,
-                   currentItem: Int) {
+                   currentItem: Int,
+                   tabLayout: TabLayout?) {
         view.adapter = adapter
 
         if (view.currentItem == currentItem) {
@@ -33,5 +36,7 @@ object ViewPagerAppHelpfulDataBinding {
             view.currentItem = currentItem + 1
         }
         view.currentItem = currentItem
+
+        tabLayout?.setupWithViewPager(if (view.adapter == null) null else view)
     }
 }

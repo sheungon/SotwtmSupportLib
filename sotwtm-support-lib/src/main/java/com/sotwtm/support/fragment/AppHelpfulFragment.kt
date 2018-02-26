@@ -71,12 +71,12 @@ abstract class AppHelpfulFragment<DataBindingClass : ViewDataBinding> : Fragment
     @Volatile
     var dataBinding: DataBindingClass? = null
         private set
-    abstract val viewModel: AppHelpfulFragmentViewModel
+    abstract val viewModel: AppHelpfulFragmentViewModel?
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel.onCreate()
+        viewModel?.onCreate()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -90,31 +90,31 @@ abstract class AppHelpfulFragment<DataBindingClass : ViewDataBinding> : Fragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.onViewCreatedInternal(view, savedInstanceState)
+        viewModel?.onViewCreatedInternal(view, savedInstanceState)
     }
 
     override fun onStart() {
         super.onStart()
 
-        viewModel.onStart()
+        viewModel?.onStart()
     }
 
     override fun onResume() {
         super.onResume()
 
-        viewModel.onResumeInternal()
+        viewModel?.onResumeInternal()
     }
 
     override fun onPause() {
         super.onPause()
 
-        viewModel.onPauseInternal()
+        viewModel?.onPauseInternal()
     }
 
     override fun onStop() {
         super.onStop()
 
-        viewModel.onStop()
+        viewModel?.onStop()
     }
 
     override fun onDestroyView() {
@@ -123,13 +123,13 @@ abstract class AppHelpfulFragment<DataBindingClass : ViewDataBinding> : Fragment
         dataBinding?.unbind()
         dataBinding = null
 
-        viewModel.onDestroyViewInternal()
+        viewModel?.onDestroyViewInternal()
     }
 
     override fun onDestroy() {
         super.onDestroy()
 
-        viewModel.onDestroy()
+        viewModel?.onDestroy()
     }
 
     override fun startActivity(intent: Intent) {
