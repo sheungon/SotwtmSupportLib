@@ -1,6 +1,7 @@
 package com.sotwtm.support.dialog
 
 import android.support.annotation.StringRes
+import android.widget.Toast
 import java.lang.ref.WeakReference
 
 /**
@@ -27,5 +28,11 @@ class DialogFragmentMessenger(private val fragmentRef: WeakReference<out AppHelp
 
     fun dismiss() {
         fragment?.dismiss()
+    }
+
+    fun showToast(stringRes: Int, duration: Int) {
+        Toast.makeText(fragment?.context ?: return,
+                stringRes,
+                duration).show()
     }
 }
