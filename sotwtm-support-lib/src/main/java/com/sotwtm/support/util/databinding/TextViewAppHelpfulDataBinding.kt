@@ -2,6 +2,7 @@ package com.sotwtm.support.util.databinding
 
 import android.databinding.BindingAdapter
 import android.graphics.Paint
+import android.graphics.Typeface
 import android.widget.TextView
 
 /**
@@ -21,5 +22,16 @@ object TextViewAppHelpfulDataBinding {
         } else {
             textView.paintFlags = textView.paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
         }
+    }
+
+    @JvmStatic
+    @BindingAdapter("typeface", "textStyle",
+            requireAll = false)
+    fun decorateText(view: TextView,
+                     typeface: Typeface?,
+                     textStyle: Int?) {
+        view.setTypeface(
+                if (typeface == null) view.typeface else typeface,
+                if (textStyle == null) 0 else textStyle)
     }
 }
