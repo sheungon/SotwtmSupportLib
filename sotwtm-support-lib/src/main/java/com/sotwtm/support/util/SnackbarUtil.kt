@@ -16,7 +16,7 @@ import com.sotwtm.support.R
 
 object SnackbarUtil {
 
-    @IntDef(Snackbar.LENGTH_INDEFINITE.toLong(), Snackbar.LENGTH_SHORT.toLong(), Snackbar.LENGTH_LONG.toLong())
+    @IntDef(Snackbar.LENGTH_INDEFINITE, Snackbar.LENGTH_SHORT, Snackbar.LENGTH_LONG)
     @Retention(AnnotationRetention.SOURCE)
     annotation class SnackbarDuration
 
