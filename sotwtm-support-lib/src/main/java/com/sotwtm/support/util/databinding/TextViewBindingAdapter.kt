@@ -15,7 +15,7 @@ object TextViewBindingAdapter {
 
     @JvmStatic
     @Synchronized
-    @BindingAdapter(value = ["app:showError"],
+    @BindingAdapter(value = ["showError"],
             requireAll = false)
     fun showError(view: TextView,
                   error: String?) {
@@ -28,7 +28,7 @@ object TextViewBindingAdapter {
 
     @JvmStatic
     @Synchronized
-    @BindingAdapter(value = ["app:showErrorRes"],
+    @BindingAdapter(value = ["showErrorRes"],
             requireAll = false)
     fun showError(view: TextView,
                   errorRes: Int?) {

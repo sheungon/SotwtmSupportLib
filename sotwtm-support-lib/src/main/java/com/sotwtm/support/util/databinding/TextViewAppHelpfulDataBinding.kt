@@ -14,7 +14,7 @@ import android.widget.TextView
 object TextViewAppHelpfulDataBinding {
 
     @JvmStatic
-    @BindingAdapter("bind:underlineText")
+    @BindingAdapter("underlineText")
     fun underLineText(textView: TextView,
                       underline: Boolean) {
         if (underline) {

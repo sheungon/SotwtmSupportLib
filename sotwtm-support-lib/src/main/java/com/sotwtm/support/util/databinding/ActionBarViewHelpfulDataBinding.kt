@@ -11,7 +11,7 @@ import android.support.v7.app.ActionBar
  * @author John
  */
 @BindingMethods(
-        BindingMethod(type = ActionBar::class, attribute = "android:setDisplayShowHomeEnabled", method = "setDisplayShowHomeEnabled"),
-        BindingMethod(type = ActionBar::class, attribute = "android:setDisplayHomeAsUpEnabled", method = "setDisplayHomeAsUpEnabled")
+        BindingMethod(type = ActionBar::class, attribute = "setDisplayShowHomeEnabled", method = "setDisplayShowHomeEnabled"),
+        BindingMethod(type = ActionBar::class, attribute = "setDisplayHomeAsUpEnabled", method = "setDisplayHomeAsUpEnabled")
 )
 object ActionBarViewHelpfulDataBinding

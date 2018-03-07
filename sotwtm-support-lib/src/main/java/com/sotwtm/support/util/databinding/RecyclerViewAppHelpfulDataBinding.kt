@@ -15,12 +15,12 @@ import com.sotwtm.support.R
  * @author John
  */
 @BindingMethods(
-        BindingMethod(type = RecyclerView::class, attribute = "android:setAdapter", method = "setAdapter")
+        BindingMethod(type = RecyclerView::class, attribute = "setAdapter", method = "setAdapter")
 )
 object RecyclerViewAppHelpfulDataBinding {
 
     @JvmStatic
-    @BindingAdapter(value = ["bind:setLayoutManagerOrientation"])
+    @BindingAdapter(value = ["setLayoutManagerOrientation"])
     fun setLayoutManager(recyclerView: RecyclerView,
                          orientation: Int) {
         val reverseLayout = ListenerUtil.getListener<Boolean?>(recyclerView, R.id.setLayoutManagerReverseLayout)
@@ -33,7 +33,7 @@ object RecyclerViewAppHelpfulDataBinding {
     }
 
     @JvmStatic
-    @BindingAdapter(value = ["bind:setLayoutManagerReverseLayout"])
+    @BindingAdapter(value = ["setLayoutManagerReverseLayout"])
     fun setLayoutManagerReverseLayout(recyclerView: RecyclerView,
                                       reverseLayout: Boolean?) {
         ListenerUtil.trackListener(recyclerView, reverseLayout, R.id.setLayoutManagerReverseLayout)
@@ -41,7 +41,7 @@ object RecyclerViewAppHelpfulDataBinding {
     }
 
     @JvmStatic
-    @BindingAdapter(value = ["bind:setAutoMeasureEnabled"])
+    @BindingAdapter(value = ["setAutoMeasureEnabled"])
     fun setAutoMeasureEnabled(recyclerView: RecyclerView,
                               autoMeasureEnabled: Boolean?) {
         ListenerUtil.trackListener(recyclerView, autoMeasureEnabled, R.id.setAutoMeasureEnabled)
@@ -51,7 +51,7 @@ object RecyclerViewAppHelpfulDataBinding {
     }
 
     @JvmStatic
-    @BindingAdapter(value = ["bind:setNestedScrollingEnabled"])
+    @BindingAdapter(value = ["setNestedScrollingEnabled"])
     fun setNestedScrollingEnabled(recyclerView: RecyclerView,
                                   nestedScrollingEnabled: Boolean?) {
         if (nestedScrollingEnabled != null) {

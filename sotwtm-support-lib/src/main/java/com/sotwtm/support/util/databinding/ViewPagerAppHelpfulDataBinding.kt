@@ -14,16 +14,16 @@ import android.support.v4.view.ViewPager
  * @author John
  */
 @BindingMethods(
-        BindingMethod(type = ViewPager::class, attribute = "android:onTouchListener", method = "setOnTouchListener"),
-        BindingMethod(type = ViewPager::class, attribute = "android:setOffscreenPageLimit", method = "setOffscreenPageLimit")
+        BindingMethod(type = ViewPager::class, attribute = "onTouchListener", method = "setOnTouchListener"),
+        BindingMethod(type = ViewPager::class, attribute = "setOffscreenPageLimit", method = "setOffscreenPageLimit")
 )
 object ViewPagerAppHelpfulDataBinding {
 
     @JvmStatic
     @BindingAdapter(value = [
-        "bind:setAdapter",
-        "bind:setCurrentItem",
-        "app:setTabLayout"],
+        "setAdapter",
+        "setCurrentItem",
+        "setTabLayout"],
             requireAll = false)
     fun setAdapter(view: ViewPager,
                    adapter: PagerAdapter?,

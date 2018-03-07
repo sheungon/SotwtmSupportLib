@@ -11,6 +11,6 @@ import android.support.design.widget.TabLayout
  * @author John
  */
 @BindingMethods(
-        BindingMethod(type = TabLayout::class, attribute = "android:setupWithViewPager", method = "setupWithViewPager")
+        BindingMethod(type = TabLayout::class, attribute = "setupWithViewPager", method = "setupWithViewPager")
 )
 object TabLayoutAppHelpfulDataBinding

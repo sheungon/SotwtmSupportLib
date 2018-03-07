@@ -12,6 +12,6 @@ import android.widget.Button
  * @author John
  */
 @BindingMethods(
-        BindingMethod(type = Button::class, attribute = "android:selected", method = "setSelected")
+        BindingMethod(type = Button::class, attribute = "selected", method = "setSelected")
 )
 object ButtonAppHelpfulDataBinding

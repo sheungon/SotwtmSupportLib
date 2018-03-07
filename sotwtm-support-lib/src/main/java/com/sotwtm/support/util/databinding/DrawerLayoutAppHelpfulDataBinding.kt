@@ -12,7 +12,7 @@ import android.support.v4.widget.DrawerLayout
 object DrawerLayoutAppHelpfulDataBinding {
 
     @JvmStatic
-    @BindingAdapter("bind:addDrawerListener")
+    @BindingAdapter("addDrawerListener")
     fun addDrawerListener(drawerLayout: DrawerLayout,
                           listener: DrawerLayout.DrawerListener?) {
         if (listener != null) {
