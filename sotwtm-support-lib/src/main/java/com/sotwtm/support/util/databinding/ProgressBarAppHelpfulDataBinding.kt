@@ -34,4 +34,25 @@ object ProgressBarAppHelpfulDataBinding {
             view.progressDrawable.setColorFilter(color, PorterDuff.Mode.SRC_IN)
         }
     }
+
+    @JvmStatic
+    @BindingAdapter(value = ["setProgress", "animateProgress"],
+            requireAll = false)
+    fun setProgress(view: ProgressBar,
+                    progress: Int,
+                    animateProgress: Boolean) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            view.setProgress(progress, animateProgress)
+        } else {
+            view.setProgress(progress)
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter(value = ["setProgressMax"],
+            requireAll = false)
+    fun setProgressMax(view: ProgressBar,
+                    progressMax: Int) {
+            view.max = progressMax
+    }
 }
