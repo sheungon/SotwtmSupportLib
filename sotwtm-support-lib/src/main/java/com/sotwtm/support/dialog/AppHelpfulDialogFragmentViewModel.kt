@@ -1,13 +1,14 @@
 package com.sotwtm.support.dialog
 
-import android.arch.lifecycle.ViewModel
+import android.app.Application
+import android.arch.lifecycle.AndroidViewModel
 import android.os.Bundle
 import android.view.View
 
 /**
  * @author John
  */
-open class AppHelpfulDialogFragmentViewModel : ViewModel() {
+open class AppHelpfulDialogFragmentViewModel(application: Application) : AndroidViewModel(application) {
 
     @Volatile
     var isPaused = true
