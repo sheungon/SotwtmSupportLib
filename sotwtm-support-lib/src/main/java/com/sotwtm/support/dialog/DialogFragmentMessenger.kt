@@ -2,6 +2,7 @@ package com.sotwtm.support.dialog
 
 import android.support.annotation.StringRes
 import android.widget.Toast
+import com.sotwtm.util.Log
 import java.lang.ref.WeakReference
 
 /**
@@ -15,19 +16,35 @@ class DialogFragmentMessenger(private val fragmentRef: WeakReference<out AppHelp
         get() = fragmentRef.get()
 
     fun showLoadingDialog() {
-        fragment?.showLoadingDialog()
+        try {
+            fragment?.showLoadingDialog()
+        } catch (e: Exception) {
+            Log.e("Error on showLoadingDialog", e)
+        }
     }
 
     fun showLoadingDialog(@StringRes msgRes: Int?) {
-        fragment?.showLoadingDialog(msgRes)
+        try {
+            fragment?.showLoadingDialog(msgRes)
+        } catch (e: Exception) {
+            Log.e("Error on showLoadingDialog", e)
+        }
     }
 
     fun dismissLoadingDialog() {
-        fragment?.dismissLoadingDialog()
+        try {
+            fragment?.dismissLoadingDialog()
+        } catch (e: Exception) {
+            Log.e("Error on dismissLoadingDialog", e)
+        }
     }
 
     fun dismiss() {
-        fragment?.dismiss()
+        try {
+            fragment?.dismiss()
+        } catch (e: Exception) {
+            Log.e("Error on dismiss", e)
+        }
     }
 
     fun showToast(stringRes: Int, duration: Int) {

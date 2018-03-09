@@ -2,6 +2,7 @@ package com.sotwtm.support.fragment
 
 import android.support.annotation.StringRes
 import com.sotwtm.support.util.SnackbarUtil
+import com.sotwtm.util.Log
 import java.lang.ref.WeakReference
 
 /**
@@ -15,15 +16,27 @@ class FragmentMessenger(private val fragmentRef: WeakReference<out AppHelpfulFra
         get() = fragmentRef.get()
 
     fun showLoadingDialog() {
-        fragment?.showLoadingDialog()
+        try {
+            fragment?.showLoadingDialog()
+        } catch (e: Exception) {
+            Log.e("Error on showLoadingDialog", e)
+        }
     }
 
     fun showLoadingDialog(@StringRes msgRes: Int?) {
-        fragment?.showLoadingDialog(msgRes)
+        try {
+            fragment?.showLoadingDialog(msgRes)
+        } catch (e: Exception) {
+            Log.e("Error on showLoadingDialog", e)
+        }
     }
 
     fun dismissLoadingDialog() {
-        fragment?.dismissLoadingDialog()
+        try {
+            fragment?.dismissLoadingDialog()
+        } catch (e: Exception) {
+            Log.e("Error on dismissLoadingDialog", e)
+        }
     }
 
     /**
@@ -32,7 +45,11 @@ class FragmentMessenger(private val fragmentRef: WeakReference<out AppHelpfulFra
      */
     fun showSnackBar(@StringRes messageRes: Int,
                      @SnackbarUtil.SnackbarDuration duration: Int) {
-        fragment?.showSnackBar(messageRes, duration)
+        try {
+            fragment?.showSnackBar(messageRes, duration)
+        } catch (e: Exception) {
+            Log.e("Error on showSnackBar", e)
+        }
     }
 
     /**
@@ -41,6 +58,10 @@ class FragmentMessenger(private val fragmentRef: WeakReference<out AppHelpfulFra
      */
     fun showSnackBar(message: String,
                      @SnackbarUtil.SnackbarDuration duration: Int) {
-        fragment?.showSnackBar(message, duration)
+        try {
+            fragment?.showSnackBar(message, duration)
+        } catch (e: Exception) {
+            Log.e("Error on showSnackBar", e)
+        }
     }
 }
