@@ -9,6 +9,7 @@ import android.support.annotation.LayoutRes
 import android.support.annotation.StringRes
 import android.support.annotation.UiThread
 import android.support.v4.app.DialogFragment
+import android.support.v4.app.FragmentManager
 import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +17,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import com.sotwtm.support.R
 import com.sotwtm.support.activity.AppHelpfulActivity
+import com.sotwtm.util.Log
 import java.lang.ref.WeakReference
 
 /**
@@ -85,6 +87,16 @@ abstract class AppHelpfulDialogFragment<DataBindingClass : ViewDataBinding> : Di
         dataBinding = null
 
         viewModel?.onDestroy()
+    }
+
+    override fun show(manager: FragmentManager?, tag: String?) {
+        try {
+            val ft = (manager ?: return).beginTransaction()
+            ft.add(this, tag)
+            ft.commit()
+        } catch (e: IllegalStateException) {
+            Log.e("Exception on fragment dialog show", e)
+        }
     }
 
     fun onEditorAction(actionId: Int): Boolean {
