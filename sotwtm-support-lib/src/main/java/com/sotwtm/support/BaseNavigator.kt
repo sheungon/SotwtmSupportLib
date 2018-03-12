@@ -1,5 +1,6 @@
 package com.sotwtm.support
 
+import android.content.Context
 import com.sotwtm.support.activity.AppHelpfulActivity
 import com.sotwtm.support.dialog.AppHelpfulDialogFragment
 import com.sotwtm.support.fragment.AppHelpfulFragment
@@ -29,4 +30,6 @@ abstract class BaseNavigator {
         get() = contextRef?.get() as? AppHelpfulFragment<*>
     val fragmentDialog: AppHelpfulDialogFragment<*>?
         get() = contextRef?.get() as? AppHelpfulDialogFragment<*>
+    val context: Context?
+        get() = contextRef?.get() as? Context
 }
