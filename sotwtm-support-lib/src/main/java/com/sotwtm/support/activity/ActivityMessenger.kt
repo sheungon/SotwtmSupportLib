@@ -15,7 +15,7 @@ import java.lang.ref.WeakReference
 class ActivityMessenger(private val activityRef: WeakReference<out AppHelpfulActivity<*>>) {
     constructor(_activity: AppHelpfulActivity<*>) : this(WeakReference(_activity))
 
-    private val activity: AppHelpfulActivity<*>?
+    val activity: AppHelpfulActivity<*>?
         get() = activityRef.get()
 
     /**
@@ -71,7 +71,5 @@ class ActivityMessenger(private val activityRef: WeakReference<out AppHelpfulAct
         }
     }
 
-
-    fun getString(@StringRes stringRes: Int,
-                  vararg formatArg: Any?): String? = activity?.getString(stringRes, formatArg)
+    fun getString(@StringRes stringRes: Int): String? = activity?.getString(stringRes)
 }
