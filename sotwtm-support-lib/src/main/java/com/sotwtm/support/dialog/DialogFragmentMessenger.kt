@@ -2,6 +2,8 @@ package com.sotwtm.support.dialog
 
 import android.support.annotation.StringRes
 import android.widget.Toast
+import com.sotwtm.support.BaseMessenger
+import com.sotwtm.support.activity.AppHelpfulActivity
 import com.sotwtm.util.Log
 import java.lang.ref.WeakReference
 
@@ -9,11 +11,15 @@ import java.lang.ref.WeakReference
  * @author John
  */
 
-class DialogFragmentMessenger(private val fragmentRef: WeakReference<out AppHelpfulDialogFragment<*>>) {
+class DialogFragmentMessenger(private val fragmentRef: WeakReference<out AppHelpfulDialogFragment<*>>) : BaseMessenger() {
+
     constructor(_fragment: AppHelpfulDialogFragment<*>) : this(WeakReference(_fragment))
 
     private val fragment: AppHelpfulDialogFragment<*>?
         get() = fragmentRef.get()
+
+    override val activity: AppHelpfulActivity<*>?
+        get() = fragment?.activity as? AppHelpfulActivity<*>
 
     fun showLoadingDialog() {
         try {
@@ -23,7 +29,7 @@ class DialogFragmentMessenger(private val fragmentRef: WeakReference<out AppHelp
         }
     }
 
-    fun showLoadingDialog(@StringRes msgRes: Int?) {
+    override fun showLoadingDialog(@StringRes msgRes: Int?) {
         try {
             fragment?.showLoadingDialog(msgRes)
         } catch (e: Exception) {
@@ -31,13 +37,19 @@ class DialogFragmentMessenger(private val fragmentRef: WeakReference<out AppHelp
         }
     }
 
-    fun dismissLoadingDialog() {
+    override fun dismissLoadingDialog() {
         try {
             fragment?.dismissLoadingDialog()
         } catch (e: Exception) {
             Log.e("Error on dismissLoadingDialog", e)
         }
     }
+
+    override fun showSnackBar(messageRes: Int, duration: Int) =
+            throw UnsupportedOperationException("Show snack bar is not supported in dialog fragment")
+
+    override fun showSnackBar(message: String, duration: Int) =
+            throw UnsupportedOperationException("Show snack bar is not supported in dialog fragment")
 
     fun dismiss() {
         try {
@@ -50,6 +62,12 @@ class DialogFragmentMessenger(private val fragmentRef: WeakReference<out AppHelp
     fun showToast(stringRes: Int, duration: Int) {
         Toast.makeText(fragment?.context ?: return,
                 stringRes,
+                duration).show()
+    }
+
+    fun showToast(string: String, duration: Int) {
+        Toast.makeText(fragment?.context ?: return,
+                string,
                 duration).show()
     }
 }

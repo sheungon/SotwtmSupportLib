@@ -173,7 +173,8 @@ abstract class AppHelpfulFragment<DataBindingClass : ViewDataBinding> : Fragment
 
         val activity = activity
         if (activity != null) {
-            (activity as? AppHelpfulActivity<*>)?.showLoadingDialog() ?: Log.wtf("This method can only work with parent is AppHelpfulActivity")
+            (activity as? AppHelpfulActivity<*>)?.showLoadingDialog()
+                    ?: Log.wtf("This method can only work with parent is AppHelpfulActivity")
         } else {
             Log.v("Fragment released")
         }
@@ -183,7 +184,8 @@ abstract class AppHelpfulFragment<DataBindingClass : ViewDataBinding> : Fragment
 
         val activity = activity
         if (activity != null) {
-            (activity as? AppHelpfulActivity<*>)?.showLoadingDialog(msgRes) ?: Log.wtf("This method can only work with parent is AppHelpfulActivity")
+            (activity as? AppHelpfulActivity<*>)?.showLoadingDialog(msgRes)
+                    ?: Log.wtf("This method can only work with parent is AppHelpfulActivity")
         } else {
             Log.v("Fragment released")
         }
@@ -193,7 +195,8 @@ abstract class AppHelpfulFragment<DataBindingClass : ViewDataBinding> : Fragment
 
         val activity = activity
         if (activity != null) {
-            (activity as? AppHelpfulActivity<*>)?.dismissLoadingDialog() ?: Log.wtf("This method can only work with parent is AppHelpfulActivity")
+            (activity as? AppHelpfulActivity<*>)?.dismissLoadingDialog()
+                    ?: Log.wtf("This method can only work with parent is AppHelpfulActivity")
         } else {
             Log.v("Fragment released")
         }
@@ -207,11 +210,12 @@ abstract class AppHelpfulFragment<DataBindingClass : ViewDataBinding> : Fragment
                      @SnackbarUtil.SnackbarDuration duration: Int) {
 
         val activity = activity
-        (activity as? AppHelpfulActivity<*>)?.showSnackBar(messageRes, duration) ?: if (activity != null) {
-            showSnackBar(activity.getString(messageRes), duration)
-        } else {
-            Log.e("Fragment is not attached! message lost : " + messageRes)
-        }
+        (activity as? AppHelpfulActivity<*>)?.showSnackBar(messageRes, duration)
+                ?: if (activity != null) {
+                    showSnackBar(activity.getString(messageRes), duration)
+                } else {
+                    Log.e("Fragment is not attached! message lost : $messageRes")
+                }
     }
 
     /**
@@ -226,23 +230,24 @@ abstract class AppHelpfulFragment<DataBindingClass : ViewDataBinding> : Fragment
         }
 
         val activity = activity
-        (activity as? AppHelpfulActivity<*>)?.showSnackBar(message, duration) ?: if (activity != null) {
+        (activity as? AppHelpfulActivity<*>)?.showSnackBar(message, duration)
+                ?: if (activity != null) {
 
-            val rootView = view
-            if (rootView == null) {
-                Log.w("Cannot get root view.")
-                return
-            }
-            activity.runOnUiThread {
-                dismissLoadingDialog()
-                UIUtil.hideSoftKeyboard(activity)
+                    val rootView = view
+                    if (rootView == null) {
+                        Log.w("Cannot get root view.")
+                        return
+                    }
+                    activity.runOnUiThread {
+                        dismissLoadingDialog()
+                        UIUtil.hideSoftKeyboard(activity)
 
-                val snackbar = SnackbarUtil.create(activity, rootView, message, duration)
-                snackbar.show()
-            }
+                        val snackbar = SnackbarUtil.create(activity, rootView, message, duration)
+                        snackbar.show()
+                    }
 
-        } else {
-            Log.e("Fragment is not attached! message lost : " + message)
-        }
+                } else {
+                    Log.e("Fragment is not attached! message lost : $message")
+                }
     }
 }

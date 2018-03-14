@@ -3,7 +3,7 @@ package com.sotwtm.support.activity
 import android.content.pm.PackageManager
 import android.os.Build
 import android.support.annotation.StringRes
-import com.sotwtm.support.R
+import com.sotwtm.support.BaseMessenger
 import com.sotwtm.support.util.SnackbarUtil
 import java.lang.ref.WeakReference
 
@@ -12,21 +12,22 @@ import java.lang.ref.WeakReference
  * @author John
  */
 
-class ActivityMessenger(private val activityRef: WeakReference<out AppHelpfulActivity<*>>) {
+class ActivityMessenger(private val activityRef: WeakReference<out AppHelpfulActivity<*>>) : BaseMessenger() {
+
     constructor(_activity: AppHelpfulActivity<*>) : this(WeakReference(_activity))
 
-    val activity: AppHelpfulActivity<*>?
+    override val activity: AppHelpfulActivity<*>?
         get() = activityRef.get()
 
     /**
      * @param msgRes The message on loading dialog
      * *
      */
-    fun showLoadingDialog(@StringRes msgRes: Int? = R.string.loading) {
+    override fun showLoadingDialog(@StringRes msgRes: Int?) {
         activity?.showLoadingDialog(msgRes)
     }
 
-    fun dismissLoadingDialog() {
+    override fun dismissLoadingDialog() {
         activity?.dismissLoadingDialog()
     }
 
@@ -34,8 +35,8 @@ class ActivityMessenger(private val activityRef: WeakReference<out AppHelpfulAct
      * Show snack bar with message.
      * This can be called from any thread.
      */
-    fun showSnackBar(@StringRes messageRes: Int,
-                     @SnackbarUtil.SnackbarDuration duration: Int) {
+    override fun showSnackBar(@StringRes messageRes: Int,
+                              @SnackbarUtil.SnackbarDuration duration: Int) {
         activity?.showSnackBar(messageRes, duration)
     }
 
@@ -43,8 +44,8 @@ class ActivityMessenger(private val activityRef: WeakReference<out AppHelpfulAct
      * Show snack bar with message.
      * This can be called from any thread.
      */
-    fun showSnackBar(message: String,
-                     @SnackbarUtil.SnackbarDuration duration: Int) {
+    override fun showSnackBar(message: String,
+                              @SnackbarUtil.SnackbarDuration duration: Int) {
         activity?.showSnackBar(message, duration)
     }
 
@@ -70,6 +71,4 @@ class ActivityMessenger(private val activityRef: WeakReference<out AppHelpfulAct
             activity?.requestPermissions(permissions, requestCode)
         }
     }
-
-    fun getString(@StringRes stringRes: Int): String? = activity?.getString(stringRes)
 }
