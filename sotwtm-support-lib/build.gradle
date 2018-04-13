@@ -98,7 +98,7 @@ dependencies {
     /*
      * Android Architecture Components
      * */
-    implementation "android.arch.lifecycle:extensions:$rootProject.ext.versions.android_arch_comp"
+    implementation "android.arch.lifecycle:viewmodel:$rootProject.ext.versions.android_arch_comp"
 
     /*
      * Dagger 2
