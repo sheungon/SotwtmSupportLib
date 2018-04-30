@@ -131,12 +131,21 @@ abstract class AppHelpfulActivity<DataBindingClass : ViewDataBinding>
     open val menuBackEnabled: Boolean = false
     abstract val viewModel: AppHelpfulActivityViewModel
 
+    /**
+     * Initialize data binding. It will be called on data binding created.
+     * @param dataBinding The data binding object bound with this activity's view.
+     * @param savedInstanceState The saved instance state of this activity if any.
+     * */
+    abstract fun initDataBinding(dataBinding: DataBindingClass, savedInstanceState: Bundle?)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         savedInstanceStateRef.set(savedInstanceState)
         super.onCreate(savedInstanceState)
 
         dataBinding?.unbind()
         dataBinding = DataBindingUtil.setContentView(this, layoutResId)
+
+        dataBinding?.let { initDataBinding(it, savedInstanceState) }
 
         toolbarId?.let { toolbarId ->
             val toolbar = findViewById<Toolbar?>(toolbarId)

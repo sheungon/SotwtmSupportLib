@@ -30,6 +30,13 @@ abstract class AppHelpfulDialogFragment<DataBindingClass : ViewDataBinding> : Di
         private set
     abstract val viewModel: AppHelpfulDialogFragmentViewModel?
 
+    /**
+     * Initialize data binding. It will be called on data binding created.
+     * @param dataBinding The data binding object bound with this fragment's view.
+     * @param savedInstanceState The saved instance state of this fragment if any.
+     * */
+    abstract fun initDataBinding(dataBinding: DataBindingClass, savedInstanceState: Bundle?)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -47,6 +54,7 @@ abstract class AppHelpfulDialogFragment<DataBindingClass : ViewDataBinding> : Di
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        dataBinding?.let { initDataBinding(it, savedInstanceState) }
         viewModel?.onViewCreatedInternal(view, savedInstanceState)
     }
 
