@@ -5,7 +5,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.annotation.StringRes
-import android.view.View
 import android.view.Window
 import com.sotwtm.support.R
 import com.sotwtm.support.activity.AppHelpfulActivity
@@ -47,8 +46,7 @@ class LoadingDialogFragment : AppHelpfulDialogFragment<DialogLoadingBinding>() {
         return dialog
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun initDataBinding(dataBinding: DialogLoadingBinding, savedInstanceState: Bundle?) {
 
         val msgRes = loadingMsgRes
         if (msgRes == AppHelpfulActivity.NONE) {
@@ -56,7 +54,7 @@ class LoadingDialogFragment : AppHelpfulDialogFragment<DialogLoadingBinding>() {
             dismiss()
             return
         }
-        dataBinding?.loadingMsg = msgRes
+        dataBinding.loadingMsg = msgRes
     }
 
     override fun onResume() {
