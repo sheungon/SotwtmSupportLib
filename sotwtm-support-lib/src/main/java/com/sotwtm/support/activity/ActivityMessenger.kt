@@ -12,11 +12,11 @@ import java.lang.ref.WeakReference
  * @author John
  */
 
-class ActivityMessenger(private val activityRef: WeakReference<out AppHelpfulActivity<*>>) : BaseMessenger() {
+class ActivityMessenger(private val activityRef: WeakReference<out AppHelpfulActivity>) : BaseMessenger() {
 
-    constructor(_activity: AppHelpfulActivity<*>) : this(WeakReference(_activity))
+    constructor(_activity: AppHelpfulActivity) : this(WeakReference(_activity))
 
-    override val activity: AppHelpfulActivity<*>?
+    override val activity: AppHelpfulActivity?
         get() = activityRef.get()
 
     /**

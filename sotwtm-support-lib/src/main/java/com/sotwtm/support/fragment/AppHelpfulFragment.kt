@@ -1,12 +1,11 @@
 package com.sotwtm.support.fragment
 
 import android.content.Intent
-import android.databinding.DataBindingUtil
-import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.support.annotation.AnimRes
 import android.support.annotation.LayoutRes
 import android.support.annotation.StringRes
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -24,7 +23,7 @@ import com.sotwtm.util.Log
  * Created by sheun on 10/11/2015.
  * @author John
  */
-abstract class AppHelpfulFragment<DataBindingClass : ViewDataBinding> : Fragment() {
+abstract class AppHelpfulFragment : Fragment() {
 
     /**
      * The layout ID for this fragment
@@ -68,17 +67,7 @@ abstract class AppHelpfulFragment<DataBindingClass : ViewDataBinding> : Fragment
         @AnimRes
         get() = R.anim.fragment_slide_out_to_right
 
-    @Volatile
-    var dataBinding: DataBindingClass? = null
-        private set
     abstract val viewModel: AppHelpfulFragmentViewModel?
-
-    /**
-     * Initialize data binding. It will be called on data binding created.
-     * @param dataBinding The data binding object bound with this fragment's view.
-     * @param savedInstanceState The saved instance state of this fragment if any.
-     * */
-    abstract fun initDataBinding(dataBinding: DataBindingClass, savedInstanceState: Bundle?)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,18 +75,12 @@ abstract class AppHelpfulFragment<DataBindingClass : ViewDataBinding> : Fragment
         viewModel?.onCreate()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-
-        dataBinding?.unbind()
-        dataBinding = DataBindingUtil.inflate<DataBindingClass>(inflater, layoutResId, container, false)
-
-        return dataBinding?.root ?: inflater.inflate(layoutResId, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
+            inflater.inflate(layoutResId, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        dataBinding?.let { initDataBinding(it, savedInstanceState) }
         viewModel?.onViewCreatedInternal(view, savedInstanceState)
     }
 
@@ -127,9 +110,6 @@ abstract class AppHelpfulFragment<DataBindingClass : ViewDataBinding> : Fragment
 
     override fun onDestroyView() {
         super.onDestroyView()
-
-        dataBinding?.unbind()
-        dataBinding = null
 
         viewModel?.onDestroyViewInternal()
     }
@@ -174,14 +154,14 @@ abstract class AppHelpfulFragment<DataBindingClass : ViewDataBinding> : Fragment
      * @return `true` if view is bound by ButterKnife. Otherwise, `false`
      * *
      */
-    val isViewBound: Boolean
-        get() = isResumed || dataBinding != null
+    open val isViewBound: Boolean
+        get() = isResumed
 
     fun showLoadingDialog() {
 
         val activity = activity
         if (activity != null) {
-            (activity as? AppHelpfulActivity<*>)?.showLoadingDialog()
+            (activity as? AppHelpfulActivity)?.showLoadingDialog()
                     ?: Log.wtf("This method can only work with parent is AppHelpfulActivity")
         } else {
             Log.v("Fragment released")
@@ -192,7 +172,7 @@ abstract class AppHelpfulFragment<DataBindingClass : ViewDataBinding> : Fragment
 
         val activity = activity
         if (activity != null) {
-            (activity as? AppHelpfulActivity<*>)?.showLoadingDialog(msgRes)
+            (activity as? AppHelpfulActivity)?.showLoadingDialog(msgRes)
                     ?: Log.wtf("This method can only work with parent is AppHelpfulActivity")
         } else {
             Log.v("Fragment released")
@@ -203,7 +183,7 @@ abstract class AppHelpfulFragment<DataBindingClass : ViewDataBinding> : Fragment
 
         val activity = activity
         if (activity != null) {
-            (activity as? AppHelpfulActivity<*>)?.dismissLoadingDialog()
+            (activity as? AppHelpfulActivity)?.dismissLoadingDialog()
                     ?: Log.wtf("This method can only work with parent is AppHelpfulActivity")
         } else {
             Log.v("Fragment released")
@@ -218,7 +198,7 @@ abstract class AppHelpfulFragment<DataBindingClass : ViewDataBinding> : Fragment
                      @SnackbarUtil.SnackbarDuration duration: Int) {
 
         val activity = activity
-        (activity as? AppHelpfulActivity<*>)?.showSnackBar(messageRes, duration)
+        (activity as? AppHelpfulActivity)?.showSnackBar(messageRes, duration)
                 ?: if (activity != null) {
                     showSnackBar(activity.getString(messageRes), duration)
                 } else {
@@ -238,7 +218,7 @@ abstract class AppHelpfulFragment<DataBindingClass : ViewDataBinding> : Fragment
         }
 
         val activity = activity
-        (activity as? AppHelpfulActivity<*>)?.showSnackBar(message, duration)
+        (activity as? AppHelpfulActivity)?.showSnackBar(message, duration)
                 ?: if (activity != null) {
 
                     val rootView = view
@@ -257,5 +237,25 @@ abstract class AppHelpfulFragment<DataBindingClass : ViewDataBinding> : Fragment
                 } else {
                     Log.e("Fragment is not attached! message lost : $message")
                 }
+    }
+
+    fun createSnackBarWithRootView(@StringRes messageRes: Int,
+                                   @SnackbarUtil.SnackbarDuration duration: Int): Snackbar? {
+        val activity = activity
+        return (activity as? AppHelpfulActivity)?.createSnackBarWithRootView(messageRes, duration)
+                ?: if (activity != null) createSnackBarWithRootView(activity.getString(messageRes), duration)
+                else {
+                    Log.e("Fragment is not attached! message lost : $messageRes")
+                    null
+                }
+    }
+
+    fun createSnackBarWithRootView(message: String,
+                                   @SnackbarUtil.SnackbarDuration duration: Int): Snackbar? {
+        return (activity as? AppHelpfulActivity)?.createSnackBarWithRootView(message, duration)
+                ?: {
+                    Log.e("Fragment is not attached! message lost : $message")
+                    null
+                }.invoke()
     }
 }

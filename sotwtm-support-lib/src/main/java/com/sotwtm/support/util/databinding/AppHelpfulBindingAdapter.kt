@@ -13,6 +13,6 @@ object AppHelpfulBindingAdapter {
     @BindingAdapter("menuId")
     fun showAllMenu(view: View,
                     menuId: Int?) {
-        (view.context as? AppHelpfulActivity<*>)?.menuResId = menuId
+        (view.context as? AppHelpfulActivity)?.menuResId = menuId
     }
 }

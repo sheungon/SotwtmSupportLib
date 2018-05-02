@@ -11,15 +11,15 @@ import java.lang.ref.WeakReference
  * @author John
  */
 
-class FragmentMessenger(private val fragmentRef: WeakReference<out AppHelpfulFragment<*>>) : BaseMessenger() {
+class FragmentMessenger(private val fragmentRef: WeakReference<out AppHelpfulFragment>) : BaseMessenger() {
 
-    constructor(_fragment: AppHelpfulFragment<*>) : this(WeakReference(_fragment))
+    constructor(_fragment: AppHelpfulFragment) : this(WeakReference(_fragment))
 
-    private val fragment: AppHelpfulFragment<*>?
+    private val fragment: AppHelpfulFragment?
         get() = fragmentRef.get()
 
-    override val activity: AppHelpfulActivity<*>?
-        get() = fragment?.activity as? AppHelpfulActivity<*>
+    override val activity: AppHelpfulActivity?
+        get() = fragment?.activity as? AppHelpfulActivity
 
     fun showLoadingDialog() {
         try {

@@ -9,7 +9,7 @@ import com.sotwtm.support.util.SnackbarUtil
  */
 abstract class BaseMessenger {
 
-    abstract val activity: AppHelpfulActivity<*>?
+    abstract val activity: AppHelpfulActivity?
 
     /**
      * @param msgRes The message on loading dialog

@@ -18,7 +18,7 @@ import com.sotwtm.util.Log
  * Created by johntsai on 29/7/15.
  * @author John
  */
-class LoadingDialogFragment : AppHelpfulDialogFragment<DialogLoadingBinding>() {
+class LoadingDialogFragment : AppHelpfulDataBindingDialogFragment<DialogLoadingBinding>() {
 
     init {
         isCancelable = CANCELABLE
@@ -61,7 +61,7 @@ class LoadingDialogFragment : AppHelpfulDialogFragment<DialogLoadingBinding>() {
         super.onResume()
 
         // Sometime dismiss event called before loading dialog ready
-        if ((activity as? AppHelpfulActivity<*>)?.dismissedLoading() != false) {
+        if ((activity as? AppHelpfulActivity)?.dismissedLoading() != false) {
             dismiss()
         }
     }

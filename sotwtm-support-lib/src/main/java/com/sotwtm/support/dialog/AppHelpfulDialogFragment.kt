@@ -2,8 +2,6 @@ package com.sotwtm.support.dialog
 
 import android.content.Context
 import android.content.DialogInterface
-import android.databinding.DataBindingUtil
-import android.databinding.ViewDataBinding
 import android.os.Bundle
 import android.support.annotation.LayoutRes
 import android.support.annotation.StringRes
@@ -22,20 +20,11 @@ import java.lang.ref.WeakReference
 
 /**
  */
-abstract class AppHelpfulDialogFragment<DataBindingClass : ViewDataBinding> : DialogFragment() {
+abstract class AppHelpfulDialogFragment : DialogFragment() {
 
     abstract val layoutId: Int?
-    @Volatile
-    var dataBinding: DataBindingClass? = null
-        private set
     abstract val viewModel: AppHelpfulDialogFragmentViewModel?
 
-    /**
-     * Initialize data binding. It will be called on data binding created.
-     * @param dataBinding The data binding object bound with this fragment's view.
-     * @param savedInstanceState The saved instance state of this fragment if any.
-     * */
-    abstract fun initDataBinding(dataBinding: DataBindingClass, savedInstanceState: Bundle?)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,16 +34,12 @@ abstract class AppHelpfulDialogFragment<DataBindingClass : ViewDataBinding> : Di
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             layoutId?.let {
-                dataBinding?.unbind()
-                dataBinding = DataBindingUtil.inflate(inflater, it, container, false)
-
-                dataBinding?.root ?: inflater.inflate(it, container, false)
+                inflater.inflate(it, container, false)
             } ?: super.onCreateView(inflater, container, savedInstanceState)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        dataBinding?.let { initDataBinding(it, savedInstanceState) }
         viewModel?.onViewCreatedInternal(view, savedInstanceState)
     }
 
@@ -91,9 +76,6 @@ abstract class AppHelpfulDialogFragment<DataBindingClass : ViewDataBinding> : Di
     override fun onDestroy() {
         super.onDestroy()
 
-        dataBinding?.unbind()
-        dataBinding = null
-
         viewModel?.onDestroy()
     }
 
@@ -119,12 +101,10 @@ abstract class AppHelpfulDialogFragment<DataBindingClass : ViewDataBinding> : Di
         return false
     }
 
-    protected fun createContentView(context: Context,
-                                    @LayoutRes layoutId: Int): View? {
-
+    protected open fun createContentView(context: Context,
+                                         @LayoutRes layoutId: Int): View? {
         val inflater = LayoutInflater.from(context)
-        dataBinding = DataBindingUtil.inflate<DataBindingClass>(inflater, layoutId, null, false)
-        return dataBinding?.root
+        return inflater.inflate(layoutId, null, false)
     }
 
     internal fun showLoadingDialog() {
@@ -132,11 +112,11 @@ abstract class AppHelpfulDialogFragment<DataBindingClass : ViewDataBinding> : Di
     }
 
     internal fun showLoadingDialog(@StringRes msgRes: Int?) {
-        (activity as? AppHelpfulActivity<*>)?.showLoadingDialog(msgRes)
+        (activity as? AppHelpfulActivity)?.showLoadingDialog(msgRes)
     }
 
     internal fun dismissLoadingDialog() {
-        (activity as? AppHelpfulActivity<*>)?.dismissLoadingDialog()
+        (activity as? AppHelpfulActivity)?.dismissLoadingDialog()
     }
 
     protected fun showNothing() {
@@ -152,7 +132,7 @@ abstract class AppHelpfulDialogFragment<DataBindingClass : ViewDataBinding> : Di
     protected open fun onOkClick() {
     }
 
-    internal fun setContentView(@LayoutRes layoutResId: Int) {
+    private fun setContentView(@LayoutRes layoutResId: Int) {
 
         val fragmentDialog = dialog ?: return
 
@@ -169,9 +149,9 @@ abstract class AppHelpfulDialogFragment<DataBindingClass : ViewDataBinding> : Di
      * Set this on show listener to you dialog to make dialog OK button on click response to [.onOkClick].
      * Using this, the dialog will NOT be dismissed on OK button click
      */
-    protected class OnShowSetupOnOkClickListener(fragment: AppHelpfulDialogFragment<*>) : DialogInterface.OnShowListener {
+    protected class OnShowSetupOnOkClickListener(fragment: AppHelpfulDialogFragment) : DialogInterface.OnShowListener {
 
-        internal val fragmentRef: WeakReference<AppHelpfulDialogFragment<*>> = WeakReference(fragment)
+        internal val fragmentRef: WeakReference<AppHelpfulDialogFragment> = WeakReference(fragment)
 
         override fun onShow(dialog: DialogInterface) {
 
@@ -183,9 +163,9 @@ abstract class AppHelpfulDialogFragment<DataBindingClass : ViewDataBinding> : Di
         }
     }
 
-    internal class MyOnOkClickListener(fragment: AppHelpfulDialogFragment<*>) : View.OnClickListener {
+    internal class MyOnOkClickListener(fragment: AppHelpfulDialogFragment) : View.OnClickListener {
 
-        val fragmentRef: WeakReference<AppHelpfulDialogFragment<*>> = WeakReference(fragment)
+        val fragmentRef: WeakReference<AppHelpfulDialogFragment> = WeakReference(fragment)
 
         override fun onClick(view: View) {
 

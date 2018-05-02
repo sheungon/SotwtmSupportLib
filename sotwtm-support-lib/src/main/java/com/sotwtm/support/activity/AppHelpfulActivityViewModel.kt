@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.view.MenuItem
 
 /**
- * View model abstract class for [AppHelpfulActivity]
+ * View model abstract class for [AppHelpfulDataBindingActivity]
  * @author John
  */
 abstract class AppHelpfulActivityViewModel(app : Application) : AndroidViewModel(app) {
