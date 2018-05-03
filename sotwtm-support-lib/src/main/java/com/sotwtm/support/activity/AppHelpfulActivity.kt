@@ -19,7 +19,7 @@ import com.sotwtm.support.SotwtmSupportLib
 import com.sotwtm.support.dialog.LoadingDialogFragment
 import com.sotwtm.support.util.SnackbarUtil
 import com.sotwtm.support.util.UIUtil
-import com.sotwtm.support.util.locale.AppHelpfulLanguageUtil
+import com.sotwtm.support.util.locale.AppHelpfulLocaleUtil
 import com.sotwtm.util.Log
 import java.lang.ref.WeakReference
 import java.util.concurrent.atomic.AtomicReference
@@ -136,7 +136,7 @@ abstract class AppHelpfulActivity
 
 
     override fun attachBaseContext(newBase: Context) {
-        super.attachBaseContext(AppHelpfulLanguageUtil.setAppLocale(newBase, SotwtmSupportLib.getInstance().appLocale.get()!!))
+        super.attachBaseContext(AppHelpfulLocaleUtil.setAppLocale(newBase, SotwtmSupportLib.getInstance().appLocale.get()!!))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

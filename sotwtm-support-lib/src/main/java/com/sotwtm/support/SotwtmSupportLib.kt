@@ -9,7 +9,7 @@ import android.databinding.ObservableField
 import android.support.v4.os.LocaleListCompat
 import com.sotwtm.support.SotwtmSupportLib.Companion.getInstance
 import com.sotwtm.support.SotwtmSupportLib.Companion.init
-import com.sotwtm.support.util.locale.AppHelpfulLanguageUtil
+import com.sotwtm.support.util.locale.AppHelpfulLocaleUtil
 import com.sotwtm.util.Log
 import java.lang.ref.WeakReference
 import java.util.*
@@ -34,10 +34,10 @@ private constructor(_application: Application, _supportedLocales: List<Locale>?)
         override fun get(): Locale =
                 sharedPreferences.getString(PREF_KEY_APP_LOCALE, null)?.let {
                     val languageTags = LocaleListCompat.forLanguageTags(it)
-                    if (languageTags.isEmpty) AppHelpfulLanguageUtil.getDefaultLangFromSystemSetting(application, supportedLocales)
+                    if (languageTags.isEmpty) AppHelpfulLocaleUtil.getDefaultLangFromSystemSetting(application, supportedLocales)
                     else languageTags[0]
                 }
-                        ?: AppHelpfulLanguageUtil.getDefaultLangFromSystemSetting(application, supportedLocales)
+                        ?: AppHelpfulLocaleUtil.getDefaultLangFromSystemSetting(application, supportedLocales)
 
         @Synchronized
         override fun set(value: Locale) {
@@ -52,14 +52,14 @@ private constructor(_application: Application, _supportedLocales: List<Locale>?)
     }
 
     init {
-        AppHelpfulLanguageUtil.setAppLocale(application, appLocale.get()!!)
+        AppHelpfulLocaleUtil.setAppLocale(application, appLocale.get()!!)
     }
 
 
     /**
      * Set the supported locales for this [Application].
      * It current app locale is not in the the newly given supported locale list,
-     * [appLocale] will be updated by [AppHelpfulLanguageUtil.getDefaultLangFromSystemSetting]
+     * [appLocale] will be updated by [AppHelpfulLocaleUtil.getDefaultLangFromSystemSetting]
      *
      * @param newLocales Giving this null means all locales will be supported.
      * @see appLocale
@@ -71,9 +71,9 @@ private constructor(_application: Application, _supportedLocales: List<Locale>?)
 
         if (newLocales != null) {
             // Check if the current locale is in the new supported locale list
-            if (!newLocales.any { AppHelpfulLanguageUtil.equals(currentAppLocale, it) }) {
+            if (!newLocales.any { AppHelpfulLocaleUtil.equals(currentAppLocale, it) }) {
                 // If the current locale is not supported anymore, update current locale to system best matched
-                appLocale.set(AppHelpfulLanguageUtil.getDefaultLangFromSystemSetting(application, newLocales))
+                appLocale.set(AppHelpfulLocaleUtil.getDefaultLangFromSystemSetting(application, newLocales))
             }
         }
 

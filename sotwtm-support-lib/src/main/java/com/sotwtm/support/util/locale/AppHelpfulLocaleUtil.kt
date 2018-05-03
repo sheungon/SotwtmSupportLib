@@ -9,12 +9,12 @@ import java.util.*
 
 
 /**
- * Language Util for set app language.
+ * Locale Util for setting app language.
  * Reference, https://stackoverflow.com/questions/40221711/android-context-getresources-updateconfiguration-deprecated
  * @author John
  */
 
-object AppHelpfulLanguageUtil {
+object AppHelpfulLocaleUtil {
 
     @Suppress("DEPRECATION")
     fun setAppLocale(context: Context,
