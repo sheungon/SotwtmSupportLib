@@ -4,6 +4,7 @@ import android.annotation.TargetApi
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.res.Configuration
+import android.content.res.Resources
 import android.os.Build
 import java.util.*
 
@@ -42,10 +43,9 @@ object AppHelpfulLocaleUtil {
      * @param supportedLocales A list of available [Locale] supported. The returned [Locale] will
      * be one of the given value in the list. Given null means all languages are supported.
      * */
-    fun getDefaultLangFromSystemSetting(context: Context,
-                                        supportedLocales: List<Locale>?): Locale {
+    fun getDefaultLangFromSystemSetting(supportedLocales: List<Locale>?): Locale {
 
-        val config = context.resources.configuration
+        val config = Resources.getSystem().configuration
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             getSystemLocale(config, supportedLocales)
         } else {
@@ -61,11 +61,38 @@ object AppHelpfulLocaleUtil {
                fuzzy: Boolean = true): Boolean =
             if (fuzzy)
                 left.language.toUpperCase() == right.language.toUpperCase() &&
-                        (left.country.toUpperCase() == right.country.toUpperCase() ||
+                        (left.language.toUpperCase() != "ZH" ||
                                 (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP &&
-                                        left.script.toUpperCase() == right.script.toUpperCase()))
+                                        (left.script.isEmpty() || right.script.isEmpty() ||
+                                                left.script.toUpperCase() == right.script.toUpperCase())) ||
+                                zhLangConvert(left.country) == zhLangConvert(right.country)
+                                )
             else
                 left == right
+
+    /**
+     * Covert locale to unified value
+     * */
+    fun unifyLocale(locale: Locale): Locale =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                if (locale.script.isEmpty()) {
+                    if (locale.language.toUpperCase() == "ZH") {
+                        val localeBuilder = Locale.Builder().setLanguage(locale.language).setRegion(locale.country)
+                        when (locale.country.toUpperCase()) {
+                            "CN" -> localeBuilder.setScript("hans")
+                            else -> localeBuilder.setScript("hant")
+                        }
+                        localeBuilder.build()
+                    } else locale
+                } else locale
+            } else locale
+
+    private fun zhLangConvert(country: String): String =
+            when (country.toUpperCase()) {
+                "HK" -> "TW"
+                "MO" -> "TW"
+                else -> country.toUpperCase()
+            }
 
     @Suppress("DEPRECATION")
     private fun getSystemLocaleLegacy(config: Configuration,

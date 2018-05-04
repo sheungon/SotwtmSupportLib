@@ -33,10 +33,10 @@ private constructor(_application: Application) {
         override fun get(): Locale =
                 sharedPreferences.getString(PREF_KEY_APP_LOCALE, null)?.let {
                     val languageTags = LocaleListCompat.forLanguageTags(it)
-                    if (languageTags.isEmpty) AppHelpfulLocaleUtil.getDefaultLangFromSystemSetting(application, supportedLocales.get())
+                    if (languageTags.isEmpty) AppHelpfulLocaleUtil.getDefaultLangFromSystemSetting(supportedLocales.get())
                     else languageTags[0]
                 }
-                        ?: AppHelpfulLocaleUtil.getDefaultLangFromSystemSetting(application, supportedLocales.get())
+                        ?: AppHelpfulLocaleUtil.getDefaultLangFromSystemSetting(supportedLocales.get())
 
         @Synchronized
         override fun set(value: Locale) {
@@ -44,7 +44,7 @@ private constructor(_application: Application) {
                 return
             }
 
-            editor.putString(PREF_KEY_APP_LOCALE, LocaleListCompat.create(value).toLanguageTags())
+            editor.putString(PREF_KEY_APP_LOCALE, LocaleListCompat.create(AppHelpfulLocaleUtil.unifyLocale(value)).toLanguageTags())
             editor.apply()
             notifyChange()
         }
@@ -74,9 +74,10 @@ private constructor(_application: Application) {
                 // Check if the current locale is in the new supported locale list
                 if (!newLocales.any { AppHelpfulLocaleUtil.equals(currentAppLocale, it) }) {
                     // If the current locale is not supported anymore, update current locale to system best matched
-                    appLocale.set(AppHelpfulLocaleUtil.getDefaultLangFromSystemSetting(application, newLocales))
+                    resetLocaleToSystemBestMatched(newLocales)
                 }
-                val localeListString = newLocales.joinToString(separator = SEPARATOR_LOCALE, transform = { LocaleListCompat.create(it).toLanguageTags() })
+                val localeListString = newLocales.joinToString(separator = SEPARATOR_LOCALE,
+                        transform = { LocaleListCompat.create(AppHelpfulLocaleUtil.unifyLocale(it)).toLanguageTags() })
                 if (localeListString != sharedPreferences.getString(PREF_KEY_SUPPORTED_LOCALES, null)) {
                     editor.putString(PREF_KEY_SUPPORTED_LOCALES, localeListString)
                     editor.apply()
@@ -105,6 +106,15 @@ private constructor(_application: Application) {
                         || any { AppHelpfulLocaleUtil.equals(locale, it) }
             })
 
+    /**
+     * Reset app locale to system best matched locale.
+     * @param locales A list of [Locale] for matching. Default values is [supportedLocales]
+     * @see supportedLocales
+     * */
+    fun resetLocaleToSystemBestMatched(locales: List<Locale> = supportedLocales.get()!!) {
+        appLocale.set(AppHelpfulLocaleUtil.getDefaultLangFromSystemSetting(locales))
+    }
+
     fun registerOnSharedPreferenceChangeListener(listener: SharedPreferences.OnSharedPreferenceChangeListener) {
         sharedPreferences.registerOnSharedPreferenceChangeListener(listener)
     }
@@ -120,6 +130,10 @@ private constructor(_application: Application) {
          * */
         @JvmStatic
         var defaultSupportedLocales: List<Locale> = emptyList()
+            @Synchronized
+            set(value) {
+                field = value.map { AppHelpfulLocaleUtil.unifyLocale(it) }
+            }
         @JvmStatic
         private val DEFAULT_SHARED_PREF_FILE = "sotwtm-support-lib"
         @JvmStatic
