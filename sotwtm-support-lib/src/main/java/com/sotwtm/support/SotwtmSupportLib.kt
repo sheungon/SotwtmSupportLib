@@ -19,12 +19,11 @@ import java.util.*
  * */
 @SuppressLint("CommitPrefEdits")
 class SotwtmSupportLib
-private constructor(_application: Application, _supportedLocales: List<Locale>?) {
+private constructor(_application: Application) {
 
     private val application: Application = _application
     private val sharedPreferences: SharedPreferences by lazy { application.getSharedPreferences(DEFAULT_SHARED_PREF_FILE, Context.MODE_PRIVATE) }
     private val editor: SharedPreferences.Editor by lazy { sharedPreferences.edit() }
-    private var supportedLocales: List<Locale>? = _supportedLocales
 
     /**
      * The app locale currently using.
@@ -34,10 +33,10 @@ private constructor(_application: Application, _supportedLocales: List<Locale>?)
         override fun get(): Locale =
                 sharedPreferences.getString(PREF_KEY_APP_LOCALE, null)?.let {
                     val languageTags = LocaleListCompat.forLanguageTags(it)
-                    if (languageTags.isEmpty) AppHelpfulLocaleUtil.getDefaultLangFromSystemSetting(application, supportedLocales)
+                    if (languageTags.isEmpty) AppHelpfulLocaleUtil.getDefaultLangFromSystemSetting(application, supportedLocales.get())
                     else languageTags[0]
                 }
-                        ?: AppHelpfulLocaleUtil.getDefaultLangFromSystemSetting(application, supportedLocales)
+                        ?: AppHelpfulLocaleUtil.getDefaultLangFromSystemSetting(application, supportedLocales.get())
 
         @Synchronized
         override fun set(value: Locale) {
@@ -51,33 +50,60 @@ private constructor(_application: Application, _supportedLocales: List<Locale>?)
         }
     }
 
+    var supportedLocales: ObservableField<List<Locale>> = object : ObservableField<List<Locale>>(emptyList()) {
+
+        @Synchronized
+        override fun get(): List<Locale> {
+            val supportedLocalesString = sharedPreferences.getString(PREF_KEY_SUPPORTED_LOCALES, null)
+                    ?: return defaultSupportedLocales
+            return supportedLocalesString.split(SEPARATOR_LOCALE).mapNotNull {
+                LocaleListCompat.forLanguageTags(it).get(0)
+            }
+        }
+
+        @Synchronized
+        override fun set(newLocales: List<Locale>?) {
+
+            if (newLocales == null || newLocales.isEmpty()) {
+                // Remove the list means supported all locale
+                editor.remove(PREF_KEY_SUPPORTED_LOCALES)
+                editor.apply()
+                notifyChange()
+            } else {
+                val currentAppLocale = appLocale.get()!!
+                // Check if the current locale is in the new supported locale list
+                if (!newLocales.any { AppHelpfulLocaleUtil.equals(currentAppLocale, it) }) {
+                    // If the current locale is not supported anymore, update current locale to system best matched
+                    appLocale.set(AppHelpfulLocaleUtil.getDefaultLangFromSystemSetting(application, newLocales))
+                }
+                val localeListString = newLocales.joinToString(separator = SEPARATOR_LOCALE, transform = { LocaleListCompat.create(it).toLanguageTags() })
+                if (localeListString != sharedPreferences.getString(PREF_KEY_SUPPORTED_LOCALES, null)) {
+                    editor.putString(PREF_KEY_SUPPORTED_LOCALES, localeListString)
+                    editor.apply()
+                    notifyChange()
+                }
+            }
+        }
+    }
+
     init {
         AppHelpfulLocaleUtil.setAppLocale(application, appLocale.get()!!)
     }
 
 
     /**
-     * Set the supported locales for this [Application].
-     * It current app locale is not in the the newly given supported locale list,
-     * [appLocale] will be updated by [AppHelpfulLocaleUtil.getDefaultLangFromSystemSetting]
+     * Return [true] if the given locale is in the supported locale list.
      *
-     * @param newLocales Giving this null means all locales will be supported.
-     * @see appLocale
+     * @param locale Check if this locale is supported
+     * @see supportedLocales
      * */
     @Synchronized
-    fun updateSupportedLocales(newLocales: List<Locale>?) {
-        val currentAppLocale = appLocale.get()!!
-        supportedLocales = newLocales
-
-        if (newLocales != null) {
-            // Check if the current locale is in the new supported locale list
-            if (!newLocales.any { AppHelpfulLocaleUtil.equals(currentAppLocale, it) }) {
-                // If the current locale is not supported anymore, update current locale to system best matched
-                appLocale.set(AppHelpfulLocaleUtil.getDefaultLangFromSystemSetting(application, newLocales))
-            }
-        }
-
-    }
+    fun supportedLocale(locale: Locale): Boolean =
+            with(supportedLocales.get(), {
+                this == null
+                        || isEmpty()
+                        || any { AppHelpfulLocaleUtil.equals(locale, it) }
+            })
 
     fun registerOnSharedPreferenceChangeListener(listener: SharedPreferences.OnSharedPreferenceChangeListener) {
         sharedPreferences.registerOnSharedPreferenceChangeListener(listener)
@@ -88,16 +114,26 @@ private constructor(_application: Application, _supportedLocales: List<Locale>?)
     }
 
     companion object {
+        /**
+         * Set the default supported locales list.
+         * Empty list means supported all locales.
+         * */
+        @JvmStatic
+        var defaultSupportedLocales: List<Locale> = emptyList()
+        @JvmStatic
+        private val DEFAULT_SHARED_PREF_FILE = "sotwtm-support-lib"
         @JvmStatic
         private val PREF_KEY_APP_LOCALE = "AppLocale"
         @JvmStatic
-        private val DEFAULT_SHARED_PREF_FILE = "sotwtm-support-lib"
+        private val PREF_KEY_SUPPORTED_LOCALES = "SupportedLocales"
+        @JvmStatic
+        private val SEPARATOR_LOCALE = ","
         @JvmStatic
         private var INSTANCE: SotwtmSupportLib? = null
 
         @JvmStatic
-        fun init(application: Application, supportedLocales: List<Locale>?) {
-            INSTANCE = SotwtmSupportLib(application, supportedLocales)
+        fun init(application: Application) {
+            INSTANCE = SotwtmSupportLib(application)
         }
 
         @JvmStatic
