@@ -44,7 +44,7 @@ private constructor(_application: Application) {
                 return
             }
 
-            editor.putString(PREF_KEY_APP_LOCALE, LocaleListCompat.create(AppHelpfulLocaleUtil.unifyLocale(value)).toLanguageTags())
+            editor.putString(PREF_KEY_APP_LOCALE, LocaleListCompat.create(AppHelpfulLocaleUtil.unify(value)).toLanguageTags())
             editor.apply()
             notifyChange()
         }
@@ -77,7 +77,7 @@ private constructor(_application: Application) {
                     resetLocaleToSystemBestMatched(newLocales)
                 }
                 val localeListString = newLocales.joinToString(separator = SEPARATOR_LOCALE,
-                        transform = { LocaleListCompat.create(AppHelpfulLocaleUtil.unifyLocale(it)).toLanguageTags() })
+                        transform = { LocaleListCompat.create(AppHelpfulLocaleUtil.unify(it)).toLanguageTags() })
                 if (localeListString != sharedPreferences.getString(PREF_KEY_SUPPORTED_LOCALES, null)) {
                     editor.putString(PREF_KEY_SUPPORTED_LOCALES, localeListString)
                     editor.apply()
@@ -132,7 +132,7 @@ private constructor(_application: Application) {
         var defaultSupportedLocales: List<Locale> = emptyList()
             @Synchronized
             set(value) {
-                field = value.map { AppHelpfulLocaleUtil.unifyLocale(it) }
+                field = value.map { AppHelpfulLocaleUtil.unify(it) }
             }
         @JvmStatic
         private val DEFAULT_SHARED_PREF_FILE = "sotwtm-support-lib"

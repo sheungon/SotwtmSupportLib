@@ -39,7 +39,6 @@ object AppHelpfulLocaleUtil {
 
     /**
      * Get the best matching [Locale] for the current system setting.
-     * @param context App context
      * @param supportedLocales A list of available [Locale] supported. The returned [Locale] will
      * be one of the given value in the list. Given null means all languages are supported.
      * */
@@ -59,21 +58,24 @@ object AppHelpfulLocaleUtil {
     fun equals(left: Locale,
                right: Locale,
                fuzzy: Boolean = true): Boolean =
-            if (fuzzy)
-                left.language.toUpperCase() == right.language.toUpperCase() &&
-                        (left.language.toUpperCase() != "ZH" ||
+            if (fuzzy) {
+                val unifiedLeft = unify(left)
+                val unifiedRight = unify(right)
+                unifiedLeft.language.toUpperCase() == unifiedRight.language.toUpperCase() &&
+                        (unifiedLeft.language.toUpperCase() != "ZH" ||
                                 (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP &&
-                                        (left.script.isEmpty() || right.script.isEmpty() ||
-                                                left.script.toUpperCase() == right.script.toUpperCase())) ||
-                                zhLangConvert(left.country) == zhLangConvert(right.country)
-                                )
-            else
+                                        (unifiedLeft.script.isEmpty() || unifiedRight.script.isEmpty() ||
+                                                unifiedLeft.script.toUpperCase() == unifiedRight.script.toUpperCase())) ||
+                                zhLangConvert(unifiedLeft.country) == zhLangConvert(unifiedRight.country))
+            } else
                 left == right
 
     /**
      * Covert locale to unified value
+     * @param locale A locale going to be unified
+     * @return A unified [Locale]
      * */
-    fun unifyLocale(locale: Locale): Locale =
+    fun unify(locale: Locale): Locale =
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 if (locale.script.isEmpty()) {
                     if (locale.language.toUpperCase() == "ZH") {
