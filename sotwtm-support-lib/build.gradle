@@ -89,8 +89,10 @@ android {
 
 dependencies {
 
+    //****** These libs must be listed in the sub projects. Otherwise, it will fail to build ******
+    // =============================================================
+    // <<<<<<<<<<<<<<<<<<<< MUST ADD LIBS START >>>>>>>>>>>>>>>>>>>>
     // Android support libs
-    // ******* These libs must be listed in the sub projects. Otherwise, it will fail to build
     implementation "com.android.support:appcompat-v7:$rootProject.ext.versions.support_lib"
     implementation "com.android.support:design:$rootProject.ext.versions.support_lib"
     implementation "android.arch.lifecycle:viewmodel:$rootProject.ext.versions.lifecycle"
@@ -101,6 +103,8 @@ dependencies {
 
     // AndroidEasyLog
     implementation "com.sotwtm.util:ec-log:$rootProject.ext.versions.android_ec_log"
+    // <<<<<<<<<<<<<<<<<<<< MUST ADD LIBS END >>>>>>>>>>>>>>>>>>>>
+    // ===========================================================
 
     /***** For Unit Test *****/
     androidTestImplementation("com.android.support.test.espresso:espresso-core:$rootProject.ext.versions.espresso", {
