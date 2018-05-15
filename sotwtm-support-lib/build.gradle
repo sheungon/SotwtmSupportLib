@@ -26,6 +26,8 @@ android {
         }
     }
 
+    sourceSets { main.java.srcDirs += 'src/main/kotlin' }
+
     /*
     * To enable Android Data Binding Library
     * See, https://developer.android.com/topic/libraries/data-binding/index.html
@@ -71,8 +73,6 @@ android {
         useBuildCache = true
     }
 
-    sourceSets{ main.java.srcDirs += 'src/main/kotlin' }
-
     testOptions {
         unitTests.returnDefaultValues = true
         unitTests.all {
@@ -89,56 +89,37 @@ android {
 
 dependencies {
 
-    /*
-     * Kotlin
-     * */
+    // Android support libs
+    // ******* These libs must be listed in the sub projects. Otherwise, it will fail to build
+    implementation "com.android.support:appcompat-v7:$rootProject.ext.versions.support_lib"
+    implementation "com.android.support:design:$rootProject.ext.versions.support_lib"
+    implementation "android.arch.lifecycle:viewmodel:$rootProject.ext.versions.lifecycle"
+
+    // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-$rootProject.ext.versions.kotlin_env:$rootProject.ext.versions.kotlin_plugin"
     kapt "com.android.databinding:compiler:$rootProject.ext.versions.android_plugin"
 
-    // Android support library
-    implementation "com.android.support:appcompat-v7:$rootProject.ext.versions.support_lib"
-    /*
-     * Use TabLayout, FAB, etc.
-     */
-    implementation "com.android.support:design:$rootProject.ext.versions.support_lib"
-    /*
-     * Android Architecture Components
-     * */
-    implementation "android.arch.lifecycle:viewmodel:$rootProject.ext.versions.lifecycle"
-
-    /*
-     * Dagger 2
-     * http://square.github.io/dagger/
-     * */
-    implementation "com.google.dagger:dagger:$rootProject.ext.versions.dagger_2"
-    kapt "com.google.dagger:dagger-compiler:$rootProject.ext.versions.dagger_2"
-
-    /*
-    * https://github.com/sheungon/AndroidEasyLog
-    * */
+    // AndroidEasyLog
     implementation "com.sotwtm.util:ec-log:$rootProject.ext.versions.android_ec_log"
 
+    /***** For Unit Test *****/
     androidTestImplementation("com.android.support.test.espresso:espresso-core:$rootProject.ext.versions.espresso", {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.google.code.findbugs', module: 'jsr305'
     })
     androidTestImplementation "com.google.dagger:dagger:$rootProject.ext.versions.dagger_2"
     kaptAndroidTest "com.google.dagger:dagger-compiler:$rootProject.ext.versions.dagger_2"
-
     testImplementation deps.junit
     testImplementation "com.google.dagger:dagger:$rootProject.ext.versions.dagger_2"
     kaptTest "com.google.dagger:dagger-compiler:$rootProject.ext.versions.dagger_2"
-
     androidTestImplementation "org.mockito:mockito-android:$rootProject.ext.versions.mockito"
     testImplementation "org.mockito:mockito-core:$rootProject.ext.versions.mockito"
-
     androidTestImplementation("com.github.fabioCollini.daggermock:daggermock-kotlin:$rootProject.ext.versions.dagger_mock", {
         exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib'
     })
     testImplementation("com.github.fabioCollini.daggermock:daggermock-kotlin:$rootProject.ext.versions.dagger_mock", {
         exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib'
     })
-
     testImplementation "org.powermock:powermock-api-mockito2:$rootProject.ext.versions.power_mock"
     testImplementation "org.powermock:powermock-module-junit4-rule-agent:$rootProject.ext.versions.power_mock"
     testImplementation "org.powermock:powermock-module-junit4-rule:$rootProject.ext.versions.power_mock"
