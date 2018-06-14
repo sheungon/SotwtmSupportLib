@@ -29,7 +29,7 @@ abstract class BaseNavigator {
         get() = contextRef?.get() as? AppHelpfulActivity
     val fragment: AppHelpfulFragment?
         get() = contextRef?.get() as? AppHelpfulFragment
-    val fragmentDialog: AppHelpfulDialogFragment?
+    val dialogFragment: AppHelpfulDialogFragment?
         get() = contextRef?.get() as? AppHelpfulDialogFragment
     val context: Context?
         get() = contextRef?.get() as? Context
