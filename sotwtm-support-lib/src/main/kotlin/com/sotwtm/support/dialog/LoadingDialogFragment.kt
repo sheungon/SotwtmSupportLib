@@ -5,6 +5,8 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.support.annotation.StringRes
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentTransaction
 import android.view.Window
 import com.sotwtm.support.R
 import com.sotwtm.support.activity.AppHelpfulActivity
@@ -29,6 +31,8 @@ class LoadingDialogFragment : AppHelpfulDataBindingDialogFragment<DialogLoadingB
 
     @StringRes
     private var loadingMsgRes: Int? = R.string.loading
+    private var dismissed: Boolean = false
+
 
     fun setLoadingMsg(@StringRes msgRes: Int?) {
         loadingMsgRes = msgRes
@@ -61,9 +65,34 @@ class LoadingDialogFragment : AppHelpfulDataBindingDialogFragment<DialogLoadingB
         super.onResume()
 
         // Sometime dismiss event called before loading dialog ready
-        if ((activity as? AppHelpfulActivity)?.dismissedLoading() != false) {
+        if (dismissed) {
             dismiss()
         }
+    }
+
+    override fun show(manager: FragmentManager?, tag: String?) {
+        dismissed = false
+        super.show(manager, tag)
+    }
+
+    override fun show(transaction: FragmentTransaction?, tag: String?): Int {
+        dismissed = false
+        return super.show(transaction, tag)
+    }
+
+    override fun showNow(manager: FragmentManager?, tag: String?) {
+        dismissed = false
+        super.showNow(manager, tag)
+    }
+
+    override fun dismissAllowingStateLoss() {
+        dismissed = true
+        super.dismissAllowingStateLoss()
+    }
+
+    override fun dismiss() {
+        dismissed = true
+        super.dismiss()
     }
 
     companion object {
