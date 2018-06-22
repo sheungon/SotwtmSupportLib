@@ -1,5 +1,6 @@
 package com.sotwtm.support.fragment
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.AnimRes
@@ -16,6 +17,12 @@ import com.sotwtm.support.activity.IOverridePendingTransition
 import com.sotwtm.support.util.SnackbarUtil
 import com.sotwtm.support.util.UIUtil
 import com.sotwtm.util.Log
+import dagger.Lazy
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.support.AndroidSupportInjection
+import dagger.android.support.HasSupportFragmentInjector
+import javax.inject.Inject
 
 /**
  * A fragment contains helpful API.
@@ -23,7 +30,10 @@ import com.sotwtm.util.Log
  * Created by sheun on 10/11/2015.
  * @author John
  */
-abstract class AppHelpfulFragment : Fragment() {
+abstract class AppHelpfulFragment : Fragment(), HasSupportFragmentInjector {
+
+    @Inject
+    internal lateinit var childFragmentInjector: Lazy<DispatchingAndroidInjector<Fragment>?>
 
     /**
      * The layout ID for this fragment
@@ -68,6 +78,15 @@ abstract class AppHelpfulFragment : Fragment() {
         get() = R.anim.fragment_slide_out_to_right
 
     abstract val viewModel: AppHelpfulFragmentViewModel?
+
+    override fun onAttach(context: Context?) {
+        try {
+            AndroidSupportInjection.inject(this)
+        } catch (e: Exception) {
+            // Do nothing
+        }
+        super.onAttach(context)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -149,6 +168,8 @@ abstract class AppHelpfulFragment : Fragment() {
             activity.overridePendingTransitionForStartActivity()
         }
     }
+
+    override fun supportFragmentInjector(): AndroidInjector<Fragment>? = childFragmentInjector.get()
 
     /**
      * @return `true` if view is bound by ButterKnife. Otherwise, `false`

@@ -6,9 +6,10 @@ import android.os.Bundle
 import android.support.annotation.LayoutRes
 import android.support.annotation.StringRes
 import android.support.annotation.UiThread
-import android.support.v4.app.DialogFragment
+import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v7.app.AlertDialog
+import android.support.v7.app.AppCompatDialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,15 +17,33 @@ import android.view.inputmethod.EditorInfo
 import com.sotwtm.support.R
 import com.sotwtm.support.activity.AppHelpfulActivity
 import com.sotwtm.util.Log
+import dagger.Lazy
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.support.AndroidSupportInjection
+import dagger.android.support.HasSupportFragmentInjector
 import java.lang.ref.WeakReference
+import javax.inject.Inject
 
 /**
  */
-abstract class AppHelpfulDialogFragment : DialogFragment() {
+abstract class AppHelpfulDialogFragment : AppCompatDialogFragment(), HasSupportFragmentInjector {
+
+    @Inject
+    internal lateinit var childFragmentInjector: Lazy<DispatchingAndroidInjector<Fragment>?>
 
     abstract val layoutId: Int?
     abstract val viewModel: AppHelpfulDialogFragmentViewModel?
 
+
+    override fun onAttach(context: Context?) {
+        try {
+            AndroidSupportInjection.inject(this)
+        } catch (e: Exception) {
+            // Do nothing
+        }
+        super.onAttach(context)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,6 +108,8 @@ abstract class AppHelpfulDialogFragment : DialogFragment() {
         }
     }
 
+    override fun supportFragmentInjector(): AndroidInjector<Fragment>? = childFragmentInjector.get()
+
     fun onEditorAction(actionId: Int): Boolean {
 
         when (actionId) {
@@ -151,7 +172,7 @@ abstract class AppHelpfulDialogFragment : DialogFragment() {
      */
     protected class OnShowSetupOnOkClickListener(fragment: AppHelpfulDialogFragment) : DialogInterface.OnShowListener {
 
-        internal val fragmentRef: WeakReference<AppHelpfulDialogFragment> = WeakReference(fragment)
+        private val fragmentRef: WeakReference<AppHelpfulDialogFragment> = WeakReference(fragment)
 
         override fun onShow(dialog: DialogInterface) {
 
@@ -165,7 +186,7 @@ abstract class AppHelpfulDialogFragment : DialogFragment() {
 
     internal class MyOnOkClickListener(fragment: AppHelpfulDialogFragment) : View.OnClickListener {
 
-        val fragmentRef: WeakReference<AppHelpfulDialogFragment> = WeakReference(fragment)
+        private val fragmentRef: WeakReference<AppHelpfulDialogFragment> = WeakReference(fragment)
 
         override fun onClick(view: View) {
 

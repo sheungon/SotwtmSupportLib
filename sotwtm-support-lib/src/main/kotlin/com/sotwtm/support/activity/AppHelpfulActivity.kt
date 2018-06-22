@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.support.annotation.*
 import android.support.design.widget.CoordinatorLayout
 import android.support.design.widget.Snackbar
+import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -21,8 +22,15 @@ import com.sotwtm.support.util.SnackbarUtil
 import com.sotwtm.support.util.UIUtil
 import com.sotwtm.support.util.locale.AppHelpfulLocaleUtil
 import com.sotwtm.util.Log
+import dagger.Lazy
+import dagger.android.AndroidInjection
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasFragmentInjector
+import dagger.android.support.HasSupportFragmentInjector
 import java.lang.ref.WeakReference
 import java.util.concurrent.atomic.AtomicReference
+import javax.inject.Inject
 
 /**
  * Activity applied animation on transit.
@@ -32,7 +40,12 @@ import java.util.concurrent.atomic.AtomicReference
  * @author John
  */
 abstract class AppHelpfulActivity
-    : AppCompatActivity(), IOverridePendingTransition {
+    : AppCompatActivity(), IOverridePendingTransition, HasFragmentInjector, HasSupportFragmentInjector {
+
+    @Inject
+    internal lateinit var supportFragmentInjector: Lazy<DispatchingAndroidInjector<Fragment>?>
+    @Inject
+    internal lateinit var frameworkFragmentInjector: Lazy<DispatchingAndroidInjector<android.app.Fragment>?>
 
     /**
      * The layout ID for this activity
@@ -157,6 +170,13 @@ abstract class AppHelpfulActivity
                 }
             }
         }
+
+        try {
+            AndroidInjection.inject(this)
+        } catch (e: Exception) {
+            // Do nothing
+        }
+
         super.onCreate(savedInstanceState)
 
         SotwtmSupportLib.getInstance().registerOnSharedPreferenceChangeListener(onAppLocaleChangedListener)
@@ -304,6 +324,10 @@ abstract class AppHelpfulActivity
 
         overridePendingTransitionForStartActivity()
     }
+
+    override fun supportFragmentInjector(): AndroidInjector<Fragment>? = supportFragmentInjector.get()
+
+    override fun fragmentInjector(): AndroidInjector<android.app.Fragment>? = frameworkFragmentInjector.get()
 
     fun startActivity(intent: Intent,
                       overridePendingTransition: Boolean) {
