@@ -174,7 +174,9 @@ abstract class AppHelpfulActivity
         try {
             AndroidInjection.inject(this)
         } catch (e: Exception) {
-            // Do nothing
+            if (SotwtmSupportLib.enableDaggerErrorLog) {
+                Log.e("Disable dagger error log by SotwtmSupportLib.enableDaggerErrorLog", e)
+            }
         }
 
         super.onCreate(savedInstanceState)

@@ -93,18 +93,18 @@ private constructor(_application: Application) {
 
 
     /**
-     * Return [true] if the given locale is in the supported locale list.
+     * Return true if the given locale is in the supported locale list.
      *
      * @param locale Check if this locale is supported
      * @see supportedLocales
      * */
     @Synchronized
     fun supportedLocale(locale: Locale): Boolean =
-            with(supportedLocales.get(), {
+            with(supportedLocales.get()) {
                 this == null
                         || isEmpty()
                         || any { AppHelpfulLocaleUtil.equals(locale, it) }
-            })
+            }
 
     /**
      * Reset app locale to system best matched locale.
@@ -149,6 +149,9 @@ private constructor(_application: Application) {
         fun init(application: Application) {
             INSTANCE = SotwtmSupportLib(application)
         }
+
+        @JvmStatic
+        var enableDaggerErrorLog = true
 
         @JvmStatic
         fun getInstance(): SotwtmSupportLib = INSTANCE

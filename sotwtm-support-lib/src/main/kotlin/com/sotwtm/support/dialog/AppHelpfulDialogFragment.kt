@@ -15,6 +15,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import com.sotwtm.support.R
+import com.sotwtm.support.SotwtmSupportLib
 import com.sotwtm.support.activity.AppHelpfulActivity
 import com.sotwtm.util.Log
 import dagger.Lazy
@@ -40,7 +41,9 @@ abstract class AppHelpfulDialogFragment : AppCompatDialogFragment(), HasSupportF
         try {
             AndroidSupportInjection.inject(this)
         } catch (e: Exception) {
-            // Do nothing
+            if (SotwtmSupportLib.enableDaggerErrorLog) {
+                Log.e("Disable dagger error log by SotwtmSupportLib.enableDaggerErrorLog", e)
+            }
         }
         super.onAttach(context)
     }
