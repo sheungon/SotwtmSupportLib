@@ -106,6 +106,7 @@ dependencies {
     implementation "com.google.dagger:dagger-android:$versions.dagger_2"
     implementation "com.google.dagger:dagger-android-support:$versions.dagger_2"
     kapt "com.google.dagger:dagger-compiler:$versions.dagger_2"
+    kapt "com.google.dagger:dagger-android-processor:$versions.dagger_2"
 
     // AndroidEasyLog
     implementation "com.sotwtm.util:ec-log:$rootProject.ext.versions.android_ec_log"
