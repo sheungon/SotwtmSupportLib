@@ -6,6 +6,7 @@ import com.sotwtm.support.activity.AppHelpfulActivity
 import com.sotwtm.support.util.SnackbarUtil
 import com.sotwtm.util.Log
 import java.lang.ref.WeakReference
+import javax.inject.Inject
 
 /**
  * @author John
@@ -13,6 +14,7 @@ import java.lang.ref.WeakReference
 
 class FragmentMessenger(private val fragmentRef: WeakReference<out AppHelpfulFragment>) : BaseMessenger() {
 
+    @Inject
     constructor(_fragment: AppHelpfulFragment) : this(WeakReference(_fragment))
 
     private val fragment: AppHelpfulFragment?

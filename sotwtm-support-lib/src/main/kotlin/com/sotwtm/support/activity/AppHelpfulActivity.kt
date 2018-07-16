@@ -1,5 +1,6 @@
 package com.sotwtm.support.activity
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
@@ -316,31 +317,47 @@ abstract class AppHelpfulActivity
     }
 
     override fun startActivity(intent: Intent) {
-        super.startActivity(intent)
+        startActivity(intent, null)
+    }
 
-        overridePendingTransitionForStartActivity()
+    override fun startActivity(intent: Intent, options: Bundle?) {
+        startActivity(intent, true, options)
+    }
+
+    @Suppress("MemberVisibilityCanBePrivate")
+    fun startActivity(intent: Intent,
+                      overridePendingTransition: Boolean,
+                      options: Bundle? = null) {
+        super.startActivity(intent, options)
+
+        if (overridePendingTransition) {
+            overridePendingTransitionForStartActivity()
+        }
     }
 
     override fun startActivityForResult(intent: Intent, requestCode: Int) {
-        super.startActivityForResult(intent, requestCode)
+        startActivityForResult(intent, requestCode, null)
+    }
 
-        overridePendingTransitionForStartActivity()
+    override fun startActivityForResult(intent: Intent, requestCode: Int, options: Bundle?) {
+        startActivityForResult(intent, requestCode, true, options)
+    }
+
+    @SuppressLint("RestrictedApi")
+    fun startActivityForResult(intent: Intent,
+                               requestCode: Int,
+                               overridePendingTransition: Boolean,
+                               options: Bundle? = null) {
+        super.startActivityForResult(intent, requestCode, options)
+
+        if (overridePendingTransition) {
+            overridePendingTransitionForStartActivity()
+        }
     }
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment>? = supportFragmentInjector.get()
 
     override fun fragmentInjector(): AndroidInjector<android.app.Fragment>? = frameworkFragmentInjector.get()
-
-    fun startActivity(intent: Intent,
-                      overridePendingTransition: Boolean) {
-
-        if (overridePendingTransition) {
-            startActivity(intent)
-            return
-        }
-
-        super.startActivity(intent)
-    }
 
     override fun finish() {
         super.finish()

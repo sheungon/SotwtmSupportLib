@@ -4,16 +4,20 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.support.annotation.StringRes
 import com.sotwtm.support.BaseMessenger
+import com.sotwtm.support.scope.ActivityScope
 import com.sotwtm.support.util.SnackbarUtil
 import java.lang.ref.WeakReference
+import javax.inject.Inject
 
 /**
 
  * @author John
  */
 
+@ActivityScope
 class ActivityMessenger(private val activityRef: WeakReference<out AppHelpfulActivity>) : BaseMessenger() {
 
+    @Inject
     constructor(_activity: AppHelpfulActivity) : this(WeakReference(_activity))
 
     override val activity: AppHelpfulActivity?

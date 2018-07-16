@@ -143,32 +143,51 @@ abstract class AppHelpfulFragment : Fragment(), HasSupportFragmentInjector {
     }
 
     override fun startActivity(intent: Intent) {
+        startActivity(intent, null)
+    }
 
-        val activity = activity
-        if (activity == null) {
+    override fun startActivity(intent: Intent, options: Bundle?) {
+        startActivity(intent, true, options)
+    }
+
+    @Suppress("MemberVisibilityCanBePrivate")
+    fun startActivity(intent: Intent,
+                      overridePendingTransition: Boolean,
+                      options: Bundle? = null) {
+        val activity = activity ?: return {
             Log.e("Cannot start activity as the fragment has been released.")
-            return
-        }
+            Unit
+        }.invoke()
 
-        super.startActivity(intent)
+        super.startActivity(intent, options)
 
-        if (activity is IOverridePendingTransition) {
-            activity.overridePendingTransitionForStartActivity()
+        if (overridePendingTransition) {
+            (activity as? IOverridePendingTransition)?.overridePendingTransitionForStartActivity()
         }
     }
 
     override fun startActivityForResult(intent: Intent, requestCode: Int) {
+        startActivityForResult(intent, requestCode, null)
+    }
 
-        val activity = activity
-        if (activity == null) {
+    override fun startActivityForResult(intent: Intent, requestCode: Int, options: Bundle?) {
+        startActivityForResult(intent, requestCode, true, options)
+    }
+
+    @Suppress("MemberVisibilityCanBePrivate")
+    fun startActivityForResult(intent: Intent,
+                               requestCode: Int,
+                               overridePendingTransition: Boolean,
+                               options: Bundle? = null) {
+        val activity = activity ?: return {
             Log.e("Cannot start activity as the fragment has been released.")
-            return
-        }
+            Unit
+        }.invoke()
 
-        super.startActivityForResult(intent, requestCode)
+        super.startActivityForResult(intent, requestCode, options)
 
-        if (activity is IOverridePendingTransition) {
-            activity.overridePendingTransitionForStartActivity()
+        if (overridePendingTransition) {
+            (activity as? IOverridePendingTransition)?.overridePendingTransitionForStartActivity()
         }
     }
 
