@@ -27,7 +27,7 @@ class LoadingDialogFragment : AppHelpfulDataBindingDialogFragment<DialogLoadingB
     }
 
     override val layoutId: Int? = R.layout.dialog_loading
-    override val viewModel: AppHelpfulDialogFragmentViewModel? = null
+    override val dataBinder: AppHelpfulDialogFragmentDataBinder? = null
 
     @StringRes
     private var loadingMsgRes: Int? = R.string.loading

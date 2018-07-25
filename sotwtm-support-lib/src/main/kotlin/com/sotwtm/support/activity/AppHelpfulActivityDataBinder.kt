@@ -9,7 +9,7 @@ import android.view.MenuItem
  * View model abstract class for [AppHelpfulDataBindingActivity]
  * @author John
  */
-abstract class AppHelpfulActivityViewModel(app : Application) : AndroidViewModel(app) {
+abstract class AppHelpfulActivityDataBinder(app : Application) : AndroidViewModel(app) {
 
     /* Don't name this as "isResumed" because "isResumed" is a hidden final method in parent class. */
     @Volatile
@@ -20,9 +20,9 @@ abstract class AppHelpfulActivityViewModel(app : Application) : AndroidViewModel
         private set
 
     @Synchronized
-    internal fun syncStatus(viewModel: AppHelpfulActivityViewModel): AppHelpfulActivityViewModel {
-        isActivityPaused = viewModel.isActivityPaused
-        isActivityDestroyed = viewModel.isActivityDestroyed
+    internal fun syncStatus(dataBinder: AppHelpfulActivityDataBinder): AppHelpfulActivityDataBinder {
+        isActivityPaused = dataBinder.isActivityPaused
+        isActivityDestroyed = dataBinder.isActivityDestroyed
         return this
     }
 

@@ -8,7 +8,7 @@ import android.view.View
 /**
  * @author John
  */
-open class AppHelpfulDialogFragmentViewModel(application: Application) : AndroidViewModel(application) {
+open class AppHelpfulDialogFragmentDataBinder(application: Application) : AndroidViewModel(application) {
 
     @Volatile
     var isPaused = true
@@ -18,9 +18,9 @@ open class AppHelpfulDialogFragmentViewModel(application: Application) : Android
         private set
 
     @Synchronized
-    internal fun syncStatus(viewModel: AppHelpfulDialogFragmentViewModel): AppHelpfulDialogFragmentViewModel {
-        isPaused = viewModel.isPaused
-        isViewDestroyed = viewModel.isViewDestroyed
+    internal fun syncStatus(dataBinder: AppHelpfulDialogFragmentDataBinder): AppHelpfulDialogFragmentDataBinder {
+        isPaused = dataBinder.isPaused
+        isViewDestroyed = dataBinder.isViewDestroyed
         return this
     }
 

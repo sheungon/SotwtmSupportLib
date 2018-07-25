@@ -146,7 +146,7 @@ abstract class AppHelpfulActivity
      * Indicate if there should be back button on toolbar
      * */
     open val menuBackEnabled: Boolean = false
-    abstract val viewModel: AppHelpfulActivityViewModel
+    abstract val dataBinder: AppHelpfulActivityDataBinder
 
 
     override fun attachBaseContext(newBase: Context) {
@@ -155,6 +155,7 @@ abstract class AppHelpfulActivity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         savedInstanceStateRef.set(savedInstanceState)
+        backStackListener = MyOnBackStackChangedListener(this)
 
         if (requestOrientationByDeviceType) {
             requestedOrientation = if (resources.getBoolean(R.bool.is_tablet)) {
@@ -193,9 +194,7 @@ abstract class AppHelpfulActivity
             }
         }
 
-        viewModel.onCreateInternal(savedInstanceState)
-
-        backStackListener = MyOnBackStackChangedListener(this)
+        dataBinder.onCreateInternal(savedInstanceState)
 
         val decorView = window.decorView
         decorView.setOnSystemUiVisibilityChangeListener(MyOnSystemUiVisibilityChangeListener(this))
@@ -212,7 +211,7 @@ abstract class AppHelpfulActivity
 
         supportFragmentManager?.addOnBackStackChangedListener(backStackListener)
 
-        viewModel.onStart()
+        dataBinder.onStart()
     }
 
     override fun onResume() {
@@ -220,7 +219,7 @@ abstract class AppHelpfulActivity
 
         updateFullScreenStatus()
 
-        viewModel.onResumeInternal()
+        dataBinder.onResumeInternal()
         if (loadingDialogMsg == NONE) {
             dismissLoadingDialog()
         } else {
@@ -231,13 +230,13 @@ abstract class AppHelpfulActivity
     override fun onPause() {
         super.onPause()
 
-        viewModel.onPauseInternal()
+        dataBinder.onPauseInternal()
     }
 
     override fun onStop() {
         super.onStop()
 
-        viewModel.onStop()
+        dataBinder.onStop()
 
         supportFragmentManager?.removeOnBackStackChangedListener(backStackListener)
     }
@@ -246,13 +245,13 @@ abstract class AppHelpfulActivity
         SotwtmSupportLib.getInstance().unregisterOnSharedPreferenceChangeListener(onAppLocaleChangedListener)
         super.onDestroy()
 
-        viewModel.onDestroyInternal()
+        dataBinder.onDestroyInternal()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
 
-        viewModel.onSaveInstanceState(outState)
+        dataBinder.onSaveInstanceState(outState)
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
@@ -285,7 +284,7 @@ abstract class AppHelpfulActivity
                     onBackPressed()
                     true
                 }
-                else -> viewModel.onOptionsItemSelected(item)
+                else -> dataBinder.onOptionsItemSelected(item)
             }
 
     override fun onBackPressed() {
@@ -313,7 +312,7 @@ abstract class AppHelpfulActivity
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
-        viewModel.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        dataBinder.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
     override fun startActivity(intent: Intent) {
@@ -383,10 +382,10 @@ abstract class AppHelpfulActivity
         }
     }
 
-    override fun isDestroyed(): Boolean = viewModel.isActivityDestroyed
+    override fun isDestroyed(): Boolean = dataBinder.isActivityDestroyed
 
     open val isViewBound: Boolean
-        get() = !viewModel.isActivityPaused
+        get() = !dataBinder.isActivityPaused
 
     /**
      * @param msgRes The message on loading dialog
@@ -402,7 +401,7 @@ abstract class AppHelpfulActivity
             return
         }
 
-        if (viewModel.isActivityPaused) {
+        if (dataBinder.isActivityPaused) {
             Log.d("Activity is paused.")
             return
         }
@@ -428,7 +427,7 @@ abstract class AppHelpfulActivity
     fun dismissLoadingDialog() {
 
         loadingDialogMsg = NONE
-        if (viewModel.isActivityPaused) {
+        if (dataBinder.isActivityPaused) {
             Log.d("Activity is paused.")
             return
         }

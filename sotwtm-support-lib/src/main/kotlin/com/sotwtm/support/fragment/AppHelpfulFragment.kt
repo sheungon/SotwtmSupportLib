@@ -78,7 +78,7 @@ abstract class AppHelpfulFragment : Fragment(), HasSupportFragmentInjector {
         @AnimRes
         get() = R.anim.fragment_slide_out_to_right
 
-    abstract val viewModel: AppHelpfulFragmentViewModel?
+    abstract val dataBinder: AppHelpfulFragmentDataBinder?
 
     override fun onAttach(context: Context?) {
         try {
@@ -94,7 +94,7 @@ abstract class AppHelpfulFragment : Fragment(), HasSupportFragmentInjector {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel?.onCreate()
+        dataBinder?.onCreate()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
@@ -103,43 +103,43 @@ abstract class AppHelpfulFragment : Fragment(), HasSupportFragmentInjector {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel?.onViewCreatedInternal(view, savedInstanceState)
+        dataBinder?.onViewCreatedInternal(view, savedInstanceState)
     }
 
     override fun onStart() {
         super.onStart()
 
-        viewModel?.onStart()
+        dataBinder?.onStart()
     }
 
     override fun onResume() {
         super.onResume()
 
-        viewModel?.onResumeInternal()
+        dataBinder?.onResumeInternal()
     }
 
     override fun onPause() {
         super.onPause()
 
-        viewModel?.onPauseInternal()
+        dataBinder?.onPauseInternal()
     }
 
     override fun onStop() {
         super.onStop()
 
-        viewModel?.onStop()
+        dataBinder?.onStop()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
 
-        viewModel?.onDestroyViewInternal()
+        dataBinder?.onDestroyViewInternal()
     }
 
     override fun onDestroy() {
         super.onDestroy()
 
-        viewModel?.onDestroy()
+        dataBinder?.onDestroy()
     }
 
     override fun startActivity(intent: Intent) {

@@ -9,7 +9,7 @@ import android.view.View
  * @author John
  */
 
-abstract class AppHelpfulFragmentViewModel(application: Application) : AndroidViewModel(application) {
+abstract class AppHelpfulFragmentDataBinder(application: Application) : AndroidViewModel(application) {
 
     @Volatile
     var isPaused = true
@@ -19,9 +19,9 @@ abstract class AppHelpfulFragmentViewModel(application: Application) : AndroidVi
         private set
 
     @Synchronized
-    internal fun syncStatus(viewModel: AppHelpfulFragmentViewModel): AppHelpfulFragmentViewModel {
-        isPaused = viewModel.isPaused
-        isViewDestroyed = viewModel.isViewDestroyed
+    internal fun syncStatus(dataBinder: AppHelpfulFragmentDataBinder): AppHelpfulFragmentDataBinder {
+        isPaused = dataBinder.isPaused
+        isViewDestroyed = dataBinder.isViewDestroyed
         return this
     }
 

@@ -36,7 +36,7 @@ abstract class AppHelpfulDialogFragment : AppCompatDialogFragment(), HasSupportF
     internal lateinit var childFragmentInjector: Lazy<DispatchingAndroidInjector<Fragment>?>
 
     abstract val layoutId: Int?
-    abstract val viewModel: AppHelpfulDialogFragmentViewModel?
+    abstract val dataBinder: AppHelpfulDialogFragmentDataBinder?
 
 
     override fun onAttach(context: Context?) {
@@ -53,7 +53,7 @@ abstract class AppHelpfulDialogFragment : AppCompatDialogFragment(), HasSupportF
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel?.onCreate()
+        dataBinder?.onCreate()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
@@ -64,43 +64,43 @@ abstract class AppHelpfulDialogFragment : AppCompatDialogFragment(), HasSupportF
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel?.onViewCreatedInternal(view, savedInstanceState)
+        dataBinder?.onViewCreatedInternal(view, savedInstanceState)
     }
 
     override fun onStart() {
         super.onStart()
 
-        viewModel?.onStart()
+        dataBinder?.onStart()
     }
 
     override fun onResume() {
         super.onResume()
 
-        viewModel?.onResumeInternal()
+        dataBinder?.onResumeInternal()
     }
 
     override fun onPause() {
         super.onPause()
 
-        viewModel?.onPauseInternal()
+        dataBinder?.onPauseInternal()
     }
 
     override fun onStop() {
         super.onStop()
 
-        viewModel?.onStop()
+        dataBinder?.onStop()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
 
-        viewModel?.onDestroyViewInternal()
+        dataBinder?.onDestroyViewInternal()
     }
 
     override fun onDestroy() {
         super.onDestroy()
 
-        viewModel?.onDestroy()
+        dataBinder?.onDestroy()
     }
 
     override fun startActivity(intent: Intent) {
