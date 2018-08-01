@@ -10,6 +10,7 @@ import android.support.v4.os.LocaleListCompat
 import com.sotwtm.support.SotwtmSupportLib.Companion.getInstance
 import com.sotwtm.support.SotwtmSupportLib.Companion.init
 import com.sotwtm.support.util.locale.AppHelpfulLocaleUtil
+import com.sotwtm.support.util.singleton.SingletonHolder1
 import com.sotwtm.util.Log
 import java.lang.ref.WeakReference
 import java.util.*
@@ -123,7 +124,7 @@ private constructor(_application: Application) {
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener)
     }
 
-    companion object {
+    companion object : SingletonHolder1<Application, SotwtmSupportLib>(::SotwtmSupportLib) {
         /**
          * Set the default supported locales list.
          * Empty list means supported all locales.
@@ -134,28 +135,14 @@ private constructor(_application: Application) {
             set(value) {
                 field = value.map { AppHelpfulLocaleUtil.unify(it) }
             }
-        @JvmStatic
-        private val DEFAULT_SHARED_PREF_FILE = "sotwtm-support-lib"
-        @JvmStatic
-        private val PREF_KEY_APP_LOCALE = "AppLocale"
-        @JvmStatic
-        private val PREF_KEY_SUPPORTED_LOCALES = "SupportedLocales"
-        @JvmStatic
-        private val SEPARATOR_LOCALE = ","
-        @JvmStatic
-        private var INSTANCE: SotwtmSupportLib? = null
-
-        @JvmStatic
-        fun init(application: Application) {
-            INSTANCE = SotwtmSupportLib(application)
-        }
 
         @JvmStatic
         var enableDaggerErrorLog = true
 
-        @JvmStatic
-        fun getInstance(): SotwtmSupportLib = INSTANCE
-                ?: throw Exception("Please init SotwtmSupportLib first.")
+        const val DEFAULT_SHARED_PREF_FILE = "sotwtm-support-lib"
+        const val PREF_KEY_APP_LOCALE = "AppLocale"
+        const val PREF_KEY_SUPPORTED_LOCALES = "SupportedLocales"
+        const val SEPARATOR_LOCALE = ","
     }
 
     class OnAppLocaleChangedListener(activity: Activity) : SharedPreferences.OnSharedPreferenceChangeListener {
