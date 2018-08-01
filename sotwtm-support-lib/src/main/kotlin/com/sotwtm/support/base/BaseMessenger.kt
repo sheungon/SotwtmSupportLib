@@ -1,6 +1,7 @@
-package com.sotwtm.support
+package com.sotwtm.support.base
 
 import android.support.annotation.StringRes
+import com.sotwtm.support.R
 import com.sotwtm.support.activity.AppHelpfulActivity
 import com.sotwtm.support.util.SnackbarUtil
 

@@ -1,7 +1,7 @@
 package com.sotwtm.support.activity
 
-import com.sotwtm.support.BaseMessenger
-import com.sotwtm.support.BaseNavigator
+import com.sotwtm.support.base.BaseMessenger
+import com.sotwtm.support.base.BaseNavigator
 import com.sotwtm.support.scope.ActivityScope
 import dagger.Binds
 import dagger.Module

@@ -41,7 +41,10 @@ import javax.inject.Inject
  * @author John
  */
 abstract class AppHelpfulActivity
-    : AppCompatActivity(), IOverridePendingTransition, HasFragmentInjector, HasSupportFragmentInjector {
+    : AppCompatActivity(),
+        IOverridePendingTransition,
+        HasFragmentInjector,
+        HasSupportFragmentInjector {
 
     @Inject
     internal lateinit var supportFragmentInjector: Lazy<DispatchingAndroidInjector<Fragment>?>

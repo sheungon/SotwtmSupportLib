@@ -1,4 +1,4 @@
-package com.sotwtm.support
+package com.sotwtm.support.base
 
 import android.content.Context
 import android.content.Intent

@@ -1,7 +1,7 @@
 package com.sotwtm.support.dialog
 
-import com.sotwtm.support.BaseMessenger
-import com.sotwtm.support.BaseNavigator
+import com.sotwtm.support.base.BaseMessenger
+import com.sotwtm.support.base.BaseNavigator
 import com.sotwtm.support.scope.FragmentScope
 import dagger.Binds
 import dagger.Module

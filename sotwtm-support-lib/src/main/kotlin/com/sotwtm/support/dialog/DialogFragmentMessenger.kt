@@ -2,8 +2,9 @@ package com.sotwtm.support.dialog
 
 import android.support.annotation.StringRes
 import android.widget.Toast
-import com.sotwtm.support.BaseMessenger
 import com.sotwtm.support.activity.AppHelpfulActivity
+import com.sotwtm.support.base.BaseMessenger
+import com.sotwtm.support.scope.FragmentScope
 import com.sotwtm.util.Log
 import java.lang.ref.WeakReference
 import javax.inject.Inject
@@ -12,6 +13,7 @@ import javax.inject.Inject
  * @author John
  */
 
+@FragmentScope
 class DialogFragmentMessenger(private val fragmentRef: WeakReference<out AppHelpfulDialogFragment>) : BaseMessenger() {
 
     @Inject
