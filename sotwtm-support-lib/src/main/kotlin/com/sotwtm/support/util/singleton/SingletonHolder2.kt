@@ -34,7 +34,7 @@ open class SingletonHolder2<Arg0Class, Arg1Class, InstanceClass>(_constructor: (
     /**Initialize an instance for simple [getInstance]*/
     @Synchronized
     fun init(arg0: Arg0Class, arg1: Arg1Class) {
-        instance ?: return
+        if (instance != null) return
         instance = instanceConstructor(arg0, arg1)
     }
 }
