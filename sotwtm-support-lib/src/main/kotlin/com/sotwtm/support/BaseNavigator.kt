@@ -37,15 +37,15 @@ abstract class BaseNavigator {
         get() = contextRef.get() as? Context
 
     fun startActivity(intent: Intent) {
-        activity?.startActivity(intent)
-                ?: fragment?.startActivity(intent)
-                ?: dialogFragment?.startActivity(intent)
+        activity?.startActivity(intent = intent)
+                ?: fragment?.startActivity(intent = intent)
+                ?: dialogFragment?.startActivity(intent = intent)
     }
 
     fun startActivity(intent: Intent, options: Bundle?) {
-        activity?.startActivity(intent, options)
-                ?: fragment?.startActivity(intent, options)
-                ?: dialogFragment?.startActivity(intent, options)
+        activity?.startActivity(intent = intent, options = options)
+                ?: fragment?.startActivity(intent = intent, options = options)
+                ?: dialogFragment?.startActivity(intent = intent, options = options)
     }
 
     fun startActivity(intent: Intent, overridePendingTransition: Boolean, options: Bundle?) {
@@ -61,15 +61,21 @@ abstract class BaseNavigator {
     }
 
     fun startActivityForResult(intent: Intent, requestCode: Int) {
-        activity?.startActivityForResult(intent, requestCode)
-                ?: fragment?.startActivityForResult(intent, requestCode)
-                ?: dialogFragment?.startActivityForResult(intent, requestCode)
+        activity?.startActivityForResult(intent = intent, requestCode = requestCode)
+                ?: fragment?.startActivityForResult(intent = intent, requestCode = requestCode)
+                ?: dialogFragment?.startActivityForResult(intent = intent, requestCode = requestCode)
     }
 
     fun startActivityForResult(intent: Intent, requestCode: Int, options: Bundle?) {
-        activity?.startActivityForResult(intent, requestCode, options)
-                ?: fragment?.startActivityForResult(intent, requestCode, options)
-                ?: dialogFragment?.startActivityForResult(intent, requestCode, options)
+        activity?.startActivityForResult(intent = intent,
+                requestCode = requestCode,
+                options = options)
+                ?: fragment?.startActivityForResult(intent = intent,
+                        requestCode = requestCode,
+                        options = options)
+                ?: dialogFragment?.startActivityForResult(intent = intent,
+                        requestCode = requestCode,
+                        options = options)
     }
 
     fun startActivityForResult(intent: Intent, requestCode: Int, overridePendingTransition: Boolean, options: Bundle?) {
