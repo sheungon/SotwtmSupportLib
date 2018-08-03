@@ -6,13 +6,14 @@ import com.sotwtm.support.scope.ActivityScope
 import dagger.Binds
 import dagger.Module
 
+
 /**
- * A basic module for all [AppHelpfulActivity] to provide [ActivityMessenger].
+ * A basic module for all [AppHelpfulActivity] to provide [ActivityMessenger] and [SimpleActivityNavigator].
  * To use this, a module provides [AppHelpfulActivity] is needed.
  * @author John
  */
 @Module
-abstract class ActivityMessengerModule {
+abstract class AppHelpfulActivityBasicModule {
 
     @ActivityScope
     @Binds
