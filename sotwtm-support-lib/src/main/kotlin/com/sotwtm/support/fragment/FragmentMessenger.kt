@@ -15,7 +15,6 @@ import javax.inject.Inject
 
 @FragmentScope
 class FragmentMessenger(private val fragmentRef: WeakReference<out AppHelpfulFragment>) : BaseMessenger() {
-
     @Inject
     constructor(_fragment: AppHelpfulFragment) : this(WeakReference(_fragment))
 

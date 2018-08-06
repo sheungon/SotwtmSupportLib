@@ -16,7 +16,6 @@ import javax.inject.Inject
 
 @ActivityScope
 class ActivityMessenger(private val activityRef: WeakReference<out AppHelpfulActivity>) : BaseMessenger() {
-
     @Inject
     constructor(_activity: AppHelpfulActivity) : this(WeakReference(_activity))
 
