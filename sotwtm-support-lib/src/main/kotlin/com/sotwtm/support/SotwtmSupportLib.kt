@@ -3,7 +3,6 @@ package com.sotwtm.support
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Application
-import android.content.Context
 import android.content.SharedPreferences
 import android.databinding.ObservableField
 import android.support.v4.os.LocaleListCompat
@@ -14,6 +13,7 @@ import com.sotwtm.support.util.singleton.SingletonHolder1
 import com.sotwtm.util.Log
 import java.lang.ref.WeakReference
 import java.util.*
+import javax.inject.Inject
 
 /**
  * Call [init] before [getInstance] to use this class.
@@ -22,9 +22,10 @@ import java.util.*
 class SotwtmSupportLib
 private constructor(_application: Application) {
 
-    private val application: Application = _application
-    private val sharedPreferences: SharedPreferences by lazy { application.getSharedPreferences(DEFAULT_SHARED_PREF_FILE, Context.MODE_PRIVATE) }
-    private val editor: SharedPreferences.Editor by lazy { sharedPreferences.edit() }
+    @Inject
+    internal lateinit var sharedPreferences: SharedPreferences
+    @Inject
+    internal lateinit var editor: SharedPreferences.Editor
 
     /**
      * The app locale currently using.
@@ -89,7 +90,11 @@ private constructor(_application: Application) {
     }
 
     init {
-        AppHelpfulLocaleUtil.setAppLocale(application, appLocale.get()!!)
+        AppHelpfulLocaleUtil.setAppLocale(_application, appLocale.get()!!)
+        DaggerSotwtmSupportComponent.builder()
+                .application(_application)
+                .build()
+                .inject(this)
     }
 
 
@@ -139,7 +144,6 @@ private constructor(_application: Application) {
         @JvmStatic
         var enableDaggerErrorLog = true
 
-        const val DEFAULT_SHARED_PREF_FILE = "sotwtm-support-lib"
         const val PREF_KEY_APP_LOCALE = "AppLocale"
         const val PREF_KEY_SUPPORTED_LOCALES = "SupportedLocales"
         const val SEPARATOR_LOCALE = ","
