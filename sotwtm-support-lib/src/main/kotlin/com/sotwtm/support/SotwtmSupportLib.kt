@@ -1,7 +1,6 @@
 package com.sotwtm.support
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.Application
 import android.content.SharedPreferences
 import android.databinding.ObservableField
@@ -10,8 +9,6 @@ import com.sotwtm.support.SotwtmSupportLib.Companion.getInstance
 import com.sotwtm.support.SotwtmSupportLib.Companion.init
 import com.sotwtm.support.util.locale.AppHelpfulLocaleUtil
 import com.sotwtm.support.util.singleton.SingletonHolder1
-import com.sotwtm.util.Log
-import java.lang.ref.WeakReference
 import java.util.*
 import javax.inject.Inject
 
@@ -90,11 +87,11 @@ private constructor(_application: Application) {
     }
 
     init {
-        AppHelpfulLocaleUtil.setAppLocale(_application, appLocale.get()!!)
         DaggerSotwtmSupportComponent.builder()
                 .application(_application)
                 .build()
                 .inject(this)
+        AppHelpfulLocaleUtil.setAppLocale(_application, appLocale.get()!!)
     }
 
 
@@ -149,15 +146,4 @@ private constructor(_application: Application) {
         const val SEPARATOR_LOCALE = ","
     }
 
-    class OnAppLocaleChangedListener(activity: Activity) : SharedPreferences.OnSharedPreferenceChangeListener {
-
-        private val activityRef = WeakReference(activity)
-
-        override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-            if (key == PREF_KEY_APP_LOCALE) {
-                Log.d("Lang changed")
-                activityRef.get()?.recreate()
-            }
-        }
-    }
 }

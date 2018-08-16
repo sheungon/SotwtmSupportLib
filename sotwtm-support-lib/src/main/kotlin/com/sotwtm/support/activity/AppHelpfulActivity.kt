@@ -143,7 +143,7 @@ abstract class AppHelpfulActivity
     private var fullScreenFlag = 0x0
 
     @Suppress("LeakingThis")
-    private val onAppLocaleChangedListener = SotwtmSupportLib.OnAppLocaleChangedListener(this)
+    private val onAppLocaleChangedListener = OnAppLocaleChangedListener(this)
 
     /**
      * Indicate if there should be back button on toolbar
