@@ -4,6 +4,7 @@ import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.os.Bundle
 import android.view.MenuItem
+import com.sotwtm.support.SotwtmSupportLib
 
 /**
  * View model abstract class for [AppHelpfulDataBindingActivity]
@@ -11,6 +12,7 @@ import android.view.MenuItem
  */
 abstract class AppHelpfulActivityDataBinder(app : Application) : AndroidViewModel(app) {
 
+    val locale = SotwtmSupportLib.getInstance().appLocale
     /* Don't name this as "isResumed" because "isResumed" is a hidden final method in parent class. */
     @Volatile
     var isActivityPaused = true

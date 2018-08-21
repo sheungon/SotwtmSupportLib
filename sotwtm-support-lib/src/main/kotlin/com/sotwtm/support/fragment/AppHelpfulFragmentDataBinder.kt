@@ -4,6 +4,7 @@ import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.os.Bundle
 import android.view.View
+import com.sotwtm.support.SotwtmSupportLib
 
 /**
  * @author John
@@ -11,6 +12,7 @@ import android.view.View
 
 abstract class AppHelpfulFragmentDataBinder(application: Application) : AndroidViewModel(application) {
 
+    val locale = SotwtmSupportLib.getInstance().appLocale
     @Volatile
     var isPaused = true
         private set

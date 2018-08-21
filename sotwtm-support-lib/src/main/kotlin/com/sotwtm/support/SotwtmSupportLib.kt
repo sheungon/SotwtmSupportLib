@@ -4,9 +4,9 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.content.SharedPreferences
 import android.databinding.ObservableField
-import android.support.v4.os.LocaleListCompat
 import com.sotwtm.support.SotwtmSupportLib.Companion.getInstance
 import com.sotwtm.support.SotwtmSupportLib.Companion.init
+import com.sotwtm.support.activity.OnAppLocaleChangedListener
 import com.sotwtm.support.util.locale.AppHelpfulLocaleUtil
 import com.sotwtm.support.util.singleton.SingletonHolder1
 import java.util.*
@@ -27,64 +27,13 @@ private constructor(_application: Application) {
     /**
      * The app locale currently using.
      * */
-    val appLocale: ObservableField<Locale> = object : ObservableField<Locale>() {
-        @Synchronized
-        override fun get(): Locale =
-                sharedPreferences.getString(PREF_KEY_APP_LOCALE, null)?.let {
-                    val languageTags = LocaleListCompat.forLanguageTags(it)
-                    if (languageTags.isEmpty) AppHelpfulLocaleUtil.getDefaultLangFromSystemSetting(supportedLocales.get())
-                    else languageTags[0]
-                }
-                        ?: AppHelpfulLocaleUtil.getDefaultLangFromSystemSetting(supportedLocales.get())
+    @Inject
+    lateinit var appLocale: ObservableField<Locale>
+        internal set
 
-        @Synchronized
-        override fun set(value: Locale) {
-            if (get() == value) {
-                return
-            }
-
-            editor.putString(PREF_KEY_APP_LOCALE, LocaleListCompat.create(AppHelpfulLocaleUtil.unify(value)).toLanguageTags())
-            editor.apply()
-            notifyChange()
-        }
-    }
-
-    var supportedLocales: ObservableField<List<Locale>> = object : ObservableField<List<Locale>>(emptyList()) {
-
-        @Synchronized
-        override fun get(): List<Locale> {
-            val supportedLocalesString = sharedPreferences.getString(PREF_KEY_SUPPORTED_LOCALES, null)
-                    ?: return defaultSupportedLocales
-            return supportedLocalesString.split(SEPARATOR_LOCALE).mapNotNull {
-                LocaleListCompat.forLanguageTags(it).get(0)
-            }
-        }
-
-        @Synchronized
-        override fun set(newLocales: List<Locale>?) {
-
-            if (newLocales == null || newLocales.isEmpty()) {
-                // Remove the list means supported all locale
-                editor.remove(PREF_KEY_SUPPORTED_LOCALES)
-                editor.apply()
-                notifyChange()
-            } else {
-                val currentAppLocale = appLocale.get()!!
-                // Check if the current locale is in the new supported locale list
-                if (!newLocales.any { AppHelpfulLocaleUtil.equals(currentAppLocale, it) }) {
-                    // If the current locale is not supported anymore, update current locale to system best matched
-                    resetLocaleToSystemBestMatched(newLocales)
-                }
-                val localeListString = newLocales.joinToString(separator = SEPARATOR_LOCALE,
-                        transform = { LocaleListCompat.create(AppHelpfulLocaleUtil.unify(it)).toLanguageTags() })
-                if (localeListString != sharedPreferences.getString(PREF_KEY_SUPPORTED_LOCALES, null)) {
-                    editor.putString(PREF_KEY_SUPPORTED_LOCALES, localeListString)
-                    editor.apply()
-                    notifyChange()
-                }
-            }
-        }
-    }
+    @Inject
+    lateinit var supportedLocales: ObservableField<List<Locale>>
+        internal set
 
     init {
         DaggerSotwtmSupportComponent.builder()
@@ -96,13 +45,13 @@ private constructor(_application: Application) {
 
 
     /**
-     * Return true if the given locale is in the supported locale list.
+     * Return true if the given locale is in the supported locale list, [supportedLocales].
      *
      * @param locale Check if this locale is supported
      * @see supportedLocales
      * */
     @Synchronized
-    fun supportedLocale(locale: Locale): Boolean =
+    fun isSupportingLocale(locale: Locale): Boolean =
             with(supportedLocales.get()) {
                 this == null
                         || isEmpty()
@@ -118,11 +67,11 @@ private constructor(_application: Application) {
         appLocale.set(AppHelpfulLocaleUtil.getDefaultLangFromSystemSetting(locales))
     }
 
-    fun registerOnSharedPreferenceChangeListener(listener: SharedPreferences.OnSharedPreferenceChangeListener) {
+    fun registerOnAppLocaleChangedListener(listener: OnAppLocaleChangedListener) {
         sharedPreferences.registerOnSharedPreferenceChangeListener(listener)
     }
 
-    fun unregisterOnSharedPreferenceChangeListener(listener: SharedPreferences.OnSharedPreferenceChangeListener) {
+    fun unregisterOnAppLocaleChangedListener(listener: OnAppLocaleChangedListener) {
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener)
     }
 
@@ -145,5 +94,4 @@ private constructor(_application: Application) {
         const val PREF_KEY_SUPPORTED_LOCALES = "SupportedLocales"
         const val SEPARATOR_LOCALE = ","
     }
-
 }

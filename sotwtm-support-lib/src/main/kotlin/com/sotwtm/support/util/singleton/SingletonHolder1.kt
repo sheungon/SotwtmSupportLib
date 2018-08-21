@@ -32,8 +32,10 @@ open class SingletonHolder1<Arg0Class, InstanceClass>(_constructor: (Arg0Class) 
 
     /**Initialize an instance for simple [getInstance]*/
     @Synchronized
-    fun init(arg0: Arg0Class) {
-        if (instance != null) return
-        instance = instanceConstructor(arg0)
-    }
+    fun init(arg0: Arg0Class): InstanceClass =
+            instance ?: {
+                val newInstance = instanceConstructor(arg0)
+                instance = newInstance
+                newInstance
+            }.invoke()
 }

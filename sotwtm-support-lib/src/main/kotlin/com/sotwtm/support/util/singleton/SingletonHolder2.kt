@@ -18,14 +18,13 @@ open class SingletonHolder2<Arg0Class, Arg1Class, InstanceClass>(_constructor: (
     @Volatile
     private var instance: InstanceClass? = null
 
+    @Synchronized
     fun getInstance(arg0: Arg0Class, arg1: Arg1Class): InstanceClass =
-            synchronized(this) {
                 instance ?: {
                     val newInstant = instanceConstructor(arg0, arg1)
                     instance = newInstant
                     newInstant
                 }.invoke()
-            }
 
     @Synchronized
     fun getInstance(): InstanceClass =
@@ -33,8 +32,10 @@ open class SingletonHolder2<Arg0Class, Arg1Class, InstanceClass>(_constructor: (
 
     /**Initialize an instance for simple [getInstance]*/
     @Synchronized
-    fun init(arg0: Arg0Class, arg1: Arg1Class) {
-        if (instance != null) return
-        instance = instanceConstructor(arg0, arg1)
-    }
+    fun init(arg0: Arg0Class, arg1: Arg1Class): InstanceClass =
+            instance ?: {
+                val newInstant = instanceConstructor(arg0, arg1)
+                instance = newInstant
+                newInstant
+            }.invoke()
 }

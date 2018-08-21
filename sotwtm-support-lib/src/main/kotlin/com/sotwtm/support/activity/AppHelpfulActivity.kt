@@ -142,8 +142,11 @@ abstract class AppHelpfulActivity
     private var backStackListener: MyOnBackStackChangedListener? = null
     private var fullScreenFlag = 0x0
 
-    @Suppress("LeakingThis")
-    private val onAppLocaleChangedListener = OnAppLocaleChangedListener(this)
+    private val onAppLocaleChangedListener: OnAppLocaleChangedListener = object : OnAppLocaleChangedListener() {
+        override fun onAppLocalChange() {
+            recreate()
+        }
+    }
 
     /**
      * Indicate if there should be back button on toolbar
@@ -186,7 +189,7 @@ abstract class AppHelpfulActivity
 
         super.onCreate(savedInstanceState)
 
-        SotwtmSupportLib.getInstance().registerOnSharedPreferenceChangeListener(onAppLocaleChangedListener)
+        SotwtmSupportLib.getInstance().registerOnAppLocaleChangedListener(onAppLocaleChangedListener)
 
         setContentViewInternal(layoutResId, savedInstanceState)
 
@@ -245,7 +248,7 @@ abstract class AppHelpfulActivity
     }
 
     override fun onDestroy() {
-        SotwtmSupportLib.getInstance().unregisterOnSharedPreferenceChangeListener(onAppLocaleChangedListener)
+        SotwtmSupportLib.getInstance().unregisterOnAppLocaleChangedListener(onAppLocaleChangedListener)
         super.onDestroy()
 
         dataBinder.onDestroyInternal()
