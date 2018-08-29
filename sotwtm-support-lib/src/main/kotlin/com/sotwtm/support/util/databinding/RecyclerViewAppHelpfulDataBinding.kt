@@ -4,6 +4,7 @@ import android.databinding.BindingAdapter
 import android.databinding.BindingMethod
 import android.databinding.BindingMethods
 import android.databinding.adapters.ListenerUtil
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import com.sotwtm.support.R
@@ -57,5 +58,13 @@ object RecyclerViewAppHelpfulDataBinding {
         if (nestedScrollingEnabled != null) {
             recyclerView.isNestedScrollingEnabled = nestedScrollingEnabled
         }
+    }
+
+    @JvmStatic
+    @BindingAdapter(value = ["setGridNumberOfColumn"])
+    fun setGridNumberOfColumn(recyclerView: RecyclerView,
+                              numOfCol: Int?) {
+        if (numOfCol == null) return
+        recyclerView.layoutManager = GridLayoutManager(recyclerView.context, numOfCol)
     }
 }
