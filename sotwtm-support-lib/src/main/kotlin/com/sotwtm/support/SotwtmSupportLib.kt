@@ -75,7 +75,7 @@ private constructor(_application: Application) {
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener)
     }
 
-    companion object : SingletonHolder1<Application, SotwtmSupportLib>(::SotwtmSupportLib) {
+    companion object : SingletonHolder1<SotwtmSupportLib, Application>(::SotwtmSupportLib) {
         /**
          * Set the default supported locales list.
          * Empty list means supported all locales.
