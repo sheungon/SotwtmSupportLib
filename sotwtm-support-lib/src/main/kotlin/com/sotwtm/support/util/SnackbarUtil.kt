@@ -1,6 +1,5 @@
 package com.sotwtm.support.util
 
-import android.content.Context
 import android.support.annotation.IntDef
 import android.support.design.widget.Snackbar
 import android.support.v4.content.ContextCompat
@@ -20,11 +19,11 @@ object SnackbarUtil {
     @Retention(AnnotationRetention.SOURCE)
     annotation class SnackbarDuration
 
-    fun create(context: Context,
-               rootView: View,
-               message: String,
-               @SnackbarDuration duration: Int): Snackbar {
+    fun make(rootView: View,
+             message: String,
+             @SnackbarDuration duration: Int): Snackbar {
 
+        val context = rootView.context
         val snackbar = Snackbar.make(rootView, message, duration)
                 .setActionTextColor(ContextCompat.getColor(context, R.color.snackbar_action_text))
 
