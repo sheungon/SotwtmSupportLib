@@ -518,7 +518,7 @@ abstract class AppHelpfulActivity
             Log.e("Cannot get root view for this activity.")
             return null
         }
-        return SnackbarUtil.create(this, rootView, message, duration)
+        return SnackbarUtil.make(rootView, message, duration)
     }
 
     fun setHideNavigationBar(hideNavigation: Boolean) {

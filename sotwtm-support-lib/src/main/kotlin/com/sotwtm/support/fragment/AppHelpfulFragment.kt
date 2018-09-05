@@ -273,8 +273,7 @@ abstract class AppHelpfulFragment : Fragment(), HasSupportFragmentInjector {
                         dismissLoadingDialog()
                         UIUtil.hideSoftKeyboard(activity)
 
-                        val snackbar = SnackbarUtil.create(activity, rootView, message, duration)
-                        snackbar.show()
+                        SnackbarUtil.make(rootView, message, duration).show()
                     }
 
                 } else {
