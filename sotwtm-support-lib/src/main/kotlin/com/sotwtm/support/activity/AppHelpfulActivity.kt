@@ -338,7 +338,7 @@ abstract class AppHelpfulActivity
         }
     }
 
-    override fun isDestroyed(): Boolean = try{
+    override fun isDestroyed(): Boolean = try {
         viewModel.isActivityDestroyed
     } catch (th: Throwable) {
         Log.e("error on access viewModel.isActivityDestroyed", th)
