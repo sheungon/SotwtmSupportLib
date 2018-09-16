@@ -323,7 +323,6 @@ abstract class AppHelpfulActivity
     }
 
     override fun overridePendingTransitionForStartActivity() {
-
         val startEnterAnim = startEnterAnim
         val startExitAnim = startExitAnim
         if (startEnterAnim != null && startExitAnim != null) {
@@ -332,7 +331,6 @@ abstract class AppHelpfulActivity
     }
 
     override fun overridePendingTransitionForFinish() {
-
         val finishEnterAnim = finishEnterAnim
         val finishExitAnim = finishExitAnim
         if (finishEnterAnim != null && finishExitAnim != null) {
@@ -340,7 +338,12 @@ abstract class AppHelpfulActivity
         }
     }
 
-    override fun isDestroyed(): Boolean = viewModel.isActivityDestroyed
+    override fun isDestroyed(): Boolean = try{
+        viewModel.isActivityDestroyed
+    } catch (th: Throwable) {
+        Log.e("error on access viewModel.isActivityDestroyed", th)
+        super.isDestroyed()
+    }
 
     open val isViewBound: Boolean
         get() = !viewModel.isActivityPaused
