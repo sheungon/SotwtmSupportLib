@@ -371,7 +371,6 @@ abstract class AppHelpfulActivity
     }
 
     override fun overridePendingTransitionForStartActivity() {
-
         val startEnterAnim = startEnterAnim
         val startExitAnim = startExitAnim
         if (startEnterAnim != null && startExitAnim != null) {
@@ -380,7 +379,6 @@ abstract class AppHelpfulActivity
     }
 
     override fun overridePendingTransitionForFinish() {
-
         val finishEnterAnim = finishEnterAnim
         val finishExitAnim = finishExitAnim
         if (finishEnterAnim != null && finishExitAnim != null) {
@@ -388,7 +386,12 @@ abstract class AppHelpfulActivity
         }
     }
 
-    override fun isDestroyed(): Boolean = dataBinder.isActivityDestroyed
+    override fun isDestroyed(): Boolean = try {
+        dataBinder.isActivityDestroyed
+    } catch (th: Throwable) {
+        Log.e("error on access dataBinder.isActivityDestroyed", th)
+        super.isDestroyed()
+    }
 
     open val isViewBound: Boolean
         get() = !dataBinder.isActivityPaused
