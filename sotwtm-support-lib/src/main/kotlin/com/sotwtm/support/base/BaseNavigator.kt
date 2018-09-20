@@ -92,4 +92,16 @@ abstract class BaseNavigator {
                         overridePendingTransition = overridePendingTransition,
                         options = options)
     }
+
+    fun finishActivity() {
+        activity?.finish()
+                ?: fragment?.activity?.recreate()
+                ?: fragment?.activity?.recreate()
+    }
+
+    fun restartActivity() {
+        activity?.recreate()
+                ?: fragment?.activity?.recreate()
+                ?: dialogFragment?.activity?.recreate()
+    }
 }
