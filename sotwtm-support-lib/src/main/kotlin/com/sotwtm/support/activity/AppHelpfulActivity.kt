@@ -65,7 +65,7 @@ abstract class AppHelpfulActivity
             if (value != null) {
                 toolbarId?.let {
                     findViewById<Toolbar?>(it)?.menu?.let { menu ->
-                        menuInflater?.inflate(value, menu)
+                        menuInflater.inflate(value, menu)
                     }
                 }
             }
