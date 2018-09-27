@@ -53,7 +53,7 @@ class FragmentMessenger(private val fragmentRef: WeakReference<out AppHelpfulFra
      * This can be called from any thread.
      */
     override fun showSnackBar(@StringRes messageRes: Int,
-                              @SnackbarUtil.SnackbarDuration duration: Int) {
+                              @SnackbarDuration duration: Int) {
         try {
             fragment?.showSnackBar(messageRes, duration)
         } catch (e: Exception) {
@@ -66,7 +66,7 @@ class FragmentMessenger(private val fragmentRef: WeakReference<out AppHelpfulFra
      * This can be called from any thread.
      */
     override fun showSnackBar(message: String,
-                              @SnackbarUtil.SnackbarDuration duration: Int) {
+                              @SnackbarDuration duration: Int) {
         try {
             fragment?.showSnackBar(message, duration)
         } catch (e: Exception) {

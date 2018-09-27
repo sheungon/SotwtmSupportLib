@@ -19,9 +19,8 @@ import android.view.View
 import com.sotwtm.support.R
 import com.sotwtm.support.SotwtmSupportLib
 import com.sotwtm.support.dialog.LoadingDialogFragment
-import com.sotwtm.support.util.SnackbarUtil
-import com.sotwtm.support.util.UIUtil
-import com.sotwtm.support.util.locale.AppHelpfulLocaleUtil
+import com.sotwtm.support.util.*
+import com.sotwtm.support.util.locale.setAppLocale
 import com.sotwtm.util.Log
 import dagger.Lazy
 import dagger.android.AndroidInjection
@@ -157,7 +156,7 @@ abstract class AppHelpfulActivity
 
 
     override fun attachBaseContext(newBase: Context) {
-        super.attachBaseContext(AppHelpfulLocaleUtil.setAppLocale(newBase, SotwtmSupportLib.getInstance().appLocale.get()!!))
+        super.attachBaseContext(newBase.setAppLocale(SotwtmSupportLib.getInstance().appLocale.get()!!))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -431,7 +430,7 @@ abstract class AppHelpfulActivity
         loadingDialogFragment.setLoadingMsg(msgRes)
         loadingDialogFragment.show(fragmentManager, DIALOG_TAG_LOADING)
 
-        UIUtil.hideSoftKeyboard(this)
+        hideSoftKeyboard()
     }
 
     @Synchronized
@@ -488,7 +487,7 @@ abstract class AppHelpfulActivity
      * This can be called from any thread.
      */
     fun showSnackBar(@StringRes messageRes: Int,
-                     @SnackbarUtil.SnackbarDuration duration: Int) {
+                     @SnackbarDuration duration: Int) {
         showSnackBar(getString(messageRes), duration)
     }
 
@@ -497,25 +496,23 @@ abstract class AppHelpfulActivity
      * This can be called from any thread.
      */
     fun showSnackBar(message: String,
-                     @SnackbarUtil.SnackbarDuration duration: Int) {
+                     @SnackbarDuration duration: Int) {
 
         runOnUiThread {
             dismissLoadingDialog()
 
-            val activity = this@AppHelpfulActivity
-            UIUtil.hideSoftKeyboard(activity)
+            hideSoftKeyboard()
 
-            val snackbar = createSnackBarWithRootView(message, duration)
-            snackbar?.show()
+            createSnackBarWithRootView(message, duration)?.show()
         }
     }
 
     fun createSnackBarWithRootView(@StringRes messageRes: Int,
-                                   @SnackbarUtil.SnackbarDuration duration: Int): Snackbar? =
+                                   @SnackbarDuration duration: Int): Snackbar? =
             createSnackBarWithRootView(getString(messageRes), duration)
 
     fun createSnackBarWithRootView(message: String,
-                                   @SnackbarUtil.SnackbarDuration duration: Int): Snackbar? {
+                                   @SnackbarDuration duration: Int): Snackbar? {
 
         val coordinatorLayout = coordinatorLayoutRef.get()
         val rootView = coordinatorLayout ?: rootView.get()
@@ -523,7 +520,7 @@ abstract class AppHelpfulActivity
             Log.e("Cannot get root view for this activity.")
             return null
         }
-        return SnackbarUtil.make(rootView, message, duration)
+        return rootView.createSnackbar(message, duration)
     }
 
     fun setHideNavigationBar(hideNavigation: Boolean) {
@@ -553,19 +550,13 @@ abstract class AppHelpfulActivity
     }
 
     internal fun updateFullScreenStatus() {
-
-        if (fullScreenFlag and FLAG_HIDE_STATUS_BAR == FLAG_HIDE_STATUS_BAR && fullScreenFlag and FLAG_HIDE_NAVIGATION_BAR == FLAG_HIDE_NAVIGATION_BAR) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                UIUtil.hideNavigationAndStatusBar(this)
-            }
+        if (fullScreenFlag and FLAG_HIDE_STATUS_BAR == FLAG_HIDE_STATUS_BAR
+                && fullScreenFlag and FLAG_HIDE_NAVIGATION_BAR == FLAG_HIDE_NAVIGATION_BAR) {
+            hideNavigationAndStatusBar()
         } else if (fullScreenFlag and FLAG_HIDE_STATUS_BAR == FLAG_HIDE_STATUS_BAR) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                UIUtil.hideStatusBar(this)
-            }
+            hideStatusBar()
         } else if (fullScreenFlag and FLAG_HIDE_NAVIGATION_BAR == FLAG_HIDE_NAVIGATION_BAR) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-                UIUtil.hideNavigationBar(this)
-            }
+            hideNavigationBar()
         }
     }
 

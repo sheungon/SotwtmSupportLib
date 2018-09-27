@@ -8,6 +8,7 @@ import com.sotwtm.support.SotwtmSupportLib.Companion.getInstance
 import com.sotwtm.support.SotwtmSupportLib.Companion.init
 import com.sotwtm.support.activity.OnAppLocaleChangedListener
 import com.sotwtm.support.util.locale.AppHelpfulLocaleUtil
+import com.sotwtm.support.util.locale.setAppLocale
 import com.sotwtm.support.util.singleton.SingletonHolder1
 import java.util.*
 import javax.inject.Inject
@@ -40,7 +41,7 @@ private constructor(_application: Application) {
                 .application(_application)
                 .build()
                 .inject(this)
-        AppHelpfulLocaleUtil.setAppLocale(_application, appLocale.get()!!)
+        _application.setAppLocale(appLocale.get()!!)
     }
 
 

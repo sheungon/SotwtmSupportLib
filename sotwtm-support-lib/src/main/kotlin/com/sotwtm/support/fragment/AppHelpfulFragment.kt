@@ -15,8 +15,9 @@ import com.sotwtm.support.R
 import com.sotwtm.support.SotwtmSupportLib
 import com.sotwtm.support.activity.AppHelpfulActivity
 import com.sotwtm.support.activity.IOverridePendingTransition
-import com.sotwtm.support.util.SnackbarUtil
-import com.sotwtm.support.util.UIUtil
+import com.sotwtm.support.util.SnackbarDuration
+import com.sotwtm.support.util.createSnackbar
+import com.sotwtm.support.util.hideSoftKeyboard
 import com.sotwtm.util.Log
 import dagger.Lazy
 import dagger.android.AndroidInjector
@@ -238,7 +239,7 @@ abstract class AppHelpfulFragment : Fragment(), HasSupportFragmentInjector {
      * This can be called from any thread.
      */
     fun showSnackBar(@StringRes messageRes: Int,
-                     @SnackbarUtil.SnackbarDuration duration: Int) {
+                     @SnackbarDuration duration: Int) {
 
         val activity = activity
         (activity as? AppHelpfulActivity)?.showSnackBar(messageRes, duration)
@@ -254,7 +255,7 @@ abstract class AppHelpfulFragment : Fragment(), HasSupportFragmentInjector {
      * This can be called from any thread.
      */
     fun showSnackBar(message: String,
-                     @SnackbarUtil.SnackbarDuration duration: Int) {
+                     @SnackbarDuration duration: Int) {
 
         if (!isViewBound) {
             return
@@ -271,9 +272,9 @@ abstract class AppHelpfulFragment : Fragment(), HasSupportFragmentInjector {
                     }
                     activity.runOnUiThread {
                         dismissLoadingDialog()
-                        UIUtil.hideSoftKeyboard(activity)
+                        activity.hideSoftKeyboard()
 
-                        SnackbarUtil.make(rootView, message, duration).show()
+                        rootView.createSnackbar(message, duration).show()
                     }
 
                 } else {
@@ -282,7 +283,7 @@ abstract class AppHelpfulFragment : Fragment(), HasSupportFragmentInjector {
     }
 
     fun createSnackBarWithRootView(@StringRes messageRes: Int,
-                                   @SnackbarUtil.SnackbarDuration duration: Int): Snackbar? {
+                                   @SnackbarDuration duration: Int): Snackbar? {
         val activity = activity
         return (activity as? AppHelpfulActivity)?.createSnackBarWithRootView(messageRes, duration)
                 ?: if (activity != null) createSnackBarWithRootView(activity.getString(messageRes), duration)
@@ -293,7 +294,7 @@ abstract class AppHelpfulFragment : Fragment(), HasSupportFragmentInjector {
     }
 
     fun createSnackBarWithRootView(message: String,
-                                   @SnackbarUtil.SnackbarDuration duration: Int): Snackbar? {
+                                   @SnackbarDuration duration: Int): Snackbar? {
         return (activity as? AppHelpfulActivity)?.createSnackBarWithRootView(message, duration)
                 ?: {
                     Log.e("Fragment is not attached! message lost : $message")

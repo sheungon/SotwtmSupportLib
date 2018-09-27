@@ -18,41 +18,6 @@ import java.util.*
 
 object AppHelpfulLocaleUtil {
 
-    @Suppress("DEPRECATION")
-    fun setAppLocale(context: Context,
-                     locale: Locale): Context {
-
-        Locale.setDefault(locale)
-        val applicationContext = context.applicationContext
-
-        val config = context.resources.configuration
-        val appConfig = applicationContext.resources.configuration
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            val localeList = LocaleList(locale)
-            LocaleList.setDefault(localeList)
-
-            appConfig.locales = localeList
-            config.locales = localeList
-            appConfig.setLocale(locale)
-            config.setLocale(locale)
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            appConfig.setLocale(locale)
-            config.setLocale(locale)
-        } else {
-            appConfig.locale = locale
-            config.locale = locale
-        }
-
-        applicationContext.resources.updateConfiguration(appConfig, applicationContext.resources.displayMetrics)
-
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            context.createConfigurationContext(config)
-        } else {
-            context.resources.updateConfiguration(config, context.resources.displayMetrics)
-            ContextWrapper(context)
-        }
-    }
-
     /**
      * Get the best matching [Locale] for the current system setting.
      * @param supportedLocales A list of available [Locale] supported. The returned [Locale] will
@@ -151,4 +116,38 @@ object AppHelpfulLocaleUtil {
             (0 until supportedLocales.size)
                     .firstOrNull { supportedLocales[it].language == target.language }
                     ?.let { supportedLocales[it] }
+}
+
+@Suppress("DEPRECATION")
+fun Context.setAppLocale(locale: Locale): Context {
+
+    Locale.setDefault(locale)
+    val applicationContext = applicationContext
+
+    val config = resources.configuration
+    val appConfig = applicationContext.resources.configuration
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        val localeList = LocaleList(locale)
+        LocaleList.setDefault(localeList)
+
+        appConfig.locales = localeList
+        config.locales = localeList
+        appConfig.setLocale(locale)
+        config.setLocale(locale)
+    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+        appConfig.setLocale(locale)
+        config.setLocale(locale)
+    } else {
+        appConfig.locale = locale
+        config.locale = locale
+    }
+
+    applicationContext.resources.updateConfiguration(appConfig, applicationContext.resources.displayMetrics)
+
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+        createConfigurationContext(config)
+    } else {
+        resources.updateConfiguration(config, resources.displayMetrics)
+        ContextWrapper(this)
+    }
 }

@@ -39,7 +39,7 @@ class ActivityMessenger(private val activityRef: WeakReference<out AppHelpfulAct
      * This can be called from any thread.
      */
     override fun showSnackBar(@StringRes messageRes: Int,
-                              @SnackbarUtil.SnackbarDuration duration: Int) {
+                              @SnackbarDuration duration: Int) {
         activity?.showSnackBar(messageRes, duration)
     }
 
@@ -48,7 +48,7 @@ class ActivityMessenger(private val activityRef: WeakReference<out AppHelpfulAct
      * This can be called from any thread.
      */
     override fun showSnackBar(message: String,
-                              @SnackbarUtil.SnackbarDuration duration: Int) {
+                              @SnackbarDuration duration: Int) {
         activity?.showSnackBar(message, duration)
     }
 
