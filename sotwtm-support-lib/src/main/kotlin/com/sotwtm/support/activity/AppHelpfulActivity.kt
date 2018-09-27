@@ -122,7 +122,7 @@ abstract class AppHelpfulActivity
     private var actionBarTitle: String? = null
     @StringRes
     private var loadingDialogMsg: Int? = NONE
-    private var backStackListener: MyOnBackStackChangedListener? = null
+    private lateinit var backStackListener: MyBackStackChangedListener
     private var fullScreenFlag = 0x0
 
     @Suppress("LeakingThis")
@@ -141,6 +141,7 @@ abstract class AppHelpfulActivity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         savedInstanceStateRef.set(savedInstanceState)
+        backStackListener = MyBackStackChangedListener(this)
 
         if (requestOrientationByDeviceType) {
             requestedOrientation = if (resources.getBoolean(R.bool.is_tablet)) {
@@ -175,7 +176,7 @@ abstract class AppHelpfulActivity
         backStackListener = MyOnBackStackChangedListener(this)
 
         val decorView = window.decorView
-        decorView.setOnSystemUiVisibilityChangeListener(MyOnSystemUiVisibilityChangeListener(this))
+        decorView.setOnSystemUiVisibilityChangeListener(MySystemUiVisibilityChangeListener(this))
     }
 
     protected open fun setContentViewInternal(@LayoutRes layoutResId: Int, savedInstanceState: Bundle?) {
@@ -523,7 +524,7 @@ abstract class AppHelpfulActivity
     ///////////////////////////////
     // Class and interface
     ///////////////////////////////
-    private class MyOnBackStackChangedListener internal constructor(activity: AppHelpfulActivity) : FragmentManager.OnBackStackChangedListener {
+    private class MyBackStackChangedListener internal constructor(activity: AppHelpfulActivity) : FragmentManager.OnBackStackChangedListener {
 
         private val activityRef: WeakReference<AppHelpfulActivity> = WeakReference(activity)
 
@@ -535,7 +536,7 @@ abstract class AppHelpfulActivity
         }
     }
 
-    private class MyOnSystemUiVisibilityChangeListener internal constructor(activity: AppHelpfulActivity) : View.OnSystemUiVisibilityChangeListener {
+    private class MySystemUiVisibilityChangeListener internal constructor(activity: AppHelpfulActivity) : View.OnSystemUiVisibilityChangeListener {
 
         internal val activityRef: WeakReference<AppHelpfulActivity> = WeakReference(activity)
 
