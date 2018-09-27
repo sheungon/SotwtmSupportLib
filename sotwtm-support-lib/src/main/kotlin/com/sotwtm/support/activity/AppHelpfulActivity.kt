@@ -173,7 +173,7 @@ abstract class AppHelpfulActivity
 
         viewModel.onCreateInternal(savedInstanceState)
 
-        backStackListener = MyOnBackStackChangedListener(this)
+        backStackListener = MyBackStackChangedListener(this)
 
         val decorView = window.decorView
         decorView.setOnSystemUiVisibilityChangeListener(MySystemUiVisibilityChangeListener(this))
