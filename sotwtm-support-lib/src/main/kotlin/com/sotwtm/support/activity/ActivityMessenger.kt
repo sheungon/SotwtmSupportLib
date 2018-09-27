@@ -5,7 +5,7 @@ import android.os.Build
 import android.support.annotation.StringRes
 import com.sotwtm.support.base.BaseMessenger
 import com.sotwtm.support.scope.ActivityScope
-import com.sotwtm.support.util.SnackbarUtil
+import com.sotwtm.support.util.SnackbarDuration
 import java.lang.ref.WeakReference
 import javax.inject.Inject
 
