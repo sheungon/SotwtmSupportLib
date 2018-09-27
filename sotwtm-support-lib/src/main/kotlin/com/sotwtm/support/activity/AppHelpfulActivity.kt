@@ -48,6 +48,7 @@ abstract class AppHelpfulActivity
 
     @Inject
     internal lateinit var supportFragmentInjector: Lazy<DispatchingAndroidInjector<Fragment>?>
+    @Suppress("DEPRECATION")
     @Inject
     internal lateinit var frameworkFragmentInjector: Lazy<DispatchingAndroidInjector<android.app.Fragment>?>
 
@@ -82,7 +83,7 @@ abstract class AppHelpfulActivity
             if (value != null) {
                 toolbarId?.let {
                     findViewById<Toolbar?>(it)?.menu?.let { menu ->
-                        menuInflater?.inflate(value, menu)
+                        menuInflater.inflate(value, menu)
                     }
                 }
             }
@@ -362,6 +363,7 @@ abstract class AppHelpfulActivity
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment>? = supportFragmentInjector.get()
 
+    @Suppress("DEPRECATION")
     override fun fragmentInjector(): AndroidInjector<android.app.Fragment>? = frameworkFragmentInjector.get()
 
     override fun finish() {
