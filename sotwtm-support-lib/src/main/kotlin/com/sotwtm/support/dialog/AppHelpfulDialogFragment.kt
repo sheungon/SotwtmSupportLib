@@ -2,6 +2,7 @@ package com.sotwtm.support.dialog
 
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.support.annotation.LayoutRes
 import android.support.annotation.StringRes
@@ -15,6 +16,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import com.sotwtm.support.R
 import com.sotwtm.support.activity.AppHelpfulActivity
+import com.sotwtm.support.activity.IOverridePendingTransition
 import com.sotwtm.util.Log
 import java.lang.ref.WeakReference
 
@@ -77,6 +79,55 @@ abstract class AppHelpfulDialogFragment : DialogFragment() {
         super.onDestroy()
 
         viewModel?.onDestroy()
+    }
+
+    override fun startActivity(intent: Intent) {
+        startActivity(intent, null)
+    }
+
+    override fun startActivity(intent: Intent, options: Bundle?) {
+        startActivity(intent, true, options)
+    }
+
+    @Suppress("MemberVisibilityCanBePrivate")
+    fun startActivity(intent: Intent,
+                      overridePendingTransition: Boolean,
+                      options: Bundle? = null) {
+        val activity = activity ?: return {
+            Log.e("Cannot start activity as the fragment has been released.")
+            Unit
+        }.invoke()
+
+        super.startActivity(intent, options)
+
+        if (overridePendingTransition) {
+            (activity as? IOverridePendingTransition)?.overridePendingTransitionForStartActivity()
+        }
+    }
+
+    override fun startActivityForResult(intent: Intent, requestCode: Int) {
+        startActivityForResult(intent, requestCode, null)
+    }
+
+    override fun startActivityForResult(intent: Intent, requestCode: Int, options: Bundle?) {
+        startActivityForResult(intent, requestCode, true, options)
+    }
+
+    @Suppress("MemberVisibilityCanBePrivate")
+    fun startActivityForResult(intent: Intent,
+                               requestCode: Int,
+                               overridePendingTransition: Boolean,
+                               options: Bundle? = null) {
+        val activity = activity ?: return {
+            Log.e("Cannot start activity as the fragment has been released.")
+            Unit
+        }.invoke()
+
+        super.startActivityForResult(intent, requestCode, options)
+
+        if (overridePendingTransition) {
+            (activity as? IOverridePendingTransition)?.overridePendingTransitionForStartActivity()
+        }
     }
 
     override fun show(manager: FragmentManager?, tag: String?) {

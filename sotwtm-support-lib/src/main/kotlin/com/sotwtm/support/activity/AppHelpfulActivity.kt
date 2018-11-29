@@ -1,5 +1,6 @@
 package com.sotwtm.support.activity
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
@@ -295,26 +296,42 @@ abstract class AppHelpfulActivity
     }
 
     override fun startActivity(intent: Intent) {
-        super.startActivity(intent)
+        startActivity(intent, null)
+    }
 
-        overridePendingTransitionForStartActivity()
+    override fun startActivity(intent: Intent, options: Bundle?) {
+        startActivity(intent, true, options)
+    }
+
+    @Suppress("MemberVisibilityCanBePrivate")
+    fun startActivity(intent: Intent,
+                      overridePendingTransition: Boolean,
+                      options: Bundle? = null) {
+        super.startActivity(intent, options)
+
+        if (overridePendingTransition) {
+            overridePendingTransitionForStartActivity()
+        }
     }
 
     override fun startActivityForResult(intent: Intent, requestCode: Int) {
-        super.startActivityForResult(intent, requestCode)
-
-        overridePendingTransitionForStartActivity()
+        startActivityForResult(intent, requestCode, null)
     }
 
-    fun startActivity(intent: Intent,
-                      overridePendingTransition: Boolean) {
+    override fun startActivityForResult(intent: Intent, requestCode: Int, options: Bundle?) {
+        startActivityForResult(intent, requestCode, true, options)
+    }
+
+    @SuppressLint("RestrictedApi")
+    fun startActivityForResult(intent: Intent,
+                               requestCode: Int,
+                               overridePendingTransition: Boolean,
+                               options: Bundle? = null) {
+        super.startActivityForResult(intent, requestCode, options)
 
         if (overridePendingTransition) {
-            startActivity(intent)
-            return
+            overridePendingTransitionForStartActivity()
         }
-
-        super.startActivity(intent)
     }
 
     override fun finish() {
