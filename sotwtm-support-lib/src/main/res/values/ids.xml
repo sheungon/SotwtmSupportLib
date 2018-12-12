@@ -4,4 +4,5 @@
     <item name="toolbar" type="id"/>
     <item name="setLayoutManagerReverseLayout" type="id"/>
     <item name="setAutoMeasureEnabled" type="id"/>
+    <item name="snackbar" type="id"/>
 </resources>
