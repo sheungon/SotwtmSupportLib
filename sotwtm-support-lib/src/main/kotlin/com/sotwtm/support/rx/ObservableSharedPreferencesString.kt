@@ -3,12 +3,12 @@ package com.sotwtm.support.rx
 import android.content.SharedPreferences
 import android.databinding.ObservableField
 
-class ObservableSharedPreferencesString (
+class ObservableSharedPreferencesString(
     private val sharedPreferences: SharedPreferences,
     private val editor: SharedPreferences.Editor,
     private val preferenceKey: String,
-    private val defaultValue: String
-): ObservableField<String>() {
+    private val defaultValue: String?
+) : ObservableField<String?>() {
 
     private val sharedPreferencesListener =
         SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
@@ -36,16 +36,20 @@ class ObservableSharedPreferencesString (
     }
 
     @Synchronized
-    override fun get(): String =
+    override fun get(): String? =
         sharedPreferences.getString(preferenceKey, defaultValue) ?: defaultValue
 
     @Synchronized
-    override fun set(value: String) {
+    override fun set(value: String?) {
         if (get() == value) {
             return
         }
 
-        editor.putString(preferenceKey, value)
+        value?.let {
+            editor.putString(preferenceKey, it)
+        } ?: run {
+            editor.remove(preferenceKey)
+        }
         editor.apply()
         notifyChange()
     }

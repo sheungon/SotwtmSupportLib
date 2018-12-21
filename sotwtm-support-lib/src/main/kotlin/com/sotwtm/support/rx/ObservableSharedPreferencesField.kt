@@ -54,7 +54,11 @@ abstract class ObservableSharedPreferencesField<T>(
         }
 
         try {
-            editor.putString(preferenceKey, valueToString(value))
+            valueToString(value)?.let {
+                editor.putString(preferenceKey, it)
+            } ?: run {
+                editor.remove(preferenceKey)
+            }
             editor.apply()
             notifyChange()
         } catch (th: Throwable) {
