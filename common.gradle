@@ -20,8 +20,8 @@ android {
 
     compileOptions {
         encoding "UTF-8"
-        sourceCompatibility JavaVersion.VERSION_1_7
-        targetCompatibility JavaVersion.VERSION_1_7
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 
     // continue build even found lint error
@@ -46,6 +46,23 @@ android {
 
     defaultConfig {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    kapt {
+        useBuildCache = true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            zipAlignEnabled true
+        }
+
+        debug {
+            debuggable true
+            minifyEnabled false
+            zipAlignEnabled false
+        }
     }
 }
 

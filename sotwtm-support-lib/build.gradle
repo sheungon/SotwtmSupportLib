@@ -94,7 +94,6 @@ dependencies {
     // =============================================================
     // <<<<<<<<<<<<<<<<<<<< MUST ADD LIBS START >>>>>>>>>>>>>>>>>>>>
     // Android support libs
-    implementation "com.android.support:appcompat-v7:$rootProject.ext.versions.support_lib"
     implementation "com.android.support:design:$rootProject.ext.versions.support_lib"
     implementation "android.arch.lifecycle:viewmodel:$rootProject.ext.versions.lifecycle"
 
