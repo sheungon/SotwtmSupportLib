@@ -1,1 +1,1 @@
-include ':sotwtm-support-lib'
+include ':lib-sotwtm-support'
