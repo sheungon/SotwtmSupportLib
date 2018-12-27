@@ -18,7 +18,7 @@ import com.sotwtm.util.Log
  * A general loading dialog.
 
  * Created by johntsai on 29/7/15.
- * @author John
+ * @author sheunogn
  */
 class LoadingDialogFragment : AppHelpfulDataBindingDialogFragment<DialogLoadingBinding>() {
 

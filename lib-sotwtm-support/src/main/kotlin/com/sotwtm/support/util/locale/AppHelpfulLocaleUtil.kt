@@ -13,7 +13,7 @@ import java.util.*
 /**
  * Locale Util for setting app language.
  * Reference, https://stackoverflow.com/questions/40221711/android-context-getresources-updateconfiguration-deprecated
- * @author John
+ * @author sheunogn
  */
 
 object AppHelpfulLocaleUtil {
@@ -126,20 +126,24 @@ fun Context.setAppLocale(locale: Locale): Context {
 
     val config = resources.configuration
     val appConfig = applicationContext.resources.configuration
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-        val localeList = LocaleList(locale)
-        LocaleList.setDefault(localeList)
+    when {
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> {
+            val localeList = LocaleList(locale)
+            LocaleList.setDefault(localeList)
 
-        appConfig.locales = localeList
-        config.locales = localeList
-        appConfig.setLocale(locale)
-        config.setLocale(locale)
-    } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-        appConfig.setLocale(locale)
-        config.setLocale(locale)
-    } else {
-        appConfig.locale = locale
-        config.locale = locale
+            appConfig.locales = localeList
+            config.locales = localeList
+            appConfig.setLocale(locale)
+            config.setLocale(locale)
+        }
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 -> {
+            appConfig.setLocale(locale)
+            config.setLocale(locale)
+        }
+        else -> {
+            appConfig.locale = locale
+            config.locale = locale
+        }
     }
 
     applicationContext.resources.updateConfiguration(appConfig, applicationContext.resources.displayMetrics)

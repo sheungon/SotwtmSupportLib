@@ -29,8 +29,7 @@ import javax.inject.Inject
 /**
  * A fragment contains helpful API.
 
- * Created by sheun on 10/11/2015.
- * @author John
+ * @author sheungon
  */
 abstract class AppHelpfulFragment : Fragment(), HasSupportFragmentInjector {
 

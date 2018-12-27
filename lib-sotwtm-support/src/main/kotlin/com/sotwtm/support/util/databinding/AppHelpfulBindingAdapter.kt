@@ -5,7 +5,7 @@ import android.view.View
 import com.sotwtm.support.activity.AppHelpfulActivity
 
 /**
- * @author John
+ * @author sheunogn
  */
 object AppHelpfulBindingAdapter {
 

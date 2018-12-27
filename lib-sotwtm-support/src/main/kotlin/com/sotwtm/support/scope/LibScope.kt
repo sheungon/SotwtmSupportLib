@@ -4,7 +4,7 @@ import javax.inject.Scope
 
 /**
  * Library scope
- * @author John
+ * @author sheunogn
  */
 
 @Scope

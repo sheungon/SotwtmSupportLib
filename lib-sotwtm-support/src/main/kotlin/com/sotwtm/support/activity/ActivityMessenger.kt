@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 /**
 
- * @author John
+ * @author sheunogn
  */
 
 @ActivityScope

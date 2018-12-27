@@ -7,7 +7,7 @@ import android.support.v4.widget.DrawerLayout
  * DataBinding methods and BindingMethods created for easier implementation for Android DataBinding.
  * Implementation for [DrawerLayout]
  *
- * @author John
+ * @author sheunogn
  */
 object DrawerLayoutAppHelpfulDataBinding {
 

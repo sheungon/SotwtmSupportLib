@@ -9,7 +9,7 @@ import android.widget.Button
  * DataBinding methods and BindingMethods created for easier implementation for Android DataBinding.
  * Implementation for [Button]
  *
- * @author John
+ * @author sheunogn
  */
 @BindingMethods(
         BindingMethod(type = Button::class, attribute = "selected", method = "setSelected")

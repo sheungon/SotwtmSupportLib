@@ -12,7 +12,7 @@ import com.sotwtm.util.Log
 /**
  * DataBinding BindingAdapter and BindingConversion created for easier implementation for Android DataBinding.
  *
- * @author John
+ * @author sheunogn
  */
 object AppHelpfulDataBindingUtil {
 
@@ -26,7 +26,7 @@ object AppHelpfulDataBindingUtil {
             }
             return java.lang.Double.valueOf(charSequence.toString())
         } catch (e: Exception) {
-            Log.e("Error on convert charSequence to int : " + charSequence, e)
+            Log.e("Error on convert charSequence to int : $charSequence", e)
         }
 
         return 0.0

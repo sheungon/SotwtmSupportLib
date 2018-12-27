@@ -9,7 +9,7 @@ import android.widget.TextView
  * DataBinding methods and BindingMethods created for easier implementation for Android DataBinding.
  * Implementation for [TextView]
  *
- * @author John
+ * @author sheunogn
  */
 object TextViewAppHelpfulDataBinding {
 
@@ -31,7 +31,8 @@ object TextViewAppHelpfulDataBinding {
                      typeface: Typeface?,
                      textStyle: Int?) {
         view.setTypeface(
-                if (typeface == null) view.typeface else typeface,
-                if (textStyle == null) 0 else textStyle)
+            typeface ?: view.typeface,
+            textStyle ?: Typeface.NORMAL
+        )
     }
 }

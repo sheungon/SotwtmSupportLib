@@ -12,7 +12,7 @@ import android.support.v4.view.ViewPager
  * DataBinding methods and BindingMethods created for easier implementation for Android DataBinding.
  * Implementation for [ViewPager]
  *
- * @author John
+ * @author sheunogn
  */
 @BindingMethods(
         BindingMethod(type = ViewPager::class, attribute = "onTouchListener", method = "setOnTouchListener"),

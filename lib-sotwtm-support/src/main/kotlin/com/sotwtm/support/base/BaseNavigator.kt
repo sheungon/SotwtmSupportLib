@@ -13,7 +13,7 @@ import java.lang.ref.WeakReference
  * A base class of navigator for either [AppHelpfulDataBindingActivity], [AppHelpfulFragment]
  * or [AppHelpfulDialogFragment]
  *
- * @author John
+ * @author sheunogn
  */
 
 abstract class BaseNavigator {

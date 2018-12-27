@@ -8,7 +8,7 @@ import com.sotwtm.support.SotwtmSupportLib
 
 /**
  * View model abstract class for [AppHelpfulDataBindingActivity]
- * @author John
+ * @author sheunogn
  */
 abstract class AppHelpfulActivityDataBinder(app : Application) : AndroidViewModel(app) {
 

@@ -9,7 +9,7 @@ package com.sotwtm.support.util.singleton
  *
  * Then, `InstanceClass.getInstance(arg0, arg1, arg2, arg3, arg5)`
  *
- * @author John
+ * @author sheunogn
  * */
 open class SingletonHolder5<InstanceClass, Arg0Class, Arg1Class, Arg2Class, Arg3Class, Arg4Class>
 (_constructor: (Arg0Class, Arg1Class, Arg2Class, Arg3Class, Arg4Class) -> InstanceClass) {

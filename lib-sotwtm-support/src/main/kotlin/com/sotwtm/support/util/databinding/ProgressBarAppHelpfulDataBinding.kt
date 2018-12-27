@@ -13,7 +13,7 @@ import android.widget.ProgressBar
  * DataBinding methods and BindingMethods created for easier implementation for Android DataBinding.
  * Implementation for [ProgressBar]
  *
- * @author John
+ * @author sheunogn
  */
 object ProgressBarAppHelpfulDataBinding {
 
@@ -44,7 +44,7 @@ object ProgressBarAppHelpfulDataBinding {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             view.setProgress(progress, animateProgress)
         } else {
-            view.setProgress(progress)
+            view.progress = progress
         }
     }
 

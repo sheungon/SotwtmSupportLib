@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SSLib Example</string>
+    <string name="fake_login">Fake Login</string>
+    <string name="subcomponent_activity">Subcomponent Activity</string>
 </resources>

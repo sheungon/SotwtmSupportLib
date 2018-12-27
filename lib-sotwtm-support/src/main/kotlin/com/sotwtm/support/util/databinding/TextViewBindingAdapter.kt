@@ -8,7 +8,7 @@ import android.support.v4.content.ContextCompat
 import android.widget.TextView
 
 /**
- * @author John
+ * @author sheunogn
  */
 
 object TextViewBindingAdapter {

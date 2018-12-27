@@ -8,7 +8,7 @@ import android.widget.Spinner
  * DataBinding methods and BindingMethods created for easier implementation for Android DataBinding.
  * Implementation for [Spinner]
  *
- * @author John
+ * @author sheunogn
  */
 @BindingMethods(
         BindingMethod(type = Spinner::class, attribute = "setAdapter", method = "setAdapter")

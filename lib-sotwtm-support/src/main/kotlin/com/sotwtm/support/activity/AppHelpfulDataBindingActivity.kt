@@ -10,7 +10,7 @@ import java.lang.ref.WeakReference
  * Activity applied animation on transit.
  * Created by John on 10/11/2015.
 
- * @author John
+ * @author sheunogn
  */
 abstract class AppHelpfulDataBindingActivity<DataBindingClass : ViewDataBinding>
     : AppHelpfulActivity(), IOverridePendingTransition {

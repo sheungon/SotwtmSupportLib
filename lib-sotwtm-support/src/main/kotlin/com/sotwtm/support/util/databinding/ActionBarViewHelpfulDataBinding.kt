@@ -8,7 +8,7 @@ import android.support.v7.app.ActionBar
  * DataBinding methods and BindingMethods created for easier implementation for Android DataBinding.
  * Implementation for [ActionBar]
  *
- * @author John
+ * @author sheunogn
  */
 @BindingMethods(
         BindingMethod(type = ActionBar::class, attribute = "setDisplayShowHomeEnabled", method = "setDisplayShowHomeEnabled"),

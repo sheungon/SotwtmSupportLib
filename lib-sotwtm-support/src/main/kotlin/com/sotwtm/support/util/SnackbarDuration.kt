@@ -6,7 +6,7 @@ import android.support.design.widget.Snackbar
 
 /**
  * [Snackbar] duration constants.
- * @author John
+ * @author sheunogn
  */
 @IntDef(Snackbar.LENGTH_INDEFINITE, Snackbar.LENGTH_SHORT, Snackbar.LENGTH_LONG)
 @Retention(AnnotationRetention.SOURCE)

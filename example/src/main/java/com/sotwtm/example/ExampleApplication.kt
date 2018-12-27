@@ -1,0 +1,32 @@
+package com.sotwtm.example
+
+import com.sotwtm.support.SotwtmSupportLib
+import com.sotwtm.util.Log
+import dagger.android.AndroidInjector
+import dagger.android.support.DaggerApplication
+import java.util.*
+
+class ExampleApplication : DaggerApplication() {
+
+    override fun onCreate() {
+        super.onCreate()
+
+        Log.logLevel = if (BuildConfig.DEBUG) Log.VERBOSE else Log.NONE
+        Log.defaultLogTag = "SotwtmExample"
+
+        SotwtmSupportLib.enableDaggerErrorLog = BuildConfig.DEBUG
+        SotwtmSupportLib.defaultSupportedLocales = DEFAULT_SUPPORTED_LOCALES
+        SotwtmSupportLib.init(this)
+    }
+
+    override fun applicationInjector(): AndroidInjector<ExampleApplication> =
+        DaggerExampleApplicationComponent.builder()
+            .application(this)
+            .build()
+
+    companion object {
+        val DEFAULT_SUPPORTED_LOCALES = listOf<Locale>(
+            Locale.ENGLISH
+        )
+    }
+}

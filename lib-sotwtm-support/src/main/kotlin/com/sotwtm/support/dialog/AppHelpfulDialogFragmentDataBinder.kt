@@ -7,7 +7,7 @@ import android.view.View
 import com.sotwtm.support.SotwtmSupportLib
 
 /**
- * @author John
+ * @author sheunogn
  */
 open class AppHelpfulDialogFragmentDataBinder(application: Application) : AndroidViewModel(application) {
 

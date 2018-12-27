@@ -4,7 +4,7 @@ import javax.inject.Scope
 
 /**
  * Activity scope
- * @author John
+ * @author sheunogn
  */
 
 @Scope

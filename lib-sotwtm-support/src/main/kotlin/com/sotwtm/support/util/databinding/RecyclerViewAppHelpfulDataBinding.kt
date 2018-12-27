@@ -13,7 +13,7 @@ import com.sotwtm.support.R
  * DataBinding methods and BindingMethods created for easier implementation for Android DataBinding.
  * Implementation for [RecyclerView]
  *
- * @author John
+ * @author sheunogn
  */
 @BindingMethods(
         BindingMethod(type = RecyclerView::class, attribute = "setAdapter", method = "setAdapter")
