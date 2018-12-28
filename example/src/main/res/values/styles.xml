@@ -177,4 +177,35 @@
     <style name="ToolbarActionOverFlow" parent="Widget.AppCompat.Light.ActionButton.Overflow">
     </style>
 
+    <style name="tab_layout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:background">@color/tab_layout_bg</item>
+        <item name="tabIndicatorHeight">@dimen/indicator_height</item>
+        <item name="tabIndicatorColor">@color/tab_indicator</item>
+        <item name="tabMaxWidth">0dp</item>
+        <item name="tabMinWidth">@dimen/tab_min_width</item>
+        <item name="tabGravity">fill</item>
+        <item name="tabMode">fixed</item>
+        <item name="tabTextColor">@color/tab_text</item>
+        <item name="tabSelectedTextColor">@color/tab_text_selected</item>
+        <item name="tabTextAppearance">@style/text_tab_layout</item>
+    </style>
+
+    <style name="tab_layout.no_indicator">
+        <item name="tabIndicatorHeight">0dp</item>
+    </style>
+
+    <style name="tab_layout.margin">
+        <!--Square margin in tab layout-->
+        <item name="android:layout_marginRight">?attr/actionBarSize</item>
+        <item name="android:layout_marginEnd" tools:targetApi="jelly_bean_mr1">?attr/actionBarSize
+        </item>
+    </style>
+
+    <style name="text_tab_layout" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+        <item name="android:textSize">@dimen/text_normal</item>
+    </style>
+
 </resources>

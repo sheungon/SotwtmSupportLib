@@ -10,7 +10,7 @@ import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 /**
-
+ * Messenger for [AppHelpfulActivity]
  * @author sheunogn
  */
 
@@ -22,54 +22,52 @@ class ActivityMessenger(private val activityRef: WeakReference<out AppHelpfulAct
     override val activity: AppHelpfulActivity?
         get() = activityRef.get()
 
-    /**
-     * @param msgRes The message on loading dialog
-     * *
-     */
-    override fun showLoadingDialog(@StringRes msgRes: Int?) {
+    override fun showLoadingDialog(@StringRes msgRes: Int) {
         activity?.showLoadingDialog(msgRes)
+    }
+
+    override fun showLoadingDialog(msg: String) {
+        activity?.showLoadingDialog(msg)
     }
 
     override fun dismissLoadingDialog() {
         activity?.dismissLoadingDialog()
     }
 
-    /**
-     * Show snack bar with message.
-     * This can be called from any thread.
-     */
-    override fun showSnackBar(@StringRes messageRes: Int,
-                              @SnackbarDuration duration: Int) {
+    override fun showSnackBar(
+        @StringRes messageRes: Int,
+        @SnackbarDuration duration: Int
+    ) {
         activity?.showSnackBar(messageRes, duration)
     }
 
-    /**
-     * Show snack bar with message.
-     * This can be called from any thread.
-     */
-    override fun showSnackBar(message: String,
-                              @SnackbarDuration duration: Int) {
+    override fun showSnackBar(
+        message: String,
+        @SnackbarDuration duration: Int
+    ) {
         activity?.showSnackBar(message, duration)
     }
 
     fun checkSelfPermission(permission: String): Int? =
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                activity?.checkSelfPermission(permission)
-            } else {
-                // In previous version always has permission
-                PackageManager.PERMISSION_GRANTED
-            }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            activity?.checkSelfPermission(permission)
+        } else {
+            // In previous version always has permission
+            PackageManager.PERMISSION_GRANTED
+        }
 
     fun shouldShowRequestPermissionRationale(permission: String): Boolean =
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                activity?.shouldShowRequestPermissionRationale(permission) ?: false
-            } else {
-                // In previous version always has permission. So, no need to show request permission rationale
-                false
-            }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            activity?.shouldShowRequestPermissionRationale(permission) ?: false
+        } else {
+            // In previous version always has permission. So, no need to show request permission rationale
+            false
+        }
 
-    fun requestPermissions(permissions: Array<String>,
-                           requestCode: Int) {
+    fun requestPermissions(
+        permissions: Array<String>,
+        requestCode: Int
+    ) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             activity?.requestPermissions(permissions, requestCode)
         }

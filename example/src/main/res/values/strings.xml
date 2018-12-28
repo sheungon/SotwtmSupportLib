@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">SSLib Example</string>
     <string name="fake_login">Fake Login</string>
-    <string name="subcomponent_activity">Subcomponent Activity</string>
+    <string name="subcomponent_activity">SubcomponentActivity</string>
+    <string name="no_data_binding_fragment">NoDataBindingFragment</string>
+    <string name="load">Load</string>
+    <string name="simple_dagger_fragment">SimpleDaggerFragment</string>
+    <string name="common_fragment_in">CommonFragment in %s</string>
+    <string name="title_subcomponent">Subcomponent - %s</string>
 </resources>

@@ -183,11 +183,15 @@ abstract class AppHelpfulDialogFragment : AppCompatDialogFragment(), HasSupportF
     }
 
     internal fun showLoadingDialog() {
-        showLoadingDialog(null)
+        (activity as? AppHelpfulActivity)?.showLoadingDialog()
     }
 
-    internal fun showLoadingDialog(@StringRes msgRes: Int?) {
+    internal fun showLoadingDialog(@StringRes msgRes: Int) {
         (activity as? AppHelpfulActivity)?.showLoadingDialog(msgRes)
+    }
+
+    internal fun showLoadingDialog(@StringRes msg: String) {
+        (activity as? AppHelpfulActivity)?.showLoadingDialog(msg)
     }
 
     internal fun dismissLoadingDialog() {

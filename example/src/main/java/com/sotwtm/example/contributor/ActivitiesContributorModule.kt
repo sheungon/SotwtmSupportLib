@@ -1,4 +1,4 @@
-package com.sotwtm.example
+package com.sotwtm.example.contributor
 
 import com.sotwtm.example.simple.SimpleDaggerActivity
 import com.sotwtm.example.simple.SimpleDaggerActivityModule
@@ -10,11 +10,12 @@ import dagger.android.ContributesAndroidInjector
 
 
 /**
- * All activities with simple contributor
- * @see AppActivitiesClassMapModule
+ * All activities with simple contributor are registered here
+ * @see ActivitiesClassMapModule
+ * @author sheungon
  * */
 @Module
-abstract class AppActivitiesContributorModule {
+abstract class ActivitiesContributorModule {
 
     @ActivityScope
     @ContributesAndroidInjector(modules = [NoDataBindingActivityModule::class])

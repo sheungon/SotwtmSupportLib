@@ -32,9 +32,17 @@ class FragmentMessenger(private val fragmentRef: WeakReference<out AppHelpfulFra
         }
     }
 
-    override fun showLoadingDialog(@StringRes msgRes: Int?) {
+    override fun showLoadingDialog(@StringRes msgRes: Int) {
         try {
             fragment?.showLoadingDialog(msgRes)
+        } catch (e: Exception) {
+            Log.e("Error on showLoadingDialog", e)
+        }
+    }
+
+    override fun showLoadingDialog(msg: String) {
+        try {
+            fragment?.showLoadingDialog(msg)
         } catch (e: Exception) {
             Log.e("Error on showLoadingDialog", e)
         }
@@ -48,12 +56,10 @@ class FragmentMessenger(private val fragmentRef: WeakReference<out AppHelpfulFra
         }
     }
 
-    /**
-     * Show snack bar with message.
-     * This can be called from any thread.
-     */
-    override fun showSnackBar(@StringRes messageRes: Int,
-                              @SnackbarDuration duration: Int) {
+    override fun showSnackBar(
+        @StringRes messageRes: Int,
+        @SnackbarDuration duration: Int
+    ) {
         try {
             fragment?.showSnackBar(messageRes, duration)
         } catch (e: Exception) {
@@ -65,8 +71,10 @@ class FragmentMessenger(private val fragmentRef: WeakReference<out AppHelpfulFra
      * Show snack bar with message.
      * This can be called from any thread.
      */
-    override fun showSnackBar(message: String,
-                              @SnackbarDuration duration: Int) {
+    override fun showSnackBar(
+        message: String,
+        @SnackbarDuration duration: Int
+    ) {
         try {
             fragment?.showSnackBar(message, duration)
         } catch (e: Exception) {

@@ -4,14 +4,11 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.support.annotation.StringRes
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
 import android.view.Window
 import com.sotwtm.support.R
-import com.sotwtm.support.activity.AppHelpfulActivity
 import com.sotwtm.support.databinding.DialogLoadingBinding
-import com.sotwtm.util.Log
 
 
 /**
@@ -28,16 +25,13 @@ class LoadingDialogFragment : AppHelpfulDataBindingDialogFragment<DialogLoadingB
 
     override val layoutId: Int? = R.layout.dialog_loading
     override val dataBinder: AppHelpfulDialogFragmentDataBinder? = null
-
-    @StringRes
-    private var loadingMsgRes: Int? = R.string.loading
-    private var dismissed: Boolean = false
-
-
-    fun setLoadingMsg(@StringRes msgRes: Int?) {
-        loadingMsgRes = msgRes
-        dataBinding?.loadingMsg = msgRes
+    var loadingMsg: StringOrStringRes? = null
+    set(value) {
+        field = value
+        dataBinding?.loadingMsg = value
     }
+
+    private var dismissed: Boolean = false
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialog = super.onCreateDialog(savedInstanceState)
@@ -51,14 +45,7 @@ class LoadingDialogFragment : AppHelpfulDataBindingDialogFragment<DialogLoadingB
     }
 
     override fun initDataBinding(dataBinding: DialogLoadingBinding, savedInstanceState: Bundle?) {
-
-        val msgRes = loadingMsgRes
-        if (msgRes == AppHelpfulActivity.NONE) {
-            Log.e("Showing NONE msg loading dialog?!")
-            dismiss()
-            return
-        }
-        dataBinding.loadingMsg = msgRes
+        dataBinding.loadingMsg = loadingMsg
     }
 
     override fun onResume() {

@@ -27,7 +27,7 @@ constructor(
 ) : AppHelpfulActivityDataBinder(application) {
 
     fun onClickLogin() {
-        messenger.showLoadingDialog()
+        messenger.showLoadingDialog("Login Loading...")
         GlobalScope.launch(Dispatchers.Main) {
             delay(1000)
             messenger.dismissLoadingDialog()

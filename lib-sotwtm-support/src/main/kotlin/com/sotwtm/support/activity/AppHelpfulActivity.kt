@@ -19,6 +19,7 @@ import android.view.View
 import com.sotwtm.support.R
 import com.sotwtm.support.SotwtmSupportLib
 import com.sotwtm.support.dialog.LoadingDialogFragment
+import com.sotwtm.support.dialog.StringOrStringRes
 import com.sotwtm.support.util.*
 import com.sotwtm.support.util.locale.setAppLocale
 import com.sotwtm.util.Log
@@ -41,9 +42,9 @@ import javax.inject.Inject
  */
 abstract class AppHelpfulActivity
     : AppCompatActivity(),
-        IOverridePendingTransition,
-        HasFragmentInjector,
-        HasSupportFragmentInjector {
+    IOverridePendingTransition,
+    HasFragmentInjector,
+    HasSupportFragmentInjector {
 
     @Inject
     internal lateinit var supportFragmentInjector: Lazy<DispatchingAndroidInjector<Fragment>?>
@@ -124,21 +125,20 @@ abstract class AppHelpfulActivity
 
     protected open val coordinatorLayoutRef: WeakReference<CoordinatorLayout?> by lazy {
         WeakReference(
-                coordinatorLayoutId?.let {
-                    findViewById<CoordinatorLayout?>(it)
-                }
+            coordinatorLayoutId?.let {
+                findViewById<CoordinatorLayout?>(it)
+            }
         )
     }
     protected val rootView: WeakReference<View?> by lazy {
         WeakReference(
-                findViewById<View?>(android.R.id.content)
+            findViewById<View?>(android.R.id.content)
         )
     }
     protected val savedInstanceStateRef = AtomicReference<Bundle?>()
 
     private var actionBarTitle: String? = null
-    @StringRes
-    private var loadingDialogMsg: Int? = NONE
+    private var loadingDialogMsg: StringOrStringRes? = null
     private lateinit var backStackListener: MyBackStackChangedListener
     private var fullScreenFlag = 0x0
 
@@ -226,10 +226,10 @@ abstract class AppHelpfulActivity
         updateFullScreenStatus()
 
         dataBinder.onResumeInternal()
-        if (loadingDialogMsg == NONE) {
+        loadingDialogMsg?.let {
+            showLoadingDialog(it)
+        } ?: run {
             dismissLoadingDialog()
-        } else {
-            showLoadingDialog(loadingDialogMsg)
         }
     }
 
@@ -285,13 +285,13 @@ abstract class AppHelpfulActivity
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
-            when (item.itemId) {
-                android.R.id.home -> {
-                    onBackPressed()
-                    true
-                }
-                else -> dataBinder.onOptionsItemSelected(item)
+        when (item.itemId) {
+            android.R.id.home -> {
+                onBackPressed()
+                true
             }
+            else -> dataBinder.onOptionsItemSelected(item)
+        }
 
     override fun onBackPressed() {
 
@@ -330,9 +330,11 @@ abstract class AppHelpfulActivity
     }
 
     @Suppress("MemberVisibilityCanBePrivate")
-    fun startActivity(intent: Intent,
-                      overridePendingTransition: Boolean,
-                      options: Bundle? = null) {
+    fun startActivity(
+        intent: Intent,
+        overridePendingTransition: Boolean,
+        options: Bundle? = null
+    ) {
         super.startActivity(intent, options)
 
         if (overridePendingTransition) {
@@ -349,10 +351,12 @@ abstract class AppHelpfulActivity
     }
 
     @SuppressLint("RestrictedApi")
-    fun startActivityForResult(intent: Intent,
-                               requestCode: Int,
-                               overridePendingTransition: Boolean,
-                               options: Bundle? = null) {
+    fun startActivityForResult(
+        intent: Intent,
+        requestCode: Int,
+        overridePendingTransition: Boolean,
+        options: Bundle? = null
+    ) {
         super.startActivityForResult(intent, requestCode, options)
 
         if (overridePendingTransition) {
@@ -399,18 +403,32 @@ abstract class AppHelpfulActivity
 
     /**
      * @param msgRes The message on loading dialog
-     * *
      */
     @Synchronized
-    fun showLoadingDialog(@StringRes msgRes: Int? = R.string.loading) {
-
-        loadingDialogMsg = msgRes
+    fun showLoadingDialog(@StringRes msgRes: Int = R.string.loading) {
         if (msgRes == NONE) {
             Log.w("Showing loading dialog with NONE msg?!")
             dismissLoadingDialog()
             return
         }
+        showLoadingDialog(StringOrStringRes(this, msgRes))
+    }
 
+    /**
+     * @param msg The message on loading dialog
+     */
+    @Synchronized
+    fun showLoadingDialog(@StringRes msg: String) {
+        showLoadingDialog(StringOrStringRes(this, msg))
+    }
+
+    /**
+     * @param msgOrMsgRes The message on loading dialog
+     */
+    @Synchronized
+    private fun showLoadingDialog(msgOrMsgRes: StringOrStringRes) {
+
+        loadingDialogMsg = msgOrMsgRes
         if (dataBinder.isActivityPaused) {
             Log.d("Activity is paused.")
             return
@@ -421,13 +439,13 @@ abstract class AppHelpfulActivity
         if (existedDialog != null && !existedDialog.isRemoving) {
             Log.d("Progress dialog already created.")
             if (existedDialog is LoadingDialogFragment) {
-                existedDialog.setLoadingMsg(msgRes)
+                existedDialog.loadingMsg = msgOrMsgRes
             }
             return
         }
 
         val loadingDialogFragment = LoadingDialogFragment()
-        loadingDialogFragment.setLoadingMsg(msgRes)
+        loadingDialogFragment.loadingMsg = msgOrMsgRes
         loadingDialogFragment.show(fragmentManager, DIALOG_TAG_LOADING)
 
         hideSoftKeyboard()
@@ -436,7 +454,7 @@ abstract class AppHelpfulActivity
     @Synchronized
     fun dismissLoadingDialog() {
 
-        loadingDialogMsg = NONE
+        loadingDialogMsg = null
         if (dataBinder.isActivityPaused) {
             Log.d("Activity is paused.")
             return
@@ -458,7 +476,7 @@ abstract class AppHelpfulActivity
     }
 
     @Synchronized
-    fun dismissedLoading(): Boolean = loadingDialogMsg == NONE
+    fun dismissedLoading(): Boolean = loadingDialogMsg == null
 
     /**
      * @param actionBarTitleId The title of this activity. [.NONE] if no title
@@ -486,8 +504,10 @@ abstract class AppHelpfulActivity
      * Show snack bar with message.
      * This can be called from any thread.
      */
-    fun showSnackBar(@StringRes messageRes: Int,
-                     @SnackbarDuration duration: Int) {
+    fun showSnackBar(
+        @StringRes messageRes: Int,
+        @SnackbarDuration duration: Int
+    ) {
         showSnackBar(getString(messageRes), duration)
     }
 
@@ -495,8 +515,10 @@ abstract class AppHelpfulActivity
      * Show snack bar with message.
      * This can be called from any thread.
      */
-    fun showSnackBar(message: String,
-                     @SnackbarDuration duration: Int) {
+    fun showSnackBar(
+        message: String,
+        @SnackbarDuration duration: Int
+    ) {
 
         runOnUiThread {
             dismissLoadingDialog()
@@ -507,12 +529,16 @@ abstract class AppHelpfulActivity
         }
     }
 
-    fun createSnackBarWithRootView(@StringRes messageRes: Int,
-                                   @SnackbarDuration duration: Int): Snackbar? =
-            createSnackBarWithRootView(getString(messageRes), duration)
+    fun createSnackBarWithRootView(
+        @StringRes messageRes: Int,
+        @SnackbarDuration duration: Int
+    ): Snackbar? =
+        createSnackBarWithRootView(getString(messageRes), duration)
 
-    fun createSnackBarWithRootView(message: String,
-                                   @SnackbarDuration duration: Int): Snackbar? {
+    fun createSnackBarWithRootView(
+        message: String,
+        @SnackbarDuration duration: Int
+    ): Snackbar? {
 
         val coordinatorLayout = coordinatorLayoutRef.get()
         val rootView = coordinatorLayout ?: rootView.get()
@@ -551,7 +577,8 @@ abstract class AppHelpfulActivity
 
     internal fun updateFullScreenStatus() {
         if (fullScreenFlag and FLAG_HIDE_STATUS_BAR == FLAG_HIDE_STATUS_BAR
-                && fullScreenFlag and FLAG_HIDE_NAVIGATION_BAR == FLAG_HIDE_NAVIGATION_BAR) {
+            && fullScreenFlag and FLAG_HIDE_NAVIGATION_BAR == FLAG_HIDE_NAVIGATION_BAR
+        ) {
             hideNavigationAndStatusBar()
         } else if (fullScreenFlag and FLAG_HIDE_STATUS_BAR == FLAG_HIDE_STATUS_BAR) {
             hideStatusBar()
@@ -564,7 +591,8 @@ abstract class AppHelpfulActivity
     ///////////////////////////////
     // Class and interface
     ///////////////////////////////
-    private class MyBackStackChangedListener internal constructor(activity: AppHelpfulActivity) : FragmentManager.OnBackStackChangedListener {
+    private class MyBackStackChangedListener internal constructor(activity: AppHelpfulActivity) :
+        FragmentManager.OnBackStackChangedListener {
 
         private val activityRef: WeakReference<AppHelpfulActivity> = WeakReference(activity)
 
@@ -576,7 +604,8 @@ abstract class AppHelpfulActivity
         }
     }
 
-    private class MySystemUiVisibilityChangeListener internal constructor(activity: AppHelpfulActivity) : View.OnSystemUiVisibilityChangeListener {
+    private class MySystemUiVisibilityChangeListener internal constructor(activity: AppHelpfulActivity) :
+        View.OnSystemUiVisibilityChangeListener {
 
         internal val activityRef: WeakReference<AppHelpfulActivity> = WeakReference(activity)
 
@@ -591,14 +620,10 @@ abstract class AppHelpfulActivity
     }
 
     companion object {
-        @JvmStatic
-        val NONE = 0
-        @JvmStatic
-        val DIALOG_TAG_LOADING = "ProgressDialogFragment"
+        const val NONE = 0
+        const val DIALOG_TAG_LOADING = "ProgressDialogFragment"
 
-        @JvmStatic
-        private val FLAG_HIDE_NAVIGATION_BAR = 1
-        @JvmStatic
-        private val FLAG_HIDE_STATUS_BAR = 1 shl 1
+        private const val FLAG_HIDE_NAVIGATION_BAR = 1
+        private const val FLAG_HIDE_STATUS_BAR = 1 shl 1
     }
 }

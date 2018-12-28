@@ -7,7 +7,9 @@ import dagger.android.AndroidInjector
 import javax.inject.Qualifier
 
 @ActivityScope
-@Subcomponent(modules = [SubcomponentActivityModule::class])
+@Subcomponent(
+    modules = [SubcomponentActivityModule::class]
+)
 interface SubcomponentActivitySubcomponent : AndroidInjector<SubcomponentActivity> {
 
     @Subcomponent.Builder

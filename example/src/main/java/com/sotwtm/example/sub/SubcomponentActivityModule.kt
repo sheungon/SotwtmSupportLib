@@ -14,7 +14,7 @@ import dagger.Module
  * */
 @Module(
     // We can install other modules needed by SubcomponentActivity here
-    includes = []
+    includes = [SubcomponentActivityFragmentAdapterModule::class]
 )
 abstract class SubcomponentActivityModule {
     @Binds

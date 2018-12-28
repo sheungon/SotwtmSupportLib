@@ -32,9 +32,17 @@ class DialogFragmentMessenger(private val fragmentRef: WeakReference<out AppHelp
         }
     }
 
-    override fun showLoadingDialog(@StringRes msgRes: Int?) {
+    override fun showLoadingDialog(@StringRes msgRes: Int) {
         try {
             fragment?.showLoadingDialog(msgRes)
+        } catch (e: Exception) {
+            Log.e("Error on showLoadingDialog", e)
+        }
+    }
+
+    override fun showLoadingDialog(msg: String) {
+        try {
+            fragment?.showLoadingDialog(msg)
         } catch (e: Exception) {
             Log.e("Error on showLoadingDialog", e)
         }

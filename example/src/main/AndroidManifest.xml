@@ -33,7 +33,7 @@
                 android:name=".sub.SubcomponentActivity"
                 android:configChanges="orientation|screenSize|locale"
                 android:screenOrientation="locked"
-                android:theme="@style/AppTheme.NoActionBar"
+                android:theme="@style/AppTheme"
                 android:windowSoftInputMode="adjustPan"/>
     </application>
 

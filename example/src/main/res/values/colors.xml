@@ -21,4 +21,10 @@
 
     <color name="separator_dark">#4F4F4F</color>
     <color name="separator_light">#979797</color>
+
+    <color name="tab_layout_bg">@android:color/holo_purple</color>
+    <color name="tab_indicator">@android:color/holo_blue_bright</color>
+    <color name="tab_text">#FFFFFF</color>
+    <color name="tab_text_selected">#DDDDDD</color>
+    <color name="tab_text_secondary">#9B9B9B</color>
 </resources>

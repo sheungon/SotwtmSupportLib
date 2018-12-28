@@ -211,7 +211,18 @@ abstract class AppHelpfulFragment : Fragment(), HasSupportFragmentInjector {
         }
     }
 
-    fun showLoadingDialog(@StringRes msgRes: Int?) {
+    fun showLoadingDialog(msg: String) {
+
+        val activity = activity
+        if (activity != null) {
+            (activity as? AppHelpfulActivity)?.showLoadingDialog(msg)
+                ?: Log.wtf("This method can only work with parent is AppHelpfulActivity")
+        } else {
+            Log.v("Fragment released")
+        }
+    }
+
+    fun showLoadingDialog(@StringRes msgRes: Int) {
 
         val activity = activity
         if (activity != null) {

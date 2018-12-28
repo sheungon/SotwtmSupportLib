@@ -6,6 +6,10 @@ import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import java.util.*
 
+/**
+ * An example application to show how to make use of Dagger, Android Databinding and SotwtmSupportLib
+ * @author sheungon
+ * */
 class ExampleApplication : DaggerApplication() {
 
     override fun onCreate() {

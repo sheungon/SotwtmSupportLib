@@ -16,7 +16,13 @@ abstract class BaseMessenger {
      * @param msgRes The message on loading dialog
      * *
      */
-    abstract fun showLoadingDialog(@StringRes msgRes: Int? = R.string.loading)
+    abstract fun showLoadingDialog(@StringRes msgRes: Int = R.string.loading)
+
+    /**
+     * @param msg The message on loading dialog
+     * *
+     */
+    abstract fun showLoadingDialog(@StringRes msg: String)
 
     abstract fun dismissLoadingDialog()
     /**

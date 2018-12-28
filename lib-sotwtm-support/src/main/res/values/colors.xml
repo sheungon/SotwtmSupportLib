@@ -3,4 +3,6 @@
     <color name="snackbar_bg">#323232</color>
     <color name="snackbar_action_text">#FF4081</color>
     <color name="snackbar_text">@android:color/white</color>
+
+    <color name="loading_text">#DDD</color>
 </resources>

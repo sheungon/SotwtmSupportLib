@@ -1,4 +1,4 @@
-package com.sotwtm.example
+package com.sotwtm.example.contributor
 
 import com.sotwtm.example.sub.SubcomponentActivity
 import com.sotwtm.example.sub.SubcomponentActivitySubcomponent
@@ -11,15 +11,20 @@ import java.util.*
 import kotlin.random.Random
 
 /**
- * All activities with subcomponent
- * @see AppActivitiesContributorModule
+ * All activities with subcomponent are registered here
+ * @see ActivitiesContributorModule
+ * @author sheungon
  * */
 @Module(
     // Register activity subcomponents here
     subcomponents = [SubcomponentActivitySubcomponent::class]
 )
-class AppActivitiesClassMapModule {
+class ActivitiesClassMapModule {
 
+    /**
+     * @see SubcomponentActivitySubcomponent
+     * @see com.sotwtm.example.sub.SubcomponentActivityDataBinder
+     * */
     @Provides
     @IntoMap
     @ClassKey(SubcomponentActivity::class)
