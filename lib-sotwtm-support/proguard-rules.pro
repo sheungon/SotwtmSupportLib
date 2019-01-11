@@ -37,3 +37,16 @@
     public static *** e(...);
     public static *** wtf(...);
 }
+
+
+##############################
+# Android Databinding
+# http://stackoverflow.com/questions/35472130/conflict-between-android-data-binding-and-guava-causes-proguard-error
+##############################
+-dontwarn android.databinding.**
+-keep class android.databinding.** { *; }
+
+# Android class causing build issue
+# See, https://stackoverflow.com/questions/44075089/noclassdeffounderror-landroid-arch-lifecycle-lifecycledispatcher
+-keep class android.arch.** { *; }
+
