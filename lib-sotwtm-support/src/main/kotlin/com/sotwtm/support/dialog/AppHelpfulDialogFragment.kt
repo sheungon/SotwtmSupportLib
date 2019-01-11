@@ -38,10 +38,12 @@ abstract class AppHelpfulDialogFragment : AppCompatDialogFragment(), HasSupportF
     abstract val layoutId: Int?
     abstract val dataBinder: AppHelpfulDialogFragmentDataBinder?
 
+    /**Indicate if dagger injection is enabled to this dialog fragment.*/
+    open val daggerEnabled: Boolean = true
 
     override fun onAttach(context: Context?) {
         try {
-            AndroidSupportInjection.inject(this)
+            if (daggerEnabled) AndroidSupportInjection.inject(this)
         } catch (e: Exception) {
             if (SotwtmSupportLib.enableDaggerErrorLog) {
                 Log.e("Disable dagger error log by SotwtmSupportLib.enableDaggerErrorLog", e)
@@ -57,9 +59,9 @@ abstract class AppHelpfulDialogFragment : AppCompatDialogFragment(), HasSupportF
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            layoutId?.let {
-                inflater.inflate(it, container, false)
-            } ?: super.onCreateView(inflater, container, savedInstanceState)
+        layoutId?.let {
+            inflater.inflate(it, container, false)
+        } ?: super.onCreateView(inflater, container, savedInstanceState)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -112,9 +114,11 @@ abstract class AppHelpfulDialogFragment : AppCompatDialogFragment(), HasSupportF
     }
 
     @Suppress("MemberVisibilityCanBePrivate")
-    fun startActivity(intent: Intent,
-                      overridePendingTransition: Boolean,
-                      options: Bundle? = null) {
+    fun startActivity(
+        intent: Intent,
+        overridePendingTransition: Boolean,
+        options: Bundle? = null
+    ) {
         val activity = activity ?: return {
             Log.e("Cannot start activity as the fragment has been released.")
             Unit
@@ -136,10 +140,12 @@ abstract class AppHelpfulDialogFragment : AppCompatDialogFragment(), HasSupportF
     }
 
     @Suppress("MemberVisibilityCanBePrivate")
-    fun startActivityForResult(intent: Intent,
-                               requestCode: Int,
-                               overridePendingTransition: Boolean,
-                               options: Bundle? = null) {
+    fun startActivityForResult(
+        intent: Intent,
+        requestCode: Int,
+        overridePendingTransition: Boolean,
+        options: Bundle? = null
+    ) {
         val activity = activity ?: return {
             Log.e("Cannot start activity as the fragment has been released.")
             Unit
@@ -176,8 +182,10 @@ abstract class AppHelpfulDialogFragment : AppCompatDialogFragment(), HasSupportF
         return false
     }
 
-    protected open fun createContentView(context: Context,
-                                         @LayoutRes layoutId: Int): View? {
+    protected open fun createContentView(
+        context: Context,
+        @LayoutRes layoutId: Int
+    ): View? {
         val inflater = LayoutInflater.from(context)
         return inflater.inflate(layoutId, null, false)
     }

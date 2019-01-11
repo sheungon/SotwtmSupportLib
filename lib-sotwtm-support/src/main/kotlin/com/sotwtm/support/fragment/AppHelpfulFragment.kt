@@ -42,6 +42,9 @@ abstract class AppHelpfulFragment : Fragment(), HasSupportFragmentInjector {
     @get:LayoutRes
     abstract val layoutResId: Int
 
+    /**Indicate if dagger injection is enabled to this fragment.*/
+    open val daggerEnabled: Boolean = true
+
     /**
      * The Enter screen animation to override on start activity
      * @return 0 means no animation the activity animation
@@ -82,7 +85,7 @@ abstract class AppHelpfulFragment : Fragment(), HasSupportFragmentInjector {
 
     override fun onAttach(context: Context?) {
         try {
-            AndroidSupportInjection.inject(this)
+            if (daggerEnabled) AndroidSupportInjection.inject(this)
         } catch (e: Exception) {
             if (SotwtmSupportLib.enableDaggerErrorLog) {
                 Log.e("Disable dagger error log by SotwtmSupportLib.enableDaggerErrorLog", e)
@@ -98,7 +101,7 @@ abstract class AppHelpfulFragment : Fragment(), HasSupportFragmentInjector {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
-            inflater.inflate(layoutResId, container, false)
+        inflater.inflate(layoutResId, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -151,9 +154,11 @@ abstract class AppHelpfulFragment : Fragment(), HasSupportFragmentInjector {
     }
 
     @Suppress("MemberVisibilityCanBePrivate")
-    fun startActivity(intent: Intent,
-                      overridePendingTransition: Boolean,
-                      options: Bundle? = null) {
+    fun startActivity(
+        intent: Intent,
+        overridePendingTransition: Boolean,
+        options: Bundle? = null
+    ) {
         val activity = activity ?: return {
             Log.e("Cannot start activity as the fragment has been released.")
             Unit
@@ -175,10 +180,12 @@ abstract class AppHelpfulFragment : Fragment(), HasSupportFragmentInjector {
     }
 
     @Suppress("MemberVisibilityCanBePrivate")
-    fun startActivityForResult(intent: Intent,
-                               requestCode: Int,
-                               overridePendingTransition: Boolean,
-                               options: Bundle? = null) {
+    fun startActivityForResult(
+        intent: Intent,
+        requestCode: Int,
+        overridePendingTransition: Boolean,
+        options: Bundle? = null
+    ) {
         val activity = activity ?: return {
             Log.e("Cannot start activity as the fragment has been released.")
             Unit
@@ -205,7 +212,7 @@ abstract class AppHelpfulFragment : Fragment(), HasSupportFragmentInjector {
         val activity = activity
         if (activity != null) {
             (activity as? AppHelpfulActivity)?.showLoadingDialog()
-                    ?: Log.wtf("This method can only work with parent is AppHelpfulActivity")
+                ?: Log.wtf("This method can only work with parent is AppHelpfulActivity")
         } else {
             Log.v("Fragment released")
         }
@@ -227,7 +234,7 @@ abstract class AppHelpfulFragment : Fragment(), HasSupportFragmentInjector {
         val activity = activity
         if (activity != null) {
             (activity as? AppHelpfulActivity)?.showLoadingDialog(msgRes)
-                    ?: Log.wtf("This method can only work with parent is AppHelpfulActivity")
+                ?: Log.wtf("This method can only work with parent is AppHelpfulActivity")
         } else {
             Log.v("Fragment released")
         }
@@ -238,7 +245,7 @@ abstract class AppHelpfulFragment : Fragment(), HasSupportFragmentInjector {
         val activity = activity
         if (activity != null) {
             (activity as? AppHelpfulActivity)?.dismissLoadingDialog()
-                    ?: Log.wtf("This method can only work with parent is AppHelpfulActivity")
+                ?: Log.wtf("This method can only work with parent is AppHelpfulActivity")
         } else {
             Log.v("Fragment released")
         }
@@ -248,24 +255,28 @@ abstract class AppHelpfulFragment : Fragment(), HasSupportFragmentInjector {
      * Show snack bar with message.
      * This can be called from any thread.
      */
-    fun showSnackBar(@StringRes messageRes: Int,
-                     @SnackbarDuration duration: Int) {
+    fun showSnackBar(
+        @StringRes messageRes: Int,
+        @SnackbarDuration duration: Int
+    ) {
 
         val activity = activity
         (activity as? AppHelpfulActivity)?.showSnackBar(messageRes, duration)
-                ?: if (activity != null) {
-                    showSnackBar(activity.getString(messageRes), duration)
-                } else {
-                    Log.e("Fragment is not attached! message lost : $messageRes")
-                }
+            ?: if (activity != null) {
+                showSnackBar(activity.getString(messageRes), duration)
+            } else {
+                Log.e("Fragment is not attached! message lost : $messageRes")
+            }
     }
 
     /**
      * Show snack bar with message.
      * This can be called from any thread.
      */
-    fun showSnackBar(message: String,
-                     @SnackbarDuration duration: Int) {
+    fun showSnackBar(
+        message: String,
+        @SnackbarDuration duration: Int
+    ) {
 
         if (!isViewBound) {
             return
@@ -273,42 +284,46 @@ abstract class AppHelpfulFragment : Fragment(), HasSupportFragmentInjector {
 
         val activity = activity
         (activity as? AppHelpfulActivity)?.showSnackBar(message, duration)
-                ?: if (activity != null) {
+            ?: if (activity != null) {
 
-                    val rootView = view
-                    if (rootView == null) {
-                        Log.w("Cannot get root view.")
-                        return
-                    }
-                    activity.runOnUiThread {
-                        dismissLoadingDialog()
-                        activity.hideSoftKeyboard()
-
-                        rootView.createSnackbar(message, duration).show()
-                    }
-
-                } else {
-                    Log.e("Fragment is not attached! message lost : $message")
+                val rootView = view
+                if (rootView == null) {
+                    Log.w("Cannot get root view.")
+                    return
                 }
+                activity.runOnUiThread {
+                    dismissLoadingDialog()
+                    activity.hideSoftKeyboard()
+
+                    rootView.createSnackbar(message, duration).show()
+                }
+
+            } else {
+                Log.e("Fragment is not attached! message lost : $message")
+            }
     }
 
-    fun createSnackBarWithRootView(@StringRes messageRes: Int,
-                                   @SnackbarDuration duration: Int): Snackbar? {
+    fun createSnackBarWithRootView(
+        @StringRes messageRes: Int,
+        @SnackbarDuration duration: Int
+    ): Snackbar? {
         val activity = activity
         return (activity as? AppHelpfulActivity)?.createSnackBarWithRootView(messageRes, duration)
-                ?: if (activity != null) createSnackBarWithRootView(activity.getString(messageRes), duration)
-                else {
-                    Log.e("Fragment is not attached! message lost : $messageRes")
-                    null
-                }
+            ?: if (activity != null) createSnackBarWithRootView(activity.getString(messageRes), duration)
+            else {
+                Log.e("Fragment is not attached! message lost : $messageRes")
+                null
+            }
     }
 
-    fun createSnackBarWithRootView(message: String,
-                                   @SnackbarDuration duration: Int): Snackbar? {
+    fun createSnackBarWithRootView(
+        message: String,
+        @SnackbarDuration duration: Int
+    ): Snackbar? {
         return (activity as? AppHelpfulActivity)?.createSnackBarWithRootView(message, duration)
-                ?: {
-                    Log.e("Fragment is not attached! message lost : $message")
-                    null
-                }.invoke()
+            ?: {
+                Log.e("Fragment is not attached! message lost : $message")
+                null
+            }.invoke()
     }
 }

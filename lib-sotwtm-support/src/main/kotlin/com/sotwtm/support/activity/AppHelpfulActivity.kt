@@ -52,6 +52,9 @@ abstract class AppHelpfulActivity
     @Inject
     internal lateinit var frameworkFragmentInjector: Lazy<DispatchingAndroidInjector<android.app.Fragment>?>
 
+    /**Indicate if dagger injection if enabled to this activity.*/
+    open val daggerEnabled: Boolean = true
+
     /**
      * The layout ID for this activity
      */
@@ -180,7 +183,7 @@ abstract class AppHelpfulActivity
         }
 
         try {
-            AndroidInjection.inject(this)
+            if (daggerEnabled) AndroidInjection.inject(this)
         } catch (e: Exception) {
             if (SotwtmSupportLib.enableDaggerErrorLog) {
                 Log.e("Disable dagger error log by SotwtmSupportLib.enableDaggerErrorLog", e)
