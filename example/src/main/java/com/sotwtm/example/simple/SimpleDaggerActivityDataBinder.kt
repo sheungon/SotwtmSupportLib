@@ -34,6 +34,10 @@ constructor(
         }
     }
 
+    fun onClickNoDagger() {
+        navigator.startActivity(Intent(getApplication(), NoDaggerActivity::class.java))
+    }
+
     fun onClickOpenSubcomponentActivity() {
         navigator.startActivity(Intent(getApplication(), SubcomponentActivity::class.java))
     }

@@ -30,6 +30,12 @@
                 android:windowSoftInputMode="adjustPan"/>
 
         <activity
+                android:name=".simple.NoDaggerActivity"
+                android:configChanges="orientation|screenSize|locale"
+                android:theme="@style/AppTheme.NoActionBar"
+                android:windowSoftInputMode="adjustPan"/>
+
+        <activity
                 android:name=".sub.SubcomponentActivity"
                 android:configChanges="orientation|screenSize|locale"
                 android:screenOrientation="locked"

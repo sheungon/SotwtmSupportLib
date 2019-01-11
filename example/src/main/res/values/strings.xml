@@ -7,4 +7,6 @@
     <string name="simple_dagger_fragment">SimpleDaggerFragment</string>
     <string name="common_fragment_in">CommonFragment in %s</string>
     <string name="title_subcomponent">Subcomponent - %s</string>
+    <string name="no_dagger">No Dagger</string>
+    <string name="no_dagger_activity">NoDaggerActivity</string>
 </resources>
