@@ -20,6 +20,11 @@ android {
         debug {
             testCoverageEnabled true
         }
+        release {
+            minifyEnabled false
+            useProguard true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
     }
 
     sourceSets { main.java.srcDirs += 'src/main/kotlin' }
@@ -64,10 +69,6 @@ android {
         // Avoid proguard build with OOM error
         javaMaxHeapSize "4g"
         jumboMode = true
-    }
-
-    kapt {
-        useBuildCache = true
     }
 
     testOptions {
