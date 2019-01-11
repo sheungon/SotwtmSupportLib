@@ -83,7 +83,7 @@ abstract class AppHelpfulFragment : Fragment(), HasSupportFragmentInjector {
 
     abstract val dataBinder: AppHelpfulFragmentDataBinder?
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         try {
             if (daggerEnabled) AndroidSupportInjection.inject(this)
         } catch (e: Exception) {
@@ -223,7 +223,7 @@ abstract class AppHelpfulFragment : Fragment(), HasSupportFragmentInjector {
         val activity = activity
         if (activity != null) {
             (activity as? AppHelpfulActivity)?.showLoadingDialog(msg)
-                ?: Log.wtf("This method can only work with parent is AppHelpfulActivity")
+                    ?: Log.wtf("This method can only work with parent is AppHelpfulActivity")
         } else {
             Log.v("Fragment released")
         }

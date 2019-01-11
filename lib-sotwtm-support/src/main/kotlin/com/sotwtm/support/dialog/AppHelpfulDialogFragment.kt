@@ -41,7 +41,7 @@ abstract class AppHelpfulDialogFragment : AppCompatDialogFragment(), HasSupportF
     /**Indicate if dagger injection is enabled to this dialog fragment.*/
     open val daggerEnabled: Boolean = true
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         try {
             if (daggerEnabled) AndroidSupportInjection.inject(this)
         } catch (e: Exception) {
