@@ -11,6 +11,6 @@ import android.widget.Spinner
  * @author sheunogn
  */
 @BindingMethods(
-        BindingMethod(type = Spinner::class, attribute = "setAdapter", method = "setAdapter")
+    BindingMethod(type = Spinner::class, attribute = "setAdapter", method = "setAdapter")
 )
 object SpinnerAppHelpfulDataBinding

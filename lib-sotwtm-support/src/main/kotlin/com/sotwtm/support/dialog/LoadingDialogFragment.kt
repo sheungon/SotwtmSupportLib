@@ -26,10 +26,10 @@ class LoadingDialogFragment : AppHelpfulDataBindingDialogFragment<DialogLoadingB
     override val layoutId: Int? = R.layout.dialog_loading
     override val dataBinder: AppHelpfulDialogFragmentDataBinder? = null
     var loadingMsg: StringOrStringRes? = null
-    set(value) {
-        field = value
-        dataBinding?.loadingMsg = value
-    }
+        set(value) {
+            field = value
+            dataBinding?.loadingMsg = value
+        }
 
     private var dismissed: Boolean = false
 

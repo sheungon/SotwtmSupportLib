@@ -20,9 +20,9 @@ open class SingletonHolder<InstanceClass>(_constructor: () -> InstanceClass) {
 
     @Synchronized
     fun getInstance(): InstanceClass =
-            instance ?: run {
-                val newInstant = instanceConstructor()
-                instance = newInstant
-                newInstant
-            }
+        instance ?: run {
+            val newInstant = instanceConstructor()
+            instance = newInstant
+            newInstant
+        }
 }

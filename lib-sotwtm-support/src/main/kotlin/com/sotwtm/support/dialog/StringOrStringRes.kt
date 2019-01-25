@@ -50,7 +50,7 @@ class StringOrStringRes(private val context: Context) : ObservableField<String?>
     }
 
     @Synchronized
-    fun sync(value : StringOrStringRes) {
+    fun sync(value: StringOrStringRes) {
         msgRes = value.msgRes
         if (msgRes == null) {
             set(value.get())

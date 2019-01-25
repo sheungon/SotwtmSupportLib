@@ -19,15 +19,19 @@ object ProgressBarAppHelpfulDataBinding {
 
     @JvmStatic
     @BindingAdapter(value = ["setProgressColorRes"])
-    fun setProgressBarColorRes(view: ProgressBar,
-                               @ColorRes colorRes: Int) {
+    fun setProgressBarColorRes(
+        view: ProgressBar,
+        @ColorRes colorRes: Int
+    ) {
         setProgressBarColor(view, ContextCompat.getColor(view.context, colorRes))
     }
 
     @JvmStatic
     @BindingAdapter(value = ["setProgressColor"])
-    fun setProgressBarColor(view: ProgressBar,
-                            @ColorInt color: Int) {
+    fun setProgressBarColor(
+        view: ProgressBar,
+        @ColorInt color: Int
+    ) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             view.progressTintList = ColorStateList.valueOf(color)
         } else {
@@ -36,11 +40,15 @@ object ProgressBarAppHelpfulDataBinding {
     }
 
     @JvmStatic
-    @BindingAdapter(value = ["setProgress", "animateProgress"],
-            requireAll = false)
-    fun setProgress(view: ProgressBar,
-                    progress: Int,
-                    animateProgress: Boolean) {
+    @BindingAdapter(
+        value = ["setProgress", "animateProgress"],
+        requireAll = false
+    )
+    fun setProgress(
+        view: ProgressBar,
+        progress: Int,
+        animateProgress: Boolean
+    ) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             view.setProgress(progress, animateProgress)
         } else {
@@ -49,10 +57,14 @@ object ProgressBarAppHelpfulDataBinding {
     }
 
     @JvmStatic
-    @BindingAdapter(value = ["setProgressMax"],
-            requireAll = false)
-    fun setProgressMax(view: ProgressBar,
-                    progressMax: Int) {
-            view.max = progressMax
+    @BindingAdapter(
+        value = ["setProgressMax"],
+        requireAll = false
+    )
+    fun setProgressMax(
+        view: ProgressBar,
+        progressMax: Int
+    ) {
+        view.max = progressMax
     }
 }

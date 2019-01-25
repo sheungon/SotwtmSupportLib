@@ -11,6 +11,10 @@ import android.support.design.widget.NavigationView
  * @author sheunogn
  */
 @BindingMethods(
-        BindingMethod(type = NavigationView::class, attribute = "onNavigationItemSelected", method = "setNavigationItemSelectedListener")
+    BindingMethod(
+        type = NavigationView::class,
+        attribute = "onNavigationItemSelected",
+        method = "setNavigationItemSelectedListener"
+    )
 )
 object NavigationViewHelpfulDataBinding

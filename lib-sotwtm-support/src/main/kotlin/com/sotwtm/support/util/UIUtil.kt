@@ -30,18 +30,21 @@ object UIUtil {
     }
 }
 
-fun View.createSnackbar(message: String,
-                        @SnackbarDuration duration: Int): Snackbar =
-        Snackbar.make(this, message, duration)
-                .setActionTextColor(ContextCompat.getColor(context, R.color.snackbar_action_text))
-                .apply {
-                    val snackbarText = view.findViewById<TextView?>(android.support.design.R.id.snackbar_text)
-                    snackbarText?.setTextColor(ContextCompat.getColor(context, R.color.snackbar_text))
+fun View.createSnackbar(
+    message: String,
+    @SnackbarDuration duration: Int
+): Snackbar =
+    Snackbar.make(this, message, duration)
+        .setActionTextColor(ContextCompat.getColor(context, R.color.snackbar_action_text))
+        .apply {
+            val snackbarText = view.findViewById<TextView?>(android.support.design.R.id.snackbar_text)
+            snackbarText?.setTextColor(ContextCompat.getColor(context, R.color.snackbar_text))
 
-                    view.setBackgroundColor(ContextCompat.getColor(context, R.color.snackbar_bg))
-                }
+            view.setBackgroundColor(ContextCompat.getColor(context, R.color.snackbar_bg))
+        }
 
-fun Float.dpToPixel(context: Context) = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this, context.resources.displayMetrics)
+fun Float.dpToPixel(context: Context) =
+    TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this, context.resources.displayMetrics)
 
 fun Context.isLandscapeNow(): Boolean = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
@@ -52,7 +55,7 @@ fun Context.hideSoftKeyboard(currentFocusView: View): Context = apply {
 
 fun Activity.hideSoftKeyboard(): Activity = apply {
     currentFocus?.let { hideSoftKeyboard(it) }
-            ?: Log.w("Cannot hide keyboard as no focus in the provided activity.")
+        ?: Log.w("Cannot hide keyboard as no focus in the provided activity.")
 }
 
 fun Fragment.hideSoftKeyboard(): Fragment = apply {

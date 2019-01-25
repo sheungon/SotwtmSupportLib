@@ -33,15 +33,21 @@ object AppHelpfulDataBindingUtil {
     }
 
     @JvmStatic
-    fun getBoolean(context: Context,
-                   @BoolRes boolRes: Int): Boolean = context.resources.getBoolean(boolRes)
+    fun getBoolean(
+        context: Context,
+        @BoolRes boolRes: Int
+    ): Boolean = context.resources.getBoolean(boolRes)
 
     @JvmStatic
     @ColorInt
-    fun getColor(context: Context,
-                 @ColorRes colorRes: Int): Int = ContextCompat.getColor(context, colorRes)
+    fun getColor(
+        context: Context,
+        @ColorRes colorRes: Int
+    ): Int = ContextCompat.getColor(context, colorRes)
 
     @JvmStatic
-    fun getString(context: Context,
-                  @StringRes stringRes: Int): String = context.getString(stringRes)
+    fun getString(
+        context: Context,
+        @StringRes stringRes: Int
+    ): String = context.getString(stringRes)
 }

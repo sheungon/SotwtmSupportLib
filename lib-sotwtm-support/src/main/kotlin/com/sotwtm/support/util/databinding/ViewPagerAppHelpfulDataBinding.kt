@@ -15,21 +15,25 @@ import android.support.v4.view.ViewPager
  * @author sheunogn
  */
 @BindingMethods(
-        BindingMethod(type = ViewPager::class, attribute = "onTouchListener", method = "setOnTouchListener"),
-        BindingMethod(type = ViewPager::class, attribute = "setOffscreenPageLimit", method = "setOffscreenPageLimit")
+    BindingMethod(type = ViewPager::class, attribute = "onTouchListener", method = "setOnTouchListener"),
+    BindingMethod(type = ViewPager::class, attribute = "setOffscreenPageLimit", method = "setOffscreenPageLimit")
 )
 object ViewPagerAppHelpfulDataBinding {
 
     @JvmStatic
-    @BindingAdapter(value = [
-        "setAdapter",
-        "setCurrentItem",
-        "setTabLayout"],
-            requireAll = false)
-    fun setAdapter(view: ViewPager,
-                   adapter: PagerAdapter?,
-                   currentItem: Int,
-                   tabLayout: TabLayout?) {
+    @BindingAdapter(
+        value = [
+            "setAdapter",
+            "setCurrentItem",
+            "setTabLayout"],
+        requireAll = false
+    )
+    fun setAdapter(
+        view: ViewPager,
+        adapter: PagerAdapter?,
+        currentItem: Int,
+        tabLayout: TabLayout?
+    ) {
         view.adapter = adapter
 
         if (view.currentItem == currentItem) {
@@ -43,8 +47,10 @@ object ViewPagerAppHelpfulDataBinding {
 
     @JvmStatic
     @BindingAdapter("onPageChange")
-    fun onPageChangeListener(view: ViewPager,
-                             listener: ViewPager.OnPageChangeListener?) {
+    fun onPageChangeListener(
+        view: ViewPager,
+        listener: ViewPager.OnPageChangeListener?
+    ) {
         val oldListener = ListenerUtil.trackListener(view, listener, view.id)
         if (oldListener != null) {
             view.removeOnPageChangeListener(oldListener)

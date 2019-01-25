@@ -12,24 +12,30 @@ import android.support.design.widget.TabLayout
  * @author sheunogn
  */
 @BindingMethods(
-        BindingMethod(type = TabLayout::class, attribute = "setupWithViewPager", method = "setupWithViewPager")
+    BindingMethod(type = TabLayout::class, attribute = "setupWithViewPager", method = "setupWithViewPager")
 )
 object TabLayoutAppHelpfulDataBinding {
 
     @JvmStatic
     @BindingAdapter("selectTabAt")
-    fun selectTab(view: TabLayout,
-                  selectedTab: Int) {
+    fun selectTab(
+        view: TabLayout,
+        selectedTab: Int
+    ) {
         view.getTabAt(selectedTab)?.select()
     }
 
     @Synchronized
     @JvmStatic
-    @BindingAdapter(value = ["onTabSelected", "selectTabChanged"],
-            requireAll = false)
-    fun setTabChangeListener(view: TabLayout,
-                             listener: TabLayout.OnTabSelectedListener?,
-                             inverseBindingListener: InverseBindingListener?) {
+    @BindingAdapter(
+        value = ["onTabSelected", "selectTabChanged"],
+        requireAll = false
+    )
+    fun setTabChangeListener(
+        view: TabLayout,
+        listener: TabLayout.OnTabSelectedListener?,
+        inverseBindingListener: InverseBindingListener?
+    ) {
         val oldListener: TabLayout.OnTabSelectedListener? = ListenerUtil.getListener(view, view.id)
         if (oldListener != null) {
             view.removeOnTabSelectedListener(oldListener)

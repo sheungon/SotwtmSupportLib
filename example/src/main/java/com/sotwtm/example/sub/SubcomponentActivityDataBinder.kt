@@ -16,8 +16,10 @@ import javax.inject.Inject
 @ActivityScope
 class SubcomponentActivityDataBinder
 @Inject
-constructor(application: Application,
-            @SubcomponentActivitySubcomponent.MagicNumber val magicNumber: Long,
-            val pagerAdapter: FragmentPagerAdapter) : AppHelpfulActivityDataBinder(application) {
+constructor(
+    application: Application,
+    @SubcomponentActivitySubcomponent.MagicNumber val magicNumber: Long,
+    val pagerAdapter: FragmentPagerAdapter
+) : AppHelpfulActivityDataBinder(application) {
     val selectTabAt = ObservableInt(0)
 }

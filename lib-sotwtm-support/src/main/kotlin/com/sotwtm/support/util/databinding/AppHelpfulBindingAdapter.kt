@@ -11,8 +11,10 @@ object AppHelpfulBindingAdapter {
 
     @JvmStatic
     @BindingAdapter("menuId")
-    fun showAllMenu(view: View,
-                    menuId: Int?) {
+    fun showAllMenu(
+        view: View,
+        menuId: Int?
+    ) {
         (view.context as? AppHelpfulActivity)?.menuResId = menuId
     }
 }

@@ -17,10 +17,10 @@ abstract class AppHelpfulDataBindingActivity<DataBindingClass : ViewDataBinding>
 
     override val coordinatorLayoutRef: WeakReference<CoordinatorLayout?> by lazy {
         WeakReference(
-                coordinatorLayoutId?.let {
-                    dataBinding?.root?.findViewById<CoordinatorLayout?>(it)
-                            ?: findViewById<CoordinatorLayout?>(it)
-                }
+            coordinatorLayoutId?.let {
+                dataBinding?.root?.findViewById<CoordinatorLayout?>(it)
+                    ?: findViewById<CoordinatorLayout?>(it)
+            }
         )
     }
     @Volatile

@@ -13,8 +13,10 @@ object DrawerLayoutAppHelpfulDataBinding {
 
     @JvmStatic
     @BindingAdapter("addDrawerListener")
-    fun addDrawerListener(drawerLayout: DrawerLayout,
-                          listener: DrawerLayout.DrawerListener?) {
+    fun addDrawerListener(
+        drawerLayout: DrawerLayout,
+        listener: DrawerLayout.DrawerListener?
+    ) {
         if (listener != null) {
             drawerLayout.addDrawerListener(listener)
         }

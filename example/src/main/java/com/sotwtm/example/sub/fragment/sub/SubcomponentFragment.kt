@@ -9,7 +9,7 @@ import javax.inject.Inject
 /**
  *
  * */
-class SubcomponentFragment: AppHelpfulDataBindingFragment<FragmentSubcomponentBinding>() {
+class SubcomponentFragment : AppHelpfulDataBindingFragment<FragmentSubcomponentBinding>() {
 
     override val layoutResId: Int = R.layout.fragment_subcomponent
     @Inject

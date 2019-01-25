@@ -9,7 +9,7 @@ import dagger.Module
 abstract class ApplicationModule {
 
     @Binds
-    abstract fun application(app: ExampleApplication) : Application
+    abstract fun application(app: ExampleApplication): Application
 
     @Binds
     abstract fun context(app: ExampleApplication): Context

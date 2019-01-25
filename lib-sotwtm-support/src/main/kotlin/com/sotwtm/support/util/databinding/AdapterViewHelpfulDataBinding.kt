@@ -9,10 +9,12 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 
 @InverseBindingMethods(
-        InverseBindingMethod(type = AdapterView::class,
-                attribute = "selectedItemString",
-                method = "getSelectedItem",
-                event = "android:selectedItemPositionAttrChanged")
+    InverseBindingMethod(
+        type = AdapterView::class,
+        attribute = "selectedItemString",
+        method = "getSelectedItem",
+        event = "android:selectedItemPositionAttrChanged"
+    )
 )
 object AdapterViewHelpfulDataBinding {
 
@@ -21,13 +23,13 @@ object AdapterViewHelpfulDataBinding {
     fun AdapterView<*>.setItemsStringArrayRes(stringArrayRes: Int?) {
         val arrayAdapter = stringArrayRes?.let { arrayRes ->
             ListenerUtil.getListener<ArrayAdapter<String>>(this, arrayRes)
-                    ?: run {
-                        arrayRes.toResStringArray(context)
-                                .toArrayAdapter(context).apply {
-                                    ListenerUtil.trackListener(this@setItemsStringArrayRes, this, arrayRes)
-                                }
+                ?: run {
+                    arrayRes.toResStringArray(context)
+                        .toArrayAdapter(context).apply {
+                            ListenerUtil.trackListener(this@setItemsStringArrayRes, this, arrayRes)
+                        }
 
-                    }
+                }
         }
         if (adapter != arrayAdapter) {
             adapter = arrayAdapter
@@ -38,14 +40,14 @@ object AdapterViewHelpfulDataBinding {
     @BindingAdapter("selectedItemString")
     fun AdapterView<*>.selectedItemString(selectedString: String?) {
         val selectedPos = (adapter as? ArrayAdapter<String>)
-                ?.run {
-                    for (i in 0 until count) {
-                        if (getItem(i) == selectedString) {
-                            return@run i
-                        }
+            ?.run {
+                for (i in 0 until count) {
+                    if (getItem(i) == selectedString) {
+                        return@run i
                     }
-                    -1
-                } ?: -1
+                }
+                -1
+            } ?: -1
         if (selectedItemPosition != selectedPos) {
             setSelection(selectedPos)
         }
@@ -61,7 +63,7 @@ object AdapterViewHelpfulDataBinding {
     private fun Int.toResStringArray(context: Context) = context.resources.getStringArray(this).asList()
 
     private fun List<String>.toArrayAdapter(context: Context) =
-            ArrayAdapter(context, android.R.layout.simple_spinner_item, this).apply {
-                setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            }
+        ArrayAdapter(context, android.R.layout.simple_spinner_item, this).apply {
+            setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        }
 }

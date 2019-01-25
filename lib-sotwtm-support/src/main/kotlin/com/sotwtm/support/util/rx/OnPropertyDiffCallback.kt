@@ -6,7 +6,7 @@ import android.databinding.ObservableField
 abstract class OnPropertyDiffCallback<ObservableFieldClass> : Observable.OnPropertyChangedCallback() {
 
     var firstTimeCallback = true
-    var oldValue : ObservableFieldClass? = null
+    var oldValue: ObservableFieldClass? = null
 
     override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
         (sender as? ObservableField<ObservableFieldClass>)?.get()?.let { newValue ->

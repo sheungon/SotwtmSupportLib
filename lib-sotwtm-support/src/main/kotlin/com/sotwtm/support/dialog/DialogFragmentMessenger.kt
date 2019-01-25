@@ -57,10 +57,10 @@ class DialogFragmentMessenger(private val fragmentRef: WeakReference<out AppHelp
     }
 
     override fun showSnackBar(messageRes: Int, duration: Int) =
-            throw UnsupportedOperationException("Show snack bar is not supported in dialog fragment")
+        throw UnsupportedOperationException("Show snack bar is not supported in dialog fragment")
 
     override fun showSnackBar(message: String, duration: Int) =
-            throw UnsupportedOperationException("Show snack bar is not supported in dialog fragment")
+        throw UnsupportedOperationException("Show snack bar is not supported in dialog fragment")
 
     fun dismiss() {
         try {
@@ -71,14 +71,18 @@ class DialogFragmentMessenger(private val fragmentRef: WeakReference<out AppHelp
     }
 
     fun showToast(stringRes: Int, duration: Int) {
-        Toast.makeText(fragment?.context ?: return,
-                stringRes,
-                duration).show()
+        Toast.makeText(
+            fragment?.context ?: return,
+            stringRes,
+            duration
+        ).show()
     }
 
     fun showToast(string: String, duration: Int) {
-        Toast.makeText(fragment?.context ?: return,
-                string,
-                duration).show()
+        Toast.makeText(
+            fragment?.context ?: return,
+            string,
+            duration
+        ).show()
     }
 }

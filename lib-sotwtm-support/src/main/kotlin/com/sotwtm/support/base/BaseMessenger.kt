@@ -29,15 +29,19 @@ abstract class BaseMessenger {
      * Show snack bar with message.
      * This can be called from any thread.
      */
-    abstract fun showSnackBar(@StringRes messageRes: Int,
-                              @SnackbarDuration duration: Int)
+    abstract fun showSnackBar(
+        @StringRes messageRes: Int,
+        @SnackbarDuration duration: Int
+    )
 
     /**
      * Show snack bar with message.
      * This can be called from any thread.
      */
-    abstract fun showSnackBar(message: String,
-                              @SnackbarDuration duration: Int)
+    abstract fun showSnackBar(
+        message: String,
+        @SnackbarDuration duration: Int
+    )
 
     fun getString(@StringRes stringRes: Int): String? = activity?.getString(stringRes)
 }

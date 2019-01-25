@@ -15,8 +15,10 @@ object TextViewAppHelpfulDataBinding {
 
     @JvmStatic
     @BindingAdapter("underlineText")
-    fun underLineText(textView: TextView,
-                      underline: Boolean) {
+    fun underLineText(
+        textView: TextView,
+        underline: Boolean
+    ) {
         if (underline) {
             textView.paintFlags = textView.paintFlags or Paint.UNDERLINE_TEXT_FLAG
         } else {
@@ -25,11 +27,15 @@ object TextViewAppHelpfulDataBinding {
     }
 
     @JvmStatic
-    @BindingAdapter("typeface", "textStyle",
-            requireAll = false)
-    fun decorateText(view: TextView,
-                     typeface: Typeface?,
-                     textStyle: Int?) {
+    @BindingAdapter(
+        "typeface", "textStyle",
+        requireAll = false
+    )
+    fun decorateText(
+        view: TextView,
+        typeface: Typeface?,
+        textStyle: Int?
+    ) {
         view.setTypeface(
             typeface ?: view.typeface,
             textStyle ?: Typeface.NORMAL

@@ -38,9 +38,9 @@ private constructor(_application: Application) {
 
     init {
         DaggerSotwtmSupportComponent.builder()
-                .application(_application)
-                .build()
-                .inject(this)
+            .application(_application)
+            .build()
+            .inject(this)
         _application.setAppLocale(appLocale.get()!!)
     }
 
@@ -53,11 +53,11 @@ private constructor(_application: Application) {
      * */
     @Synchronized
     fun isSupportingLocale(locale: Locale): Boolean =
-            with(supportedLocales.get()) {
-                this == null
-                        || isEmpty()
-                        || any { AppHelpfulLocaleUtil.equals(locale, it) }
-            }
+        with(supportedLocales.get()) {
+            this == null
+                    || isEmpty()
+                    || any { AppHelpfulLocaleUtil.equals(locale, it) }
+        }
 
     /**
      * Reset app locale to system best matched locale.

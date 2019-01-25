@@ -26,12 +26,12 @@ abstract class AppHelpfulDataBindingDialogFragment<DataBindingClass : ViewDataBi
     abstract fun initDataBinding(dataBinding: DataBindingClass, savedInstanceState: Bundle?)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            layoutId?.let {
-                dataBinding?.unbind()
-                dataBinding = DataBindingUtil.inflate(inflater, it, container, false)
+        layoutId?.let {
+            dataBinding?.unbind()
+            dataBinding = DataBindingUtil.inflate(inflater, it, container, false)
 
-                dataBinding?.root ?: inflater.inflate(it, container, false)
-            } ?: super.onCreateView(inflater, container, savedInstanceState)
+            dataBinding?.root ?: inflater.inflate(it, container, false)
+        } ?: super.onCreateView(inflater, container, savedInstanceState)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -46,8 +46,10 @@ abstract class AppHelpfulDataBindingDialogFragment<DataBindingClass : ViewDataBi
         dataBinding = null
     }
 
-    override fun createContentView(context: Context,
-                                    @LayoutRes layoutId: Int): View? {
+    override fun createContentView(
+        context: Context,
+        @LayoutRes layoutId: Int
+    ): View? {
         val inflater = LayoutInflater.from(context)
         dataBinding = DataBindingUtil.inflate(inflater, layoutId, null, false)
         return dataBinding?.root ?: inflater.inflate(layoutId, null, false)

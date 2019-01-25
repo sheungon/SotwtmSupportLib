@@ -7,8 +7,10 @@ import dagger.Component
 import dagger.android.AndroidInjector
 
 @LibScope
-@Component(modules = [SotwtmSupportBindsModule::class,
-    SotwtmSupportBaseModule::class])
+@Component(
+    modules = [SotwtmSupportBindsModule::class,
+        SotwtmSupportBaseModule::class]
+)
 interface SotwtmSupportComponent : AndroidInjector<SotwtmSupportLib> {
 
     @Component.Builder

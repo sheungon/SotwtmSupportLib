@@ -10,7 +10,7 @@ import com.sotwtm.support.SotwtmSupportLib
  * View model abstract class for [AppHelpfulDataBindingActivity]
  * @author sheunogn
  */
-abstract class AppHelpfulActivityDataBinder(app : Application) : AndroidViewModel(app) {
+abstract class AppHelpfulActivityDataBinder(app: Application) : AndroidViewModel(app) {
 
     val locale = SotwtmSupportLib.getInstance().appLocale
     /* Don't name this as "isResumed" because "isResumed" is a hidden final method in parent class. */
@@ -69,9 +69,11 @@ abstract class AppHelpfulActivityDataBinder(app : Application) : AndroidViewMode
     open fun onSaveInstanceState(outState: Bundle) {
     }
 
-    open fun onRequestPermissionsResult(requestCode: Int,
-                                        permissions: Array<out String>,
-                                        grantResults: IntArray) {
+    open fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
     }
 
     open fun onOptionsItemSelected(item: MenuItem): Boolean = false
