@@ -1,8 +1,14 @@
 package com.sotwtm.example.sub
 
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentPagerAdapter
+import com.sotwtm.example.sub.fragment.NoDataBindingFragment
+import com.sotwtm.example.sub.fragment.SimpleDaggerFragment
+import com.sotwtm.example.sub.fragment.sub.SubcomponentFragment
 import com.sotwtm.support.activity.AppHelpfulActivity
-import dagger.Binds
+import com.sotwtm.support.scope.ActivityScope
 import dagger.Module
+import dagger.Provides
 
 /**
  * Here we bind the [SubcomponentActivity] to [AppHelpfulActivity].
@@ -14,9 +20,26 @@ import dagger.Module
  * */
 @Module(
     // We can install other modules needed by SubcomponentActivity here
-    includes = [SubcomponentActivityFragmentAdapterModule::class]
+    includes = []
 )
-abstract class SubcomponentActivityModule {
-    @Binds
-    abstract fun activity(activity: SubcomponentActivity): AppHelpfulActivity
+class SubcomponentActivityModule {
+    @Provides
+    fun activity(activity: SubcomponentActivity): AppHelpfulActivity = activity
+
+    @Provides
+    @ActivityScope
+    fun adapter(activity: SubcomponentActivity): FragmentPagerAdapter =
+        object : FragmentPagerAdapter(activity.supportFragmentManager) {
+
+            override fun getItem(page: Int): Fragment =
+                when (page) {
+                    0 -> SimpleDaggerFragment()
+                    1 -> SubcomponentFragment()
+                    else -> NoDataBindingFragment()
+                }
+
+            override fun getCount(): Int = 3
+
+            override fun getPageTitle(position: Int): CharSequence? = position.toString()
+        }
 }

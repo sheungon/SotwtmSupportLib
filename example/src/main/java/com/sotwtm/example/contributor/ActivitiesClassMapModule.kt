@@ -31,6 +31,6 @@ class ActivitiesClassMapModule {
     fun bindActivityInjectorFactory(builder: SubcomponentActivitySubcomponent.Builder): AndroidInjector.Factory<*> =
         // Set any needed values for the subcomponent here
         builder.apply {
-            builder.setMagic(Random(Date().time).nextLong())
+            builder.setMagic(Random(Date().time).nextLong().rem(1000L))
         }
 }
