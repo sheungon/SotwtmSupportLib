@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Build
-import android.support.annotation.IdRes
 import android.support.annotation.RequiresApi
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
@@ -21,15 +20,20 @@ import com.sotwtm.util.Log
  * UI Utils for handling UI actions or calculation.
  * @author sheunogn
  */
-object UIUtil {
 
-    /**@return The fragment tag of the fragment at position in a view pager.
-     */
-    fun getViewPagerFragmentTag(@IdRes viewPagerId: Int, pageId: Long): String {
-        return "android:switcher:$viewPagerId:$pageId"
-    }
-}
+/**
+ * Convert view pager ID to with ID to fragment tag.
+ * @param pageId The page ID of the fragment in view pager
+ * @return The fragment tag of the fragment at position in a view pager.
+ */
+fun Int.toFragmentTag(pageId: Long): String = "android:switcher:$this:$pageId"
 
+/**
+ * Create a [Snackbar] for a [View]
+ * @param message The message of the [Snackbar]
+ * @param duration See [SnackbarDuration]
+ * @return [Snackbar] from input [View]
+ * */
 fun View.createSnackbar(
     message: String,
     @SnackbarDuration duration: Int
@@ -43,25 +47,49 @@ fun View.createSnackbar(
             view.setBackgroundColor(ContextCompat.getColor(context, R.color.snackbar_bg))
         }
 
+/**
+ * Convert DP to pixel
+ * @param context The context used for the conversion
+ * */
 fun Float.dpToPixel(context: Context) =
     TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this, context.resources.displayMetrics)
 
+/**
+ * Check if the app context is now in landscape mode.
+ * @return true if the device orientation is landscape.
+ * */
 fun Context.isLandscapeNow(): Boolean = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
+/**
+ * Hide the soft input keyboard from a given focus view
+ * @param currentFocusView The focusing view to hide the keyboard.
+ * */
 fun Context.hideSoftKeyboard(currentFocusView: View): Context = apply {
     val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
     imm?.hideSoftInputFromWindow(currentFocusView.windowToken, 0)
 }
 
+/**
+ * Hide the soft input keyboard from an activity.
+ * It will hide the keyboard from the current focus.
+ * */
 fun Activity.hideSoftKeyboard(): Activity = apply {
     currentFocus?.let { hideSoftKeyboard(it) }
         ?: Log.w("Cannot hide keyboard as no focus in the provided activity.")
 }
 
+/**
+ * Hide the soft input keyboard from a fragment.
+ * It will do nothing if the fragment has been removed from activity.
+ * */
 fun Fragment.hideSoftKeyboard(): Fragment = apply {
     activity?.hideSoftKeyboard()
 }
 
+/**
+ * Hide Navigation bar now
+ * @see hideNavigationAndStatusBar
+ * */
 @RequiresApi(Build.VERSION_CODES.JELLY_BEAN)
 fun Activity.hideNavigationBar(): Activity = apply {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -73,6 +101,10 @@ fun Activity.hideNavigationBar(): Activity = apply {
     }
 }
 
+/**
+ * Hide status bar now
+ * @see hideNavigationAndStatusBar
+ * */
 @RequiresApi(Build.VERSION_CODES.JELLY_BEAN)
 fun Activity.hideStatusBar(): Activity = apply {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -84,6 +116,11 @@ fun Activity.hideStatusBar(): Activity = apply {
     }
 }
 
+/**
+ * Hide navigation bar and status bar
+ * @see hideNavigationBar
+ * @see hideStatusBar
+ * */
 @RequiresApi(Build.VERSION_CODES.JELLY_BEAN)
 fun Activity.hideNavigationAndStatusBar(): Activity = apply {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
