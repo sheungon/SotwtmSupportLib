@@ -38,7 +38,7 @@ import javax.inject.Inject
  * This activity without binding with Android Data Binding
  * Created by John on 10/11/2015.
  *
- * @author sheunogn
+ * @author sheungon
  */
 abstract class AppHelpfulActivity
     : AppCompatActivity(),

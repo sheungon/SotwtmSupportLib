@@ -6,7 +6,7 @@ import com.sotwtm.support.activity.AppHelpfulActivity
 import com.sotwtm.support.util.SnackbarDuration
 
 /**
- * @author sheunogn
+ * @author sheungon
  */
 abstract class BaseMessenger {
 

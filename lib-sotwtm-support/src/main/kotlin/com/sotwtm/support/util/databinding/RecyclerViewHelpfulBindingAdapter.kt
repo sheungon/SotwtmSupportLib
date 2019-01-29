@@ -13,12 +13,12 @@ import com.sotwtm.support.R
  * DataBinding methods and BindingMethods created for easier implementation for Android DataBinding.
  * Implementation for [RecyclerView]
  *
- * @author sheunogn
+ * @author sheungon
  */
 @BindingMethods(
     BindingMethod(type = RecyclerView::class, attribute = "setAdapter", method = "setAdapter")
 )
-object RecyclerViewAppHelpfulDataBinding {
+object RecyclerViewHelpfulBindingAdapter {
 
     @JvmStatic
     @BindingAdapter(value = ["setLayoutManagerOrientation"])

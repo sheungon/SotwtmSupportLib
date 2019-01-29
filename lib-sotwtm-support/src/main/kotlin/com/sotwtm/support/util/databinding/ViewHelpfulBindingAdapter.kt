@@ -6,10 +6,20 @@ import android.support.annotation.DrawableRes
 import android.support.design.widget.Snackbar
 import android.view.View
 import com.sotwtm.support.R
+import com.sotwtm.support.activity.AppHelpfulActivity
 import com.sotwtm.support.util.createSnackbar
 import com.sotwtm.util.Log
 
-object ViewBindingAdapter {
+object ViewHelpfulBindingAdapter {
+
+    @JvmStatic
+    @BindingAdapter("menuId")
+    fun showAllMenu(
+        view: View,
+        menuId: Int?
+    ) {
+        (view.context as? AppHelpfulActivity)?.menuResId = menuId
+    }
 
     @JvmStatic
     @BindingAdapter("backgroundResource")

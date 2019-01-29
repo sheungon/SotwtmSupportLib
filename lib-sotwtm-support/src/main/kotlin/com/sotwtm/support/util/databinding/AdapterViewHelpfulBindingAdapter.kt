@@ -8,6 +8,12 @@ import android.databinding.adapters.ListenerUtil
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 
+/**
+ * DataBinding methods and BindingMethods created for easier implementation for Android DataBinding.
+ * Implementation for [AdapterView]
+ *
+ * @author sheungon
+ */
 @InverseBindingMethods(
     InverseBindingMethod(
         type = AdapterView::class,
@@ -16,7 +22,7 @@ import android.widget.ArrayAdapter
         event = "android:selectedItemPositionAttrChanged"
     )
 )
-object AdapterViewHelpfulDataBinding {
+object AdapterViewHelpfulBindingAdapter {
 
     @JvmStatic
     @BindingAdapter("itemsStringArrayRes")

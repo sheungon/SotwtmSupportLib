@@ -4,7 +4,7 @@ import javax.inject.Scope
 
 /**
  * Fragment scope
- * @author sheunogn
+ * @author sheungon
  */
 
 @Scope

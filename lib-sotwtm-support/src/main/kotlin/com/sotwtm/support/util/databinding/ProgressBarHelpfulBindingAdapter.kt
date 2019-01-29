@@ -13,9 +13,9 @@ import android.widget.ProgressBar
  * DataBinding methods and BindingMethods created for easier implementation for Android DataBinding.
  * Implementation for [ProgressBar]
  *
- * @author sheunogn
+ * @author sheungon
  */
-object ProgressBarAppHelpfulDataBinding {
+object ProgressBarHelpfulBindingAdapter {
 
     @JvmStatic
     @BindingAdapter(value = ["setProgressColorRes"])

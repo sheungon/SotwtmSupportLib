@@ -10,7 +10,7 @@ import android.view.ViewGroup
 /**
  * A fragment contains helpful API.
 
- * @author sheunogn
+ * @author sheungon
  */
 abstract class AppHelpfulDataBindingFragment<DataBindingClass : ViewDataBinding> : AppHelpfulFragment() {
 

@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 /**
  * Messenger for [AppHelpfulActivity]
- * @author sheunogn
+ * @author sheungon
  */
 
 @ActivityScope

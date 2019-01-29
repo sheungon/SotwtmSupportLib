@@ -13,7 +13,7 @@ import java.util.*
 /**
  * Locale Util for setting app language.
  * Reference, https://stackoverflow.com/questions/40221711/android-context-getresources-updateconfiguration-deprecated
- * @author sheunogn
+ * @author sheungon
  */
 
 object AppHelpfulLocaleUtil {
@@ -42,41 +42,22 @@ object AppHelpfulLocaleUtil {
         fuzzy: Boolean = true
     ): Boolean =
         if (fuzzy) {
-            val unifiedLeft = unify(left)
-            val unifiedRight = unify(right)
+            val unifiedLeft = left.unify()
+            val unifiedRight = right.unify()
             unifiedLeft.language.toUpperCase() == unifiedRight.language.toUpperCase() &&
                     (unifiedLeft.language.toUpperCase() != "ZH" ||
                             (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP &&
                                     (unifiedLeft.script.isEmpty() || unifiedRight.script.isEmpty() ||
                                             unifiedLeft.script.toUpperCase() == unifiedRight.script.toUpperCase())) ||
-                            zhLangConvert(unifiedLeft.country) == zhLangConvert(unifiedRight.country))
+                            unifiedLeft.country.convertToZhLang() == unifiedRight.country.convertToZhLang())
         } else
             left == right
 
-    /**
-     * Covert locale to unified value
-     * @param locale A locale going to be unified
-     * @return A unified [Locale]
-     * */
-    fun unify(locale: Locale): Locale =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (locale.script.isEmpty()) {
-                if (locale.language.toUpperCase() == "ZH") {
-                    val localeBuilder = Locale.Builder().setLanguage(locale.language).setRegion(locale.country)
-                    when (locale.country.toUpperCase()) {
-                        "CN" -> localeBuilder.setScript("hans")
-                        else -> localeBuilder.setScript("hant")
-                    }
-                    localeBuilder.build()
-                } else locale
-            } else locale
-        } else locale
-
-    private fun zhLangConvert(country: String): String =
-        when (country.toUpperCase()) {
+    private fun String.convertToZhLang(): String =
+        when (toUpperCase()) {
             "HK" -> "TW"
             "MO" -> "TW"
-            else -> country.toUpperCase()
+            else -> toUpperCase()
         }
 
     @Suppress("DEPRECATION")
@@ -87,7 +68,7 @@ object AppHelpfulLocaleUtil {
         if (supportedLocales == null || supportedLocales.isEmpty())
             config.locale
         else
-            find(supportedLocales, config.locale)
+            supportedLocales.find(config.locale)
                 ?: findFirstMatchedLanguage(supportedLocales, config.locale)
                 ?: supportedLocales[0]
 
@@ -100,18 +81,17 @@ object AppHelpfulLocaleUtil {
             return config.locales[0]
         else {
             (0 until config.locales.size())
-                .mapNotNull { find(supportedLocales, config.locales[it]) }
+                .mapNotNull { supportedLocales.find(config.locales[it]) }
                 .forEach { return it }
         }
         return supportedLocales[0]
     }
 
-    private fun find(
-        supportedLocales: List<Locale>,
+    fun List<Locale>.find(
         target: Locale,
         fuzzy: Boolean = true
     ): Locale? {
-        supportedLocales.forEach { locale ->
+        forEach { locale ->
             if (equals(locale, target, fuzzy)) {
                 return locale
             }
@@ -165,3 +145,21 @@ fun Context.setAppLocale(locale: Locale): Context {
         ContextWrapper(this)
     }
 }
+
+/**
+ * Covert locale to unified value
+ * @return A unified [Locale]
+ * */
+fun Locale.unify(): Locale =
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (script.isEmpty()) {
+            if (language.toUpperCase() == "ZH") {
+                val localeBuilder = Locale.Builder().setLanguage(language).setRegion(country)
+                when (country.toUpperCase()) {
+                    "CN" -> localeBuilder.setScript("hans")
+                    else -> localeBuilder.setScript("hant")
+                }
+                localeBuilder.build()
+            } else this
+        } else this
+    } else this

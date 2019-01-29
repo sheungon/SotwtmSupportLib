@@ -15,7 +15,7 @@ import com.sotwtm.support.databinding.DialogLoadingBinding
  * A general loading dialog.
 
  * Created by johntsai on 29/7/15.
- * @author sheunogn
+ * @author sheungon
  */
 class LoadingDialogFragment : AppHelpfulDataBindingDialogFragment<DialogLoadingBinding>() {
 

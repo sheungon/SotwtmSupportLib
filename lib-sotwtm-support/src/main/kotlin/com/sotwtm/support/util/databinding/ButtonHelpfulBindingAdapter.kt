@@ -2,15 +2,16 @@ package com.sotwtm.support.util.databinding
 
 import android.databinding.BindingMethod
 import android.databinding.BindingMethods
-import android.widget.Spinner
+import android.widget.Button
+
 
 /**
  * DataBinding methods and BindingMethods created for easier implementation for Android DataBinding.
- * Implementation for [Spinner]
+ * Implementation for [Button]
  *
- * @author sheunogn
+ * @author sheungon
  */
 @BindingMethods(
-    BindingMethod(type = Spinner::class, attribute = "setAdapter", method = "setAdapter")
+    BindingMethod(type = Button::class, attribute = "selected", method = "setSelected")
 )
-object SpinnerAppHelpfulDataBinding
+object ButtonHelpfulBindingAdapter

@@ -8,7 +8,7 @@ import android.support.v7.app.ActionBar
  * DataBinding methods and BindingMethods created for easier implementation for Android DataBinding.
  * Implementation for [ActionBar]
  *
- * @author sheunogn
+ * @author sheungon
  */
 @BindingMethods(
     BindingMethod(
@@ -22,4 +22,4 @@ import android.support.v7.app.ActionBar
         method = "setDisplayHomeAsUpEnabled"
     )
 )
-object ActionBarViewHelpfulDataBinding
+object ActionBarHelpfulBindingAdapter

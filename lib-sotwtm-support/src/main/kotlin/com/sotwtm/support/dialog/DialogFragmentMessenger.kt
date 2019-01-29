@@ -10,7 +10,7 @@ import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 /**
- * @author sheunogn
+ * @author sheungon
  */
 
 @FragmentScope

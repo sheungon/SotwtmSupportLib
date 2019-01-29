@@ -6,6 +6,7 @@ import android.databinding.ObservableField
 import android.support.v4.os.LocaleListCompat
 import com.sotwtm.support.scope.LibScope
 import com.sotwtm.support.util.locale.AppHelpfulLocaleUtil
+import com.sotwtm.support.util.locale.unify
 import dagger.Module
 import dagger.Provides
 import java.util.*
@@ -57,7 +58,7 @@ internal class SotwtmSupportBaseModule {
 
                 editor.putString(
                     SotwtmSupportLib.PREF_KEY_APP_LOCALE,
-                    LocaleListCompat.create(AppHelpfulLocaleUtil.unify(value)).toLanguageTags()
+                    LocaleListCompat.create(value.unify()).toLanguageTags()
                 )
                 editor.apply()
                 notifyChange()
@@ -97,7 +98,7 @@ internal class SotwtmSupportBaseModule {
                         SotwtmSupportLib.getInstance().resetLocaleToSystemBestMatched(newLocales)
                     }
                     val localeListString = newLocales.joinToString(separator = SotwtmSupportLib.SEPARATOR_LOCALE,
-                        transform = { LocaleListCompat.create(AppHelpfulLocaleUtil.unify(it)).toLanguageTags() })
+                        transform = { LocaleListCompat.create(it.unify()).toLanguageTags() })
                     if (localeListString != sharedPreferences.getString(
                             SotwtmSupportLib.PREF_KEY_SUPPORTED_LOCALES,
                             null

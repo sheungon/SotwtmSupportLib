@@ -8,7 +8,7 @@ import android.support.design.widget.NavigationView
  * DataBinding methods and BindingMethods created for easier implementation for Android DataBinding.
  * Implementation for [NavigationView]
  *
- * @author sheunogn
+ * @author sheungon
  */
 @BindingMethods(
     BindingMethod(
@@ -17,4 +17,4 @@ import android.support.design.widget.NavigationView
         method = "setNavigationItemSelectedListener"
     )
 )
-object NavigationViewHelpfulDataBinding
+object NavigationViewHelpfulBindingAdapter

@@ -18,7 +18,7 @@ import com.sotwtm.util.Log
 
 /**
  * UI Utils for handling UI actions or calculation.
- * @author sheunogn
+ * @author sheungon
  */
 
 /**
@@ -27,6 +27,24 @@ import com.sotwtm.util.Log
  * @return The fragment tag of the fragment at position in a view pager.
  */
 fun Int.toFragmentTag(pageId: Long): String = "android:switcher:$this:$pageId"
+
+/**
+ * Get the Boolean value of a BoolRes
+ * @return The resource boolean value
+ * */
+fun Int.boolResValue(context: Context): Boolean = context.resources.getBoolean(this)
+
+/**
+ * Get the color value of a ColorRes
+ * @return The resource color value
+ * */
+fun Int.colorResValue(context: Context): Int = ContextCompat.getColor(context, this)
+
+/**
+ * Get the string value of a StringRes
+ * @return The resource string value
+ * */
+fun Int.stringResValue(context: Context): String = context.getString(this)
 
 /**
  * Create a [Snackbar] for a [View]
