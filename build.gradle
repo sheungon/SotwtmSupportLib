@@ -38,7 +38,7 @@ buildscript {
                 // See version at,
                 // https://mvnrepository.com/artifact/com.google.dagger/dagger
                 // https://mvnrepository.com/artifact/com.google.dagger/dagger-compiler
-                'dagger_2'          : '2.20',
+                'dagger_2'          : '2.21',
 
                 // DaggerMock
                 // https://github.com/fabioCollini/DaggerMock
