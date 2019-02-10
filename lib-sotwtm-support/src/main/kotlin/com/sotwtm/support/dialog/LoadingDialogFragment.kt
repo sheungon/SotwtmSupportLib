@@ -25,6 +25,8 @@ class LoadingDialogFragment : AppHelpfulDataBindingDialogFragment<DialogLoadingB
 
     override val layoutId: Int? = R.layout.dialog_loading
     override val dataBinder: AppHelpfulDialogFragmentDataBinder? = null
+    override val daggerEnabled: Boolean = false
+
     var loadingMsg: StringOrStringRes? = null
         set(value) {
             field = value
