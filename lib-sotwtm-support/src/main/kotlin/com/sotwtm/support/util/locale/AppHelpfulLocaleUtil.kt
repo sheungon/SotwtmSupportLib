@@ -87,7 +87,7 @@ object AppHelpfulLocaleUtil {
         return supportedLocales[0]
     }
 
-    fun List<Locale>.find(
+    private fun List<Locale>.find(
         target: Locale,
         fuzzy: Boolean = true
     ): Locale? {
