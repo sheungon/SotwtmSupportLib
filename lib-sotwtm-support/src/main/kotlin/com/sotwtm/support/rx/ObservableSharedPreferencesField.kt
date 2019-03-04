@@ -4,6 +4,13 @@ import android.content.SharedPreferences
 import android.databinding.ObservableField
 import com.sotwtm.util.Log
 
+/**
+ * For observing [T] type value in [SharedPreferences]
+ * The value is stored in [SharedPreferences] in [String] format.
+ *
+ * Extends class should override [stringToValue] and [valueToString] to convert the value from and to [String].
+ * @author sheungon
+ * */
 abstract class ObservableSharedPreferencesField<T>(
     private val sharedPreferences: SharedPreferences,
     private val editor: SharedPreferences.Editor,

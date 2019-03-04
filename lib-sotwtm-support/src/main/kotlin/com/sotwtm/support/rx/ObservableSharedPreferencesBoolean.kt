@@ -3,6 +3,10 @@ package com.sotwtm.support.rx
 import android.content.SharedPreferences
 import android.databinding.ObservableBoolean
 
+/**
+ * For observing [Boolean] value in [SharedPreferences]
+ * @author sheungon
+ * */
 class ObservableSharedPreferencesBoolean(
     private val sharedPreferences: SharedPreferences,
     private val editor: SharedPreferences.Editor,

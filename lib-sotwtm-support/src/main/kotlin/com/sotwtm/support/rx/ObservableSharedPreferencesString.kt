@@ -3,6 +3,10 @@ package com.sotwtm.support.rx
 import android.content.SharedPreferences
 import android.databinding.ObservableField
 
+/**
+ *
+ * @author sheungon
+ * */
 class ObservableSharedPreferencesString(
     private val sharedPreferences: SharedPreferences,
     private val editor: SharedPreferences.Editor,

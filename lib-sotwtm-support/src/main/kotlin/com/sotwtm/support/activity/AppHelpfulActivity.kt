@@ -35,7 +35,7 @@ import javax.inject.Inject
 
 /**
  * Activity applied animation on transit.
- * This activity without binding with Android Data Binding
+ * This activity comes without Android Data Binding.
  * Created by John on 10/11/2015.
  *
  * @author sheungon

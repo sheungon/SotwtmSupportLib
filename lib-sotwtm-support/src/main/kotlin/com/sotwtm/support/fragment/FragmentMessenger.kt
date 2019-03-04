@@ -10,9 +10,9 @@ import java.lang.ref.WeakReference
 import javax.inject.Inject
 
 /**
+ * A simple messenger for [AppHelpfulFragment]
  * @author sheungon
  */
-
 @FragmentScope
 class FragmentMessenger(private val fragmentRef: WeakReference<out AppHelpfulFragment>) : BaseMessenger() {
     @Inject
