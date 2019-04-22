@@ -31,6 +31,6 @@ class FragmentsClassMapModule {
     fun bindActivityInjectorFactory(builder: SubcomponentFragmentSubcomponent.Builder): AndroidInjector.Factory<*> =
     // Set any needed values for the subcomponent here
         builder.apply {
-            builder.setMagic(Random(Date().time).nextLong().rem(1000L).toString())
+            setMagic(Random(Date().time).nextLong().rem(1000L).toString())
         }
 }
