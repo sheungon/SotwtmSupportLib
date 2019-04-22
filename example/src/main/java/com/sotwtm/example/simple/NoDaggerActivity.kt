@@ -12,7 +12,11 @@ import com.sotwtm.support.activity.AppHelpfulActivityDataBinder
  * @author sheungon
  * */
 class NoDaggerActivity : AppHelpfulActivity() {
+
+    override val daggerEnabled: Boolean = false
+
     override val layoutResId: Int = R.layout.activity_no_dagger
+
     override val dataBinder: AppHelpfulActivityDataBinder by lazy {
         object : AppHelpfulActivityDataBinder(application) {}
     }
