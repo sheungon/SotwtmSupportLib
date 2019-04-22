@@ -2,6 +2,7 @@ package com.sotwtm.example.simple
 
 import android.app.Application
 import android.content.Intent
+import android.databinding.ObservableField
 import com.sotwtm.example.sub.SubcomponentActivity
 import com.sotwtm.support.activity.ActivityMessenger
 import com.sotwtm.support.activity.AppHelpfulActivityDataBinder
@@ -25,6 +26,8 @@ constructor(
     private val messenger: ActivityMessenger,
     private val navigator: SimpleActivityNavigator
 ) : AppHelpfulActivityDataBinder(application) {
+
+    val inputString: ObservableField<String> = ObservableField()
 
     fun onClickLogin() {
         messenger.showLoadingDialog("Login Loading...")
