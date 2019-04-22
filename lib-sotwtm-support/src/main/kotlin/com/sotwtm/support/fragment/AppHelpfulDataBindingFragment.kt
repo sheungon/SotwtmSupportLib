@@ -31,7 +31,10 @@ abstract class AppHelpfulDataBindingFragment<DataBindingClass : ViewDataBinding>
         dataBinding?.unbind()
         dataBinding = DataBindingUtil.inflate(inflater, layoutResId, container, false)
 
-        return dataBinding?.root ?: inflater.inflate(layoutResId, container, false)
+        return dataBinding?.let {
+            it.lifecycleOwner = this
+            it.root
+        } ?: inflater.inflate(layoutResId, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

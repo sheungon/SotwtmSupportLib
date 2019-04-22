@@ -37,7 +37,10 @@ abstract class AppHelpfulDataBindingActivity<DataBindingClass : ViewDataBinding>
         dataBinding?.unbind()
         dataBinding = DataBindingUtil.setContentView(this, layoutResId)
 
-        dataBinding?.let { initDataBinding(it, savedInstanceState) }
+        dataBinding?.let {
+            it.lifecycleOwner = this
+            initDataBinding(it, savedInstanceState)
+        }
     }
 
     override fun onDestroy() {

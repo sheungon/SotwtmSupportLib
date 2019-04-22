@@ -30,7 +30,10 @@ abstract class AppHelpfulDataBindingDialogFragment<DataBindingClass : ViewDataBi
             dataBinding?.unbind()
             dataBinding = DataBindingUtil.inflate(inflater, it, container, false)
 
-            dataBinding?.root ?: inflater.inflate(it, container, false)
+            dataBinding?.let {
+                it.lifecycleOwner = this
+                it.root
+            } ?: inflater.inflate(it, container, false)
         } ?: super.onCreateView(inflater, container, savedInstanceState)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
