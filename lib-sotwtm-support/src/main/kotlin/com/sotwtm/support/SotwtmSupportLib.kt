@@ -42,7 +42,7 @@ private constructor(_application: Application) {
             .application(_application)
             .build()
             .inject(this)
-        _application.setAppLocale(appLocale.get()!!)
+        _application.setAppLocale(requireNotNull(appLocale.get()))
     }
 
 
@@ -65,7 +65,7 @@ private constructor(_application: Application) {
      * @param locales A list of [Locale] for matching. Default values is [supportedLocales]
      * @see supportedLocales
      * */
-    fun resetLocaleToSystemBestMatched(locales: List<Locale> = supportedLocales.get()!!) {
+    fun resetLocaleToSystemBestMatched(locales: List<Locale> = requireNotNull(supportedLocales.get())) {
         appLocale.set(AppHelpfulLocaleUtil.getDefaultLangFromSystemSetting(locales))
     }
 

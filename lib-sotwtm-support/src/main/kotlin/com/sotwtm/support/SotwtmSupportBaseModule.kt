@@ -91,7 +91,7 @@ internal class SotwtmSupportBaseModule {
                     editor.apply()
                     notifyChange()
                 } else {
-                    val currentAppLocale = appLocale(sharedPreferences, editor).get()!!
+                    val currentAppLocale = requireNotNull(appLocale(sharedPreferences, editor).get())
                     // Check if the current locale is in the new supported locale list
                     if (!newLocales.any { AppHelpfulLocaleUtil.equals(currentAppLocale, it) }) {
                         // If the current locale is not supported anymore, update current locale to system best matched

@@ -159,7 +159,7 @@ abstract class AppHelpfulActivity
 
 
     override fun attachBaseContext(newBase: Context) {
-        super.attachBaseContext(newBase.setAppLocale(SotwtmSupportLib.getInstance().appLocale.get()!!))
+        super.attachBaseContext(newBase.setAppLocale(requireNotNull(SotwtmSupportLib.getInstance().appLocale.get())))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
