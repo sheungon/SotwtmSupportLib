@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.support.annotation.*
@@ -15,6 +16,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
+import android.view.Surface
 import android.view.View
 import com.sotwtm.support.R
 import com.sotwtm.support.SotwtmSupportLib
@@ -125,6 +127,7 @@ abstract class AppHelpfulActivity
     open val finishExitAnim: Int? = R.anim.slide_out_to_right
 
     open val requestOrientationByDeviceType: Boolean = false
+    open val resumeOrientationOnResume: Boolean = true
 
     protected open val coordinatorLayoutRef: WeakReference<CoordinatorLayout?> by lazy {
         WeakReference(
@@ -144,6 +147,8 @@ abstract class AppHelpfulActivity
     private var loadingDialogMsg: StringOrStringRes? = null
     private lateinit var backStackListener: MyBackStackChangedListener
     private var fullScreenFlag = 0x0
+    private var orientationBeforePause: Int? = null
+    private var orientationToResume: Int? = null
 
     private val onAppLocaleChangedListener: OnAppLocaleChangedListener = object : OnAppLocaleChangedListener() {
         override fun onAppLocalChange() {
@@ -234,10 +239,25 @@ abstract class AppHelpfulActivity
         } ?: run {
             dismissLoadingDialog()
         }
+
+        if (resumeOrientationOnResume) {
+            orientationToResume?.let {
+                requestedOrientation = it
+            }
+            orientationBeforePause?.let {
+                requestedOrientation = it
+            }
+        }
+
+        orientationToResume = resources.configuration.getOrientation()
     }
 
     override fun onPause() {
         super.onPause()
+
+        if (resumeOrientationOnResume) {
+            orientationBeforePause = requestedOrientation
+        }
 
         dataBinder.onPauseInternal()
     }
@@ -261,6 +281,12 @@ abstract class AppHelpfulActivity
         super.onSaveInstanceState(outState)
 
         dataBinder.onSaveInstanceState(outState)
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+
+        orientationToResume = newConfig.getOrientation()
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
@@ -421,9 +447,41 @@ abstract class AppHelpfulActivity
      * @param msg The message on loading dialog
      */
     @Synchronized
-    fun showLoadingDialog(@StringRes msg: String) {
+    fun showLoadingDialog(msg: String) {
         showLoadingDialog(StringOrStringRes(this, msg))
     }
+
+    private fun Configuration.getOrientation() =
+        when (windowManager.defaultDisplay.rotation) {
+            Surface.ROTATION_90 -> {
+                if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
+                } else {
+                    ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
+                }
+            }
+            Surface.ROTATION_180 -> {
+                if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
+                } else {
+                    ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
+                }
+            }
+            Surface.ROTATION_270 -> {
+                if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                } else {
+                    ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+                }
+            }
+            else -> {
+                if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                } else {
+                    ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+                }
+            }
+        }
 
     /**
      * @param msgOrMsgRes The message on loading dialog
