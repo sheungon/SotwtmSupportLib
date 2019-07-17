@@ -455,9 +455,9 @@ abstract class AppHelpfulActivity
         when (windowManager.defaultDisplay.rotation) {
             Surface.ROTATION_90 -> {
                 if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-                    ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
+                    ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
                 } else {
-                    ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
+                    ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
                 }
             }
             Surface.ROTATION_180 -> {
@@ -469,9 +469,9 @@ abstract class AppHelpfulActivity
             }
             Surface.ROTATION_270 -> {
                 if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-                    ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                    ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
                 } else {
-                    ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+                    ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
                 }
             }
             else -> {
