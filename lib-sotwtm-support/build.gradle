@@ -109,10 +109,6 @@ dependencies {
     // ===========================================================
 
     /***** For Unit Test *****/
-    androidTestImplementation("com.android.support.test.espresso:espresso-core:$rootProject.ext.versions.espresso", {
-        exclude group: 'com.android.support', module: 'support-annotations'
-        exclude group: 'com.google.code.findbugs', module: 'jsr305'
-    })
     androidTestImplementation "com.google.dagger:dagger:$rootProject.ext.versions.dagger_2"
     kaptAndroidTest "com.google.dagger:dagger-compiler:$rootProject.ext.versions.dagger_2"
     testImplementation deps.junit
