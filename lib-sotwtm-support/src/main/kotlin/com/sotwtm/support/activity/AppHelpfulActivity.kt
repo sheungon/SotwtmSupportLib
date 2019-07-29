@@ -171,6 +171,9 @@ abstract class AppHelpfulActivity
         savedInstanceStateRef.set(savedInstanceState)
         backStackListener = MyBackStackChangedListener(this)
 
+        requestAppOrientation?.let {
+            requestedOrientation = it
+        }
         if (requestOrientationByDeviceType) {
             requestedOrientation = if (resources.getBoolean(R.bool.is_tablet)) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
@@ -683,6 +686,9 @@ abstract class AppHelpfulActivity
     companion object {
         const val NONE = 0
         const val DIALOG_TAG_LOADING = "ProgressDialogFragment"
+
+        @JvmStatic
+        var requestAppOrientation: Int? = null
 
         private const val FLAG_HIDE_NAVIGATION_BAR = 1
         private const val FLAG_HIDE_STATUS_BAR = 1 shl 1
