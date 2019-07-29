@@ -171,9 +171,6 @@ abstract class AppHelpfulActivity
         savedInstanceStateRef.set(savedInstanceState)
         backStackListener = MyBackStackChangedListener(this)
 
-        requestAppOrientation?.let {
-            requestedOrientation = it
-        }
         if (requestOrientationByDeviceType) {
             requestedOrientation = if (resources.getBoolean(R.bool.is_tablet)) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
@@ -253,6 +250,10 @@ abstract class AppHelpfulActivity
         }
 
         orientationToResume = resources.configuration.getOrientation()
+
+        requestAppOrientation?.let {
+            requestedOrientation = it
+        }
     }
 
     override fun onPause() {
