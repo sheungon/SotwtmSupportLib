@@ -44,11 +44,14 @@ abstract class ObservableSharedPreferencesField<T>(
 
     abstract fun valueToString(value: T): String?
 
-    abstract fun stringToValue(string: String?): T
+    abstract fun stringToValue(containsValue: Boolean, string: String?): T
 
     @Synchronized
     override fun get(): T? = try {
-        stringToValue(sharedPreferences.getString(preferenceKey, null))
+        stringToValue(
+            sharedPreferences.contains(preferenceKey),
+            sharedPreferences.getString(preferenceKey, null)
+        )
     } catch (th: Throwable) {
         Log.e("Error on convert String to value. Failed to get.", th)
         null
