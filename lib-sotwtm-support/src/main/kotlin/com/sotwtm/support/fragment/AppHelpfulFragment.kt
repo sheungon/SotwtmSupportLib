@@ -20,10 +20,8 @@ import com.sotwtm.support.util.createSnackbar
 import com.sotwtm.support.util.hideSoftKeyboard
 import com.sotwtm.util.Log
 import dagger.Lazy
-import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.AndroidSupportInjection
-import dagger.android.support.HasSupportFragmentInjector
 import javax.inject.Inject
 
 /**
@@ -31,7 +29,7 @@ import javax.inject.Inject
 
  * @author sheungon
  */
-abstract class AppHelpfulFragment : Fragment(), HasSupportFragmentInjector {
+abstract class AppHelpfulFragment : Fragment() {
 
     @Inject
     internal lateinit var childFragmentInjector: Lazy<DispatchingAndroidInjector<Fragment>?>
@@ -100,7 +98,11 @@ abstract class AppHelpfulFragment : Fragment(), HasSupportFragmentInjector {
         dataBinder?.onCreate()
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View =
         inflater.inflate(layoutResId, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -197,8 +199,6 @@ abstract class AppHelpfulFragment : Fragment(), HasSupportFragmentInjector {
             (activity as? IOverridePendingTransition)?.overridePendingTransitionForStartActivity()
         }
     }
-
-    override fun supportFragmentInjector(): AndroidInjector<Fragment>? = childFragmentInjector.get()
 
     /**
      * @return `true` if view is bound by ButterKnife. Otherwise, `false`
@@ -309,7 +309,10 @@ abstract class AppHelpfulFragment : Fragment(), HasSupportFragmentInjector {
     ): Snackbar? {
         val activity = activity
         return (activity as? AppHelpfulActivity)?.createSnackBarWithRootView(messageRes, duration)
-            ?: if (activity != null) createSnackBarWithRootView(activity.getString(messageRes), duration)
+            ?: if (activity != null) createSnackBarWithRootView(
+                activity.getString(messageRes),
+                duration
+            )
             else {
                 Log.e("Fragment is not attached! message lost : $messageRes")
                 null

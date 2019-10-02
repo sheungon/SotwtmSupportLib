@@ -10,7 +10,6 @@ import android.os.Bundle
 import android.support.annotation.*
 import android.support.design.widget.CoordinatorLayout
 import android.support.design.widget.Snackbar
-import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -29,8 +28,7 @@ import dagger.Lazy
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
-import dagger.android.HasFragmentInjector
-import dagger.android.support.HasSupportFragmentInjector
+import dagger.android.HasAndroidInjector
 import java.lang.ref.WeakReference
 import java.util.concurrent.atomic.AtomicReference
 import javax.inject.Inject
@@ -45,14 +43,11 @@ import javax.inject.Inject
 abstract class AppHelpfulActivity
     : AppCompatActivity(),
     IOverridePendingTransition,
-    HasFragmentInjector,
-    HasSupportFragmentInjector {
+    HasAndroidInjector {
 
     @Inject
-    internal lateinit var supportFragmentInjector: Lazy<DispatchingAndroidInjector<Fragment>?>
+    internal lateinit var androidInjector: Lazy<DispatchingAndroidInjector<Any>?>
     @Suppress("DEPRECATION")
-    @Inject
-    internal lateinit var frameworkFragmentInjector: Lazy<DispatchingAndroidInjector<android.app.Fragment>?>
 
     /**Indicate if dagger injection if enabled to this activity.*/
     open val daggerEnabled: Boolean = true
@@ -150,11 +145,12 @@ abstract class AppHelpfulActivity
     private var orientationBeforePause: Int? = null
     private var orientationToResume: Int? = null
 
-    private val onAppLocaleChangedListener: OnAppLocaleChangedListener = object : OnAppLocaleChangedListener() {
-        override fun onAppLocalChange() {
-            recreate()
+    private val onAppLocaleChangedListener: OnAppLocaleChangedListener =
+        object : OnAppLocaleChangedListener() {
+            override fun onAppLocalChange() {
+                recreate()
+            }
         }
-    }
 
     /**
      * Indicate if there should be back button on toolbar
@@ -197,7 +193,8 @@ abstract class AppHelpfulActivity
 
         super.onCreate(savedInstanceState)
 
-        SotwtmSupportLib.getInstance().registerOnAppLocaleChangedListener(onAppLocaleChangedListener)
+        SotwtmSupportLib.getInstance()
+            .registerOnAppLocaleChangedListener(onAppLocaleChangedListener)
 
         setContentViewInternal(layoutResId, savedInstanceState)
 
@@ -275,7 +272,8 @@ abstract class AppHelpfulActivity
     }
 
     override fun onDestroy() {
-        SotwtmSupportLib.getInstance().unregisterOnAppLocaleChangedListener(onAppLocaleChangedListener)
+        SotwtmSupportLib.getInstance()
+            .unregisterOnAppLocaleChangedListener(onAppLocaleChangedListener)
         super.onDestroy()
 
         dataBinder.onDestroyInternal()
@@ -348,7 +346,11 @@ abstract class AppHelpfulActivity
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
         dataBinder.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -397,10 +399,7 @@ abstract class AppHelpfulActivity
         }
     }
 
-    override fun supportFragmentInjector(): AndroidInjector<Fragment>? = supportFragmentInjector.get()
-
-    @Suppress("DEPRECATION")
-    override fun fragmentInjector(): AndroidInjector<android.app.Fragment>? = frameworkFragmentInjector.get()
+    override fun androidInjector(): AndroidInjector<Any>? = androidInjector.get()
 
     override fun finish() {
         super.finish()
