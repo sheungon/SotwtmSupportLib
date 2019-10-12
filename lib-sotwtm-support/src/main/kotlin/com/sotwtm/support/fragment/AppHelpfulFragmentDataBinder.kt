@@ -1,7 +1,7 @@
 package com.sotwtm.support.fragment
 
 import android.app.Application
-import android.arch.lifecycle.AndroidViewModel
+import androidx.lifecycle.AndroidViewModel
 import android.os.Bundle
 import android.view.View
 import com.sotwtm.support.SotwtmSupportLib

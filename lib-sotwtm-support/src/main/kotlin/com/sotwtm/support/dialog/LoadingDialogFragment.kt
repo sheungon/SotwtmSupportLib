@@ -4,8 +4,8 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentTransaction
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import android.view.Window
 import com.sotwtm.support.R
 import com.sotwtm.support.databinding.DialogLoadingBinding
@@ -59,17 +59,17 @@ class LoadingDialogFragment : AppHelpfulDataBindingDialogFragment<DialogLoadingB
         }
     }
 
-    override fun show(manager: FragmentManager?, tag: String?) {
+    override fun show(manager: androidx.fragment.app.FragmentManager?, tag: String?) {
         dismissed = false
         super.show(manager, tag)
     }
 
-    override fun show(transaction: FragmentTransaction?, tag: String?): Int {
+    override fun show(transaction: androidx.fragment.app.FragmentTransaction?, tag: String?): Int {
         dismissed = false
         return super.show(transaction, tag)
     }
 
-    override fun showNow(manager: FragmentManager?, tag: String?) {
+    override fun showNow(manager: androidx.fragment.app.FragmentManager?, tag: String?) {
         dismissed = false
         super.showNow(manager, tag)
     }

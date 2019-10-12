@@ -1,6 +1,6 @@
 package com.sotwtm.support.dialog
 
-import android.support.annotation.StringRes
+import androidx.annotation.StringRes
 import android.widget.Toast
 import com.sotwtm.support.activity.AppHelpfulActivity
 import com.sotwtm.support.base.BaseMessenger

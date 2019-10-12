@@ -4,14 +4,13 @@ import android.app.Activity
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Build
-import android.support.annotation.RequiresApi
-import android.support.design.widget.Snackbar
-import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
 import android.util.TypedValue
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
+import com.google.android.material.snackbar.Snackbar
 import com.sotwtm.support.R
 import com.sotwtm.util.Log
 
@@ -59,7 +58,8 @@ fun View.createSnackbar(
     Snackbar.make(this, message, duration)
         .setActionTextColor(ContextCompat.getColor(context, R.color.snackbar_action_text))
         .apply {
-            val snackbarText = view.findViewById<TextView?>(android.support.design.R.id.snackbar_text)
+            val snackbarText =
+                view.findViewById<TextView?>(com.google.android.material.R.id.snackbar_text)
             snackbarText?.setTextColor(ContextCompat.getColor(context, R.color.snackbar_text))
 
             view.setBackgroundColor(ContextCompat.getColor(context, R.color.snackbar_bg))
@@ -76,7 +76,8 @@ fun Float.dpToPixel(context: Context) =
  * Check if the app context is now in landscape mode.
  * @return true if the device orientation is landscape.
  * */
-fun Context.isLandscapeNow(): Boolean = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+fun Context.isLandscapeNow(): Boolean =
+    resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
 /**
  * Hide the soft input keyboard from a given focus view
@@ -100,7 +101,7 @@ fun Activity.hideSoftKeyboard(): Activity = apply {
  * Hide the soft input keyboard from a fragment.
  * It will do nothing if the fragment has been removed from activity.
  * */
-fun Fragment.hideSoftKeyboard(): Fragment = apply {
+fun androidx.fragment.app.Fragment.hideSoftKeyboard(): androidx.fragment.app.Fragment = apply {
     activity?.hideSoftKeyboard()
 }
 

@@ -1,12 +1,12 @@
 package com.sotwtm.support.util.databinding
 
 import android.content.Context
-import android.databinding.BindingAdapter
+import androidx.databinding.BindingAdapter
 import android.graphics.Paint
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.os.Build
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import android.widget.TextView
 
 /**

@@ -1,6 +1,6 @@
 package com.sotwtm.support.fragment
 
-import android.support.annotation.StringRes
+import androidx.annotation.StringRes
 import com.sotwtm.support.activity.AppHelpfulActivity
 import com.sotwtm.support.base.BaseMessenger
 import com.sotwtm.support.scope.FragmentScope

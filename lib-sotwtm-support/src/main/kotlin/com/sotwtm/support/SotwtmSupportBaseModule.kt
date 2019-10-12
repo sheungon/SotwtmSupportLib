@@ -2,8 +2,8 @@ package com.sotwtm.support
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.databinding.ObservableField
-import android.support.v4.os.LocaleListCompat
+import androidx.databinding.ObservableField
+import androidx.core.os.LocaleListCompat
 import com.sotwtm.support.scope.LibScope
 import com.sotwtm.support.util.locale.AppHelpfulLocaleUtil
 import com.sotwtm.support.util.locale.unify

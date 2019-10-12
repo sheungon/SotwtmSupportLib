@@ -4,12 +4,12 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.support.annotation.LayoutRes
-import android.support.annotation.StringRes
-import android.support.annotation.UiThread
-import android.support.v4.app.FragmentManager
-import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatDialogFragment
+import androidx.annotation.LayoutRes
+import androidx.annotation.StringRes
+import androidx.annotation.UiThread
+import androidx.fragment.app.FragmentManager
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatDialogFragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -153,7 +153,7 @@ abstract class AppHelpfulDialogFragment : AppCompatDialogFragment() {
         }
     }
 
-    override fun show(manager: FragmentManager?, tag: String?) {
+    override fun show(manager: androidx.fragment.app.FragmentManager?, tag: String?) {
         try {
             val ft = (manager ?: return).beginTransaction()
             ft.add(this, tag)

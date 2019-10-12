@@ -2,7 +2,7 @@ package com.sotwtm.support.activity
 
 import android.content.pm.PackageManager
 import android.os.Build
-import android.support.annotation.StringRes
+import androidx.annotation.StringRes
 import com.sotwtm.support.base.BaseMessenger
 import com.sotwtm.support.scope.ActivityScope
 import com.sotwtm.support.util.SnackbarDuration

@@ -3,11 +3,11 @@ package com.sotwtm.support.fragment
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.annotation.AnimRes
-import android.support.annotation.LayoutRes
-import android.support.annotation.StringRes
-import android.support.design.widget.Snackbar
-import android.support.v4.app.Fragment
+import androidx.annotation.AnimRes
+import androidx.annotation.LayoutRes
+import androidx.annotation.StringRes
+import com.google.android.material.snackbar.Snackbar
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,10 +29,10 @@ import javax.inject.Inject
 
  * @author sheungon
  */
-abstract class AppHelpfulFragment : Fragment() {
+abstract class AppHelpfulFragment : androidx.fragment.app.Fragment() {
 
     @Inject
-    internal lateinit var childFragmentInjector: Lazy<DispatchingAndroidInjector<Fragment>?>
+    internal lateinit var childFragmentInjector: Lazy<DispatchingAndroidInjector<androidx.fragment.app.Fragment>?>
 
     /**
      * The layout ID for this fragment

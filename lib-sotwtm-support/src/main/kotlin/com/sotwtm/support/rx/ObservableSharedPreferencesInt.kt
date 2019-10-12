@@ -1,7 +1,7 @@
 package com.sotwtm.support.rx
 
 import android.content.SharedPreferences
-import android.databinding.ObservableInt
+import androidx.databinding.ObservableInt
 
 /**
  * For observing [Int] value in [SharedPreferences]

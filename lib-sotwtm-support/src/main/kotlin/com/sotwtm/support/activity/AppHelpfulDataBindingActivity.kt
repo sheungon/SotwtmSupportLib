@@ -1,9 +1,9 @@
 package com.sotwtm.support.activity
 
-import android.databinding.DataBindingUtil
-import android.databinding.ViewDataBinding
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import android.os.Bundle
-import android.support.design.widget.CoordinatorLayout
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import java.lang.ref.WeakReference
 
 /**
@@ -15,11 +15,11 @@ import java.lang.ref.WeakReference
 abstract class AppHelpfulDataBindingActivity<DataBindingClass : ViewDataBinding>
     : AppHelpfulActivity(), IOverridePendingTransition {
 
-    override val coordinatorLayoutRef: WeakReference<CoordinatorLayout?> by lazy {
+    override val coordinatorLayoutRef: WeakReference<androidx.coordinatorlayout.widget.CoordinatorLayout?> by lazy {
         WeakReference(
             coordinatorLayoutId?.let {
-                dataBinding?.root?.findViewById<CoordinatorLayout?>(it)
-                    ?: findViewById<CoordinatorLayout?>(it)
+                dataBinding?.root?.findViewById<androidx.coordinatorlayout.widget.CoordinatorLayout?>(it)
+                    ?: findViewById<androidx.coordinatorlayout.widget.CoordinatorLayout?>(it)
             }
         )
     }

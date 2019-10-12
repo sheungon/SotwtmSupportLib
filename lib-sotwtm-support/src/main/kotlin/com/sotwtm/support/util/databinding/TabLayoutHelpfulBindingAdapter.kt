@@ -1,8 +1,8 @@
 package com.sotwtm.support.util.databinding
 
-import android.databinding.*
-import android.databinding.adapters.ListenerUtil
-import android.support.design.widget.TabLayout
+import androidx.databinding.*
+import androidx.databinding.adapters.ListenerUtil
+import com.google.android.material.tabs.TabLayout
 
 
 /**

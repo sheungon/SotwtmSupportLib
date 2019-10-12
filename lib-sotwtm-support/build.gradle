@@ -12,7 +12,7 @@ android {
         minSdkVersion 16
         targetSdkVersion rootProject.ext.target_sdk_version
         versionCode 1
-        versionName rootProject.ext.versions.support_lib
+        versionName "1.0.0"
     }
 
     buildTypes {
@@ -80,7 +80,7 @@ android {
     }
 
     defaultConfig {
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 }
 
@@ -90,8 +90,8 @@ dependencies {
     // =============================================================
     // <<<<<<<<<<<<<<<<<<<< MUST ADD LIBS START >>>>>>>>>>>>>>>>>>>>
     // Android support libs
-    implementation "com.android.support:design:$rootProject.ext.versions.support_lib"
-    implementation "android.arch.lifecycle:viewmodel:$rootProject.ext.versions.lifecycle"
+    implementation "com.google.android.material:material:1.0.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel:2.1.0"
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-$rootProject.ext.versions.kotlin_env:$rootProject.ext.versions.kotlin_plugin"

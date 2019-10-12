@@ -1,7 +1,7 @@
 package com.sotwtm.support.util.rx
 
-import android.databinding.Observable
-import android.databinding.ObservableField
+import androidx.databinding.Observable
+import androidx.databinding.ObservableField
 
 abstract class OnPropertyDiffCallback<ObservableFieldClass> : Observable.OnPropertyChangedCallback() {
 
