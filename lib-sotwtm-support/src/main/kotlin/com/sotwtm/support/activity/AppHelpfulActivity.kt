@@ -7,16 +7,14 @@ import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
-import androidx.annotation.*
-import androidx.coordinatorlayout.widget.CoordinatorLayout
-import com.google.android.material.snackbar.Snackbar
-import androidx.fragment.app.FragmentManager
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
 import android.view.Surface
 import android.view.View
+import androidx.annotation.*
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import com.google.android.material.snackbar.Snackbar
 import com.sotwtm.support.R
 import com.sotwtm.support.SotwtmSupportLib
 import com.sotwtm.support.dialog.LoadingDialogFragment
@@ -123,6 +121,8 @@ abstract class AppHelpfulActivity
 
     open val requestOrientationByDeviceType: Boolean = false
     open val resumeOrientationOnResume: Boolean = true
+    /**See [requestAppOrientation]*/
+    open val applyGlobalAppOrientation: Boolean = true
 
     protected open val coordinatorLayoutRef: WeakReference<androidx.coordinatorlayout.widget.CoordinatorLayout?> by lazy {
         WeakReference(
@@ -248,8 +248,10 @@ abstract class AppHelpfulActivity
 
         orientationToResume = resources.configuration.getOrientation()
 
-        requestAppOrientation?.let {
-            requestedOrientation = it
+        if (applyGlobalAppOrientation) {
+            requestAppOrientation?.let {
+                requestedOrientation = it
+            }
         }
     }
 
