@@ -44,20 +44,23 @@ object AppHelpfulLocaleUtil {
         if (fuzzy) {
             val unifiedLeft = left.unify()
             val unifiedRight = right.unify()
-            unifiedLeft.language.toUpperCase() == unifiedRight.language.toUpperCase() &&
-                    (unifiedLeft.language.toUpperCase() != "ZH" ||
-                            (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP &&
-                                    (unifiedLeft.script.isEmpty() || unifiedRight.script.isEmpty() ||
-                                            unifiedLeft.script.toUpperCase() == unifiedRight.script.toUpperCase())) ||
-                            unifiedLeft.country.convertToZhLang() == unifiedRight.country.convertToZhLang())
+            unifiedLeft.language.toUpperCase(Locale.US) == unifiedRight.language.toUpperCase(Locale.US)
+                    && (unifiedLeft.language.toUpperCase(Locale.US) != "ZH"
+                    || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+                    && (unifiedLeft.script.isEmpty()
+                    || unifiedRight.script.isEmpty()
+                    || unifiedLeft.script.toUpperCase(Locale.US) == unifiedRight.script.toUpperCase(
+                Locale.US
+            )))
+                    || unifiedLeft.country.convertToZhLang() == unifiedRight.country.convertToZhLang())
         } else
             left == right
 
     private fun String.convertToZhLang(): String =
-        when (toUpperCase()) {
+        when (toUpperCase(Locale.US)) {
             "HK" -> "TW"
             "MO" -> "TW"
-            else -> toUpperCase()
+            else -> toUpperCase(Locale.US)
         }
 
     @Suppress("DEPRECATION")
@@ -103,7 +106,7 @@ object AppHelpfulLocaleUtil {
         supportedLocales: List<Locale>,
         target: Locale
     ): Locale? =
-        (0 until supportedLocales.size)
+        (supportedLocales.indices)
             .firstOrNull { supportedLocales[it].language == target.language }
             ?.let { supportedLocales[it] }
 }
@@ -136,7 +139,10 @@ fun Context.setAppLocale(locale: Locale): Context {
         }
     }
 
-    applicationContext.resources.updateConfiguration(appConfig, applicationContext.resources.displayMetrics)
+    applicationContext.resources.updateConfiguration(
+        appConfig,
+        applicationContext.resources.displayMetrics
+    )
 
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
         createConfigurationContext(config)
@@ -151,15 +157,18 @@ fun Context.setAppLocale(locale: Locale): Context {
  * @return A unified [Locale]
  * */
 fun Locale.unify(): Locale =
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-        if (script.isEmpty()) {
-            if (language.toUpperCase() == "ZH") {
-                val localeBuilder = Locale.Builder().setLanguage(language).setRegion(country)
-                when (country.toUpperCase()) {
-                    "CN" -> localeBuilder.setScript("hans")
-                    else -> localeBuilder.setScript("hant")
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+        && script.isEmpty()
+        && language.toUpperCase(Locale.US) == "ZH"
+    ) {
+        Locale.Builder()
+            .setLanguage(language)
+            .setRegion(country)
+            .also {
+                when (country.toUpperCase(Locale.US)) {
+                    "CN" -> it.setScript("hans")
+                    else -> it.setScript("hant")
                 }
-                localeBuilder.build()
-            } else this
-        } else this
+            }
+            .build()
     } else this
