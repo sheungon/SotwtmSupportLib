@@ -57,15 +57,15 @@ abstract class AppHelpfulActivity
     abstract val layoutResId: Int
 
     /**
-     * The [android.support.v7.widget.Toolbar] view ID in this activity.
-     * Override as null if no [android.support.v7.widget.Toolbar] in this activity
+     * The [Toolbar] view ID in this activity.
+     * Override as null if no [Toolbar] in this activity
      */
     @get:IdRes
     open val toolbarId: Int? = R.id.toolbar
 
     /**
-     * The [android.support.design.widget.CoordinatorLayout] ID in this activity.
-     * Override as null if no [android.support.design.widget.CoordinatorLayout] in this activity
+     * The [androidx.coordinatorlayout.widget.CoordinatorLayout] ID in this activity.
+     * Override as null if no [androidx.coordinatorlayout.widget.CoordinatorLayout] in this activity
      * */
     @get:IdRes
     open val coordinatorLayoutId: Int? = R.id.coordinator_layout
@@ -220,7 +220,7 @@ abstract class AppHelpfulActivity
 
         updateActionBarHomeButton()
 
-        supportFragmentManager?.addOnBackStackChangedListener(backStackListener)
+        supportFragmentManager.addOnBackStackChangedListener(backStackListener)
 
         dataBinder.onStart()
     }
@@ -238,9 +238,11 @@ abstract class AppHelpfulActivity
         }
 
         if (resumeOrientationOnResume) {
+            // Resume the direction first
             orientationToResume?.let {
                 requestedOrientation = it
             }
+            // Then resume the original orientation property
             orientationBeforePause?.let {
                 requestedOrientation = it
             }
@@ -259,6 +261,7 @@ abstract class AppHelpfulActivity
         super.onPause()
 
         if (resumeOrientationOnResume) {
+            orientationToResume = resources.configuration.getOrientation()
             orientationBeforePause = requestedOrientation
         }
 
@@ -270,7 +273,7 @@ abstract class AppHelpfulActivity
 
         dataBinder.onStop()
 
-        supportFragmentManager?.removeOnBackStackChangedListener(backStackListener)
+        supportFragmentManager.removeOnBackStackChangedListener(backStackListener)
     }
 
     override fun onDestroy() {
@@ -290,7 +293,9 @@ abstract class AppHelpfulActivity
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
 
-        orientationToResume = newConfig.getOrientation()
+        if (!dataBinder.isActivityPaused) {
+            orientationToResume = newConfig.getOrientation()
+        }
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
