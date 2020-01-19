@@ -16,19 +16,19 @@ import com.sotwtm.support.R
  * @author sheungon
  */
 @BindingMethods(
-    BindingMethod(type = androidx.recyclerview.widget.RecyclerView::class, attribute = "setAdapter", method = "setAdapter")
+    BindingMethod(type = RecyclerView::class, attribute = "setAdapter", method = "setAdapter")
 )
 object RecyclerViewHelpfulBindingAdapter {
 
     @JvmStatic
     @BindingAdapter(value = ["setLayoutManagerOrientation"])
     fun setLayoutManager(
-        recyclerView: androidx.recyclerview.widget.RecyclerView,
+        recyclerView: RecyclerView,
         orientation: Int
     ) {
         val reverseLayout = ListenerUtil.getListener<Boolean?>(recyclerView, R.id.setLayoutManagerReverseLayout)
         val autoMeasureEnabled = ListenerUtil.getListener<Boolean?>(recyclerView, R.id.setAutoMeasureEnabled)
-        val layoutManager = androidx.recyclerview.widget.LinearLayoutManager(
+        val layoutManager = LinearLayoutManager(
             recyclerView.context,
             orientation,
             reverseLayout == true
@@ -42,17 +42,17 @@ object RecyclerViewHelpfulBindingAdapter {
     @JvmStatic
     @BindingAdapter(value = ["setLayoutManagerReverseLayout"])
     fun setLayoutManagerReverseLayout(
-        recyclerView: androidx.recyclerview.widget.RecyclerView,
+        recyclerView: RecyclerView,
         reverseLayout: Boolean?
     ) {
         ListenerUtil.trackListener(recyclerView, reverseLayout, R.id.setLayoutManagerReverseLayout)
-        (recyclerView.layoutManager as? androidx.recyclerview.widget.LinearLayoutManager)?.reverseLayout = reverseLayout == true
+        (recyclerView.layoutManager as? LinearLayoutManager)?.reverseLayout = reverseLayout == true
     }
 
     @JvmStatic
     @BindingAdapter(value = ["setAutoMeasureEnabled"])
     fun setAutoMeasureEnabled(
-        recyclerView: androidx.recyclerview.widget.RecyclerView,
+        recyclerView: RecyclerView,
         autoMeasureEnabled: Boolean?
     ) {
         ListenerUtil.trackListener(recyclerView, autoMeasureEnabled, R.id.setAutoMeasureEnabled)
@@ -64,7 +64,7 @@ object RecyclerViewHelpfulBindingAdapter {
     @JvmStatic
     @BindingAdapter(value = ["setNestedScrollingEnabled"])
     fun setNestedScrollingEnabled(
-        recyclerView: androidx.recyclerview.widget.RecyclerView,
+        recyclerView: RecyclerView,
         nestedScrollingEnabled: Boolean?
     ) {
         if (nestedScrollingEnabled != null) {
@@ -75,11 +75,11 @@ object RecyclerViewHelpfulBindingAdapter {
     @JvmStatic
     @BindingAdapter(value = ["setGridNumberOfColumn"])
     fun setGridNumberOfColumn(
-        recyclerView: androidx.recyclerview.widget.RecyclerView,
+        recyclerView: RecyclerView,
         numOfCol: Int?
     ) {
         if (numOfCol == null) return
         recyclerView.layoutManager =
-            androidx.recyclerview.widget.GridLayoutManager(recyclerView.context, numOfCol)
+            GridLayoutManager(recyclerView.context, numOfCol)
     }
 }
