@@ -163,6 +163,15 @@ abstract class AppHelpfulActivity
         super.attachBaseContext(newBase.setAppLocale(requireNotNull(SotwtmSupportLib.getInstance().appLocale.get())))
     }
 
+    override fun applyOverrideConfiguration(overrideConfiguration: Configuration?) {
+        if (overrideConfiguration != null) {
+            val uiMode = overrideConfiguration.uiMode
+            overrideConfiguration.setTo(baseContext.resources.configuration)
+            overrideConfiguration.uiMode = uiMode
+        }
+        super.applyOverrideConfiguration(overrideConfiguration)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         savedInstanceStateRef.set(savedInstanceState)
         backStackListener = MyBackStackChangedListener(this)
