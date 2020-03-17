@@ -23,6 +23,7 @@ private constructor(_application: Application) {
 
     @Inject
     internal lateinit var sharedPreferences: SharedPreferences
+
     @Inject
     internal lateinit var editor: SharedPreferences.Editor
 

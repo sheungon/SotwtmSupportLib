@@ -66,7 +66,8 @@ object AdapterViewHelpfulBindingAdapter {
         selectedItemString(selectedString)
     }
 
-    private fun Int.toResStringArray(context: Context) = context.resources.getStringArray(this).asList()
+    private fun Int.toResStringArray(context: Context) =
+        context.resources.getStringArray(this).asList()
 
     private fun List<String>.toArrayAdapter(context: Context) =
         ArrayAdapter(context, android.R.layout.simple_spinner_item, this).apply {

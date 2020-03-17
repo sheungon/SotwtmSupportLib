@@ -11,7 +11,8 @@ import android.view.ViewGroup
 
 /**
  */
-abstract class AppHelpfulDataBindingDialogFragment<DataBindingClass : ViewDataBinding> : AppHelpfulDialogFragment() {
+abstract class AppHelpfulDataBindingDialogFragment<DataBindingClass : ViewDataBinding> :
+    AppHelpfulDialogFragment() {
 
     @Volatile
     var dataBinding: DataBindingClass? = null
@@ -25,7 +26,11 @@ abstract class AppHelpfulDataBindingDialogFragment<DataBindingClass : ViewDataBi
      * */
     abstract fun initDataBinding(dataBinding: DataBindingClass, savedInstanceState: Bundle?)
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? =
         layoutId?.let {
             dataBinding?.unbind()
             dataBinding = DataBindingUtil.inflate(inflater, it, container, false)

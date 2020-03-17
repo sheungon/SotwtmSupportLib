@@ -45,6 +45,7 @@ abstract class AppHelpfulActivity
 
     @Inject
     internal lateinit var androidInjector: Lazy<DispatchingAndroidInjector<Any>?>
+
     @Suppress("DEPRECATION")
 
     /**Indicate if dagger injection if enabled to this activity.*/
@@ -121,6 +122,7 @@ abstract class AppHelpfulActivity
 
     open val requestOrientationByDeviceType: Boolean = false
     open val resumeOrientationOnResume: Boolean = true
+
     /**See [requestAppOrientation]*/
     open val applyGlobalAppOrientation: Boolean = true
 
@@ -220,7 +222,10 @@ abstract class AppHelpfulActivity
         decorView.setOnSystemUiVisibilityChangeListener(MySystemUiVisibilityChangeListener(this))
     }
 
-    protected open fun setContentViewInternal(@LayoutRes layoutResId: Int, savedInstanceState: Bundle?) {
+    protected open fun setContentViewInternal(
+        @LayoutRes layoutResId: Int,
+        savedInstanceState: Bundle?
+    ) {
         setContentView(layoutResId)
     }
 

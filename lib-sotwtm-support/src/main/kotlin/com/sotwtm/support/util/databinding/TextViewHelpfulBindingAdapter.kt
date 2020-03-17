@@ -90,8 +90,10 @@ object TextViewHelpfulBindingAdapter {
             if ((start == null && left != null) ||
                 (end == null && right != null)
             ) {
-                val leftDrawable = if (start == null) left?.safeGetDrawable(context) else startDrawable
-                val rightDrawable = if (end == null) right?.safeGetDrawable(context) else endDrawable
+                val leftDrawable =
+                    if (start == null) left?.safeGetDrawable(context) else startDrawable
+                val rightDrawable =
+                    if (end == null) right?.safeGetDrawable(context) else endDrawable
                 view.setCompoundDrawables(
                     leftDrawable,
                     topDrawable,

@@ -25,6 +25,7 @@ abstract class BaseMessenger {
     abstract fun showLoadingDialog(@StringRes msg: String)
 
     abstract fun dismissLoadingDialog()
+
     /**
      * Show snack bar with message.
      * This can be called from any thread.

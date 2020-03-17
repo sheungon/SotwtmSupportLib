@@ -13,10 +13,12 @@ import com.sotwtm.support.SotwtmSupportLib
 abstract class AppHelpfulActivityDataBinder(app: Application) : AndroidViewModel(app) {
 
     val locale = SotwtmSupportLib.getInstance().appLocale
+
     /* Don't name this as "isResumed" because "isResumed" is a hidden final method in parent class. */
     @Volatile
     var isActivityPaused = true
         private set
+
     @Volatile
     var isActivityDestroyed = false
         private set

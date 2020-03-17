@@ -14,7 +14,8 @@ package com.sotwtm.support.util.singleton
 open class SingletonHolder3<InstanceClass, Arg0Class, Arg1Class, Arg2Class>
     (_constructor: (Arg0Class, Arg1Class, Arg2Class) -> InstanceClass) {
 
-    private val instanceConstructor: ((Arg0Class, Arg1Class, Arg2Class) -> InstanceClass) = _constructor
+    private val instanceConstructor: ((Arg0Class, Arg1Class, Arg2Class) -> InstanceClass) =
+        _constructor
 
     @Volatile
     private var instance: InstanceClass? = null

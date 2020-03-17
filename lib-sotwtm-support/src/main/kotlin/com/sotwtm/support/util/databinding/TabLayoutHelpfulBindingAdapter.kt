@@ -12,7 +12,11 @@ import com.google.android.material.tabs.TabLayout
  * @author sheungon
  */
 @BindingMethods(
-    BindingMethod(type = TabLayout::class, attribute = "setupWithViewPager", method = "setupWithViewPager")
+    BindingMethod(
+        type = TabLayout::class,
+        attribute = "setupWithViewPager",
+        method = "setupWithViewPager"
+    )
 )
 object TabLayoutHelpfulBindingAdapter {
 

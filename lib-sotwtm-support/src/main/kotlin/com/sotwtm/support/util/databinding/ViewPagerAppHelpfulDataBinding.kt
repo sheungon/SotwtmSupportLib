@@ -15,8 +15,16 @@ import androidx.viewpager.widget.ViewPager
  * @author sheungon
  */
 @BindingMethods(
-    BindingMethod(type = androidx.viewpager.widget.ViewPager::class, attribute = "onTouchListener", method = "setOnTouchListener"),
-    BindingMethod(type = androidx.viewpager.widget.ViewPager::class, attribute = "setOffscreenPageLimit", method = "setOffscreenPageLimit")
+    BindingMethod(
+        type = androidx.viewpager.widget.ViewPager::class,
+        attribute = "onTouchListener",
+        method = "setOnTouchListener"
+    ),
+    BindingMethod(
+        type = androidx.viewpager.widget.ViewPager::class,
+        attribute = "setOffscreenPageLimit",
+        method = "setOffscreenPageLimit"
+    )
 )
 object ViewPagerAppHelpfulDataBinding {
 

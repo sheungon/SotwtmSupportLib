@@ -26,8 +26,10 @@ object RecyclerViewHelpfulBindingAdapter {
         recyclerView: RecyclerView,
         orientation: Int
     ) {
-        val reverseLayout = ListenerUtil.getListener<Boolean?>(recyclerView, R.id.setLayoutManagerReverseLayout)
-        val autoMeasureEnabled = ListenerUtil.getListener<Boolean?>(recyclerView, R.id.setAutoMeasureEnabled)
+        val reverseLayout =
+            ListenerUtil.getListener<Boolean?>(recyclerView, R.id.setLayoutManagerReverseLayout)
+        val autoMeasureEnabled =
+            ListenerUtil.getListener<Boolean?>(recyclerView, R.id.setAutoMeasureEnabled)
         val layoutManager = LinearLayoutManager(
             recyclerView.context,
             orientation,

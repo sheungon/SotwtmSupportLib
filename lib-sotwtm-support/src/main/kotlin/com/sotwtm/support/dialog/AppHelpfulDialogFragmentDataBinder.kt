@@ -9,12 +9,15 @@ import com.sotwtm.support.SotwtmSupportLib
 /**
  * @author sheungon
  */
-open class AppHelpfulDialogFragmentDataBinder(application: Application) : AndroidViewModel(application) {
+open class AppHelpfulDialogFragmentDataBinder(application: Application) :
+    AndroidViewModel(application) {
 
     val locale = SotwtmSupportLib.getInstance().appLocale
+
     @Volatile
     var isPaused = true
         private set
+
     @Volatile
     var isViewDestroyed = false
         private set

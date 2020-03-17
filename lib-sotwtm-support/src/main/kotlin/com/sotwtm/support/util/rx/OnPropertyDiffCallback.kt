@@ -3,7 +3,8 @@ package com.sotwtm.support.util.rx
 import androidx.databinding.Observable
 import androidx.databinding.ObservableField
 
-abstract class OnPropertyDiffCallback<ObservableFieldClass> : Observable.OnPropertyChangedCallback() {
+abstract class OnPropertyDiffCallback<ObservableFieldClass> :
+    Observable.OnPropertyChangedCallback() {
 
     var firstTimeCallback = true
     var oldValue: ObservableFieldClass? = null
