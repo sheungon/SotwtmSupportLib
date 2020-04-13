@@ -79,7 +79,7 @@ abstract class AppHelpfulActivity
     open var menuResId: Int? = null
         set(value) {
             field = value
-            if (value != null) {
+            if (value != null && value != 0) {
                 toolbarId?.let {
                     findViewById<Toolbar?>(it)?.menu?.let { menu ->
                         menuInflater.inflate(value, menu)
