@@ -329,9 +329,10 @@ abstract class AppHelpfulActivity
             }
         }
 
-        menuResId?.let {
-            menuInflater.inflate(it, menu)
-        }
+        menuResId?.takeIf { it != 0 }
+            ?.let {
+                menuInflater.inflate(it, menu)
+            }
 
         return true
     }
