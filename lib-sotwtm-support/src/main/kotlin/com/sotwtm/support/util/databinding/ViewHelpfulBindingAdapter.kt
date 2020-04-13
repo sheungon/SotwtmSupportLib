@@ -18,7 +18,10 @@ object ViewHelpfulBindingAdapter {
         view: View,
         menuId: Int?
     ) {
-        (view.context as? AppHelpfulActivity)?.menuResId = menuId
+        (view.context as? AppHelpfulActivity)?.apply {
+            menuResId = menuId
+            invalidateOptionsMenu()
+        }
     }
 
     @JvmStatic
