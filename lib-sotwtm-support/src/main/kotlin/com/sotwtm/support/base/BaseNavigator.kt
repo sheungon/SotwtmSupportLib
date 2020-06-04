@@ -1,5 +1,7 @@
 package com.sotwtm.support.base
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -126,5 +128,38 @@ abstract class BaseNavigator {
         activity?.recreate()
             ?: fragment?.activity?.recreate()
             ?: dialogFragment?.activity?.recreate()
+    }
+
+    fun restartApplication() {
+        (activity
+            ?: fragment?.activity
+            ?: dialogFragment?.activity)?.let { activity ->
+            Intent(Intent.ACTION_MAIN).apply {
+                setPackage(activity.packageName)
+                addCategory(Intent.CATEGORY_LAUNCHER)
+            }.let { mainIntent ->
+                activity.packageManager.queryIntentActivities(mainIntent, 0)
+            }.firstOrNull()?.activityInfo
+                ?.let { activityInfo ->
+                    PendingIntent.getActivity(
+                        activity,
+                        1000,
+                        Intent().apply {
+                            setClassName(activity, activityInfo.name)
+                            setPackage(activity.packageName)
+                        },
+                        PendingIntent.FLAG_CANCEL_CURRENT
+                    )?.let { pendingIntent ->
+                        (activity.getSystemService(Context.ALARM_SERVICE) as? AlarmManager)
+                            ?.set(
+                                AlarmManager.RTC,
+                                System.currentTimeMillis() + 100,
+                                pendingIntent
+                            )
+                    }
+                }
+        }
+
+        System.exit(0)
     }
 }
