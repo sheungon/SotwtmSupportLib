@@ -124,8 +124,8 @@ fun Context.setAppLocale(locale: Locale): Context {
             val localeList = LocaleList(locale)
             LocaleList.setDefault(localeList)
 
-            appConfig.setLocales(localeList)
-            config.setLocales(localeList)
+            appConfig.locales = localeList
+            config.locales = localeList
             appConfig.setLocale(locale)
             config.setLocale(locale)
         }
