@@ -13,6 +13,8 @@ import android.view.Surface
 import android.view.View
 import androidx.annotation.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.app.BaseContextWrappingDelegate
 import androidx.appcompat.widget.Toolbar
 import com.google.android.material.snackbar.Snackbar
 import com.sotwtm.support.R
@@ -146,6 +148,7 @@ abstract class AppHelpfulActivity
     private var fullScreenFlag = 0x0
     private var orientationBeforePause: Int? = null
     private var orientationToResume: Int? = null
+    private var baseContextWrappingDelegate: AppCompatDelegate? = null
 
     private val onAppLocaleChangedListener: OnAppLocaleChangedListener =
         object : OnAppLocaleChangedListener() {
@@ -161,9 +164,14 @@ abstract class AppHelpfulActivity
     abstract val dataBinder: AppHelpfulActivityDataBinder
 
 
-    override fun attachBaseContext(newBase: Context) {
-        super.attachBaseContext(newBase.setAppLocale(requireNotNull(SotwtmSupportLib.getInstance().appLocale.get())))
-    }
+    override fun getDelegate() = baseContextWrappingDelegate
+        ?: BaseContextWrappingDelegate(super.getDelegate()).apply {
+            baseContextWrappingDelegate = this
+        }
+
+    override fun createConfigurationContext(overrideConfiguration: Configuration): Context =
+        super.createConfigurationContext(overrideConfiguration)
+            .setAppLocale(requireNotNull(SotwtmSupportLib.getInstance().appLocale.get()))
 
     override fun applyOverrideConfiguration(overrideConfiguration: Configuration?) {
         if (overrideConfiguration != null) {

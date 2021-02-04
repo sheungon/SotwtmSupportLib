@@ -7,6 +7,7 @@ import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Build
 import android.os.LocaleList
+import com.sotwtm.util.Log
 import java.util.*
 
 
@@ -44,14 +45,12 @@ object AppHelpfulLocaleUtil {
         if (fuzzy) {
             val unifiedLeft = left.unify()
             val unifiedRight = right.unify()
-            unifiedLeft.language.toUpperCase(Locale.US) == unifiedRight.language.toUpperCase(Locale.US)
+            unifiedLeft.language.equals(unifiedRight.language, ignoreCase = true)
                     && (unifiedLeft.language.toUpperCase(Locale.US) != "ZH"
                     || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
                     && (unifiedLeft.script.isEmpty()
                     || unifiedRight.script.isEmpty()
-                    || unifiedLeft.script.toUpperCase(Locale.US) == unifiedRight.script.toUpperCase(
-                Locale.US
-            )))
+                    || unifiedLeft.script.equals(unifiedRight.script, ignoreCase = true)))
                     || unifiedLeft.country.convertToZhLang() == unifiedRight.country.convertToZhLang())
         } else
             left == right
@@ -114,20 +113,23 @@ object AppHelpfulLocaleUtil {
 @Suppress("DEPRECATION")
 fun Context.setAppLocale(locale: Locale): Context {
 
+    Log.d("setAppLocale: $locale")
+
     Locale.setDefault(locale)
-    val applicationContext = applicationContext
+    val appContext = applicationContext
 
     val config = resources.configuration
-    val appConfig = applicationContext.resources.configuration
+    val appRes = appContext.resources
+    val appConfig = appRes.configuration
     when {
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.N -> {
-            val localeList = LocaleList(locale)
-            LocaleList.setDefault(localeList)
-
-            appConfig.locales = localeList
-            config.locales = localeList
             appConfig.setLocale(locale)
             config.setLocale(locale)
+
+            val localeList = LocaleList(locale)
+            LocaleList.setDefault(localeList)
+            appConfig.locales = localeList
+            config.locales = localeList
         }
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 -> {
             appConfig.setLocale(locale)
@@ -139,15 +141,15 @@ fun Context.setAppLocale(locale: Locale): Context {
         }
     }
 
-    applicationContext.resources.updateConfiguration(
+    appRes.updateConfiguration(
         appConfig,
-        applicationContext.resources.displayMetrics
+        appRes.displayMetrics
     )
 
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
         createConfigurationContext(config)
     } else {
-        resources.updateConfiguration(config, resources.displayMetrics)
+        appRes.updateConfiguration(config, appRes.displayMetrics)
         ContextWrapper(this)
     }
 }
