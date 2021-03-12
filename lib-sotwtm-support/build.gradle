@@ -90,8 +90,8 @@ dependencies {
     // <<<<<<<<<<<<<<<<<<<< MUST ADD LIBS START >>>>>>>>>>>>>>>>>>>>
     // Android support libs
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation "com.google.android.material:material:1.2.1"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
+    implementation "com.google.android.material:material:1.3.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0"
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-$rootProject.ext.versions.kotlin_env:$rootProject.ext.versions.kotlin_plugin"
