@@ -120,8 +120,8 @@ abstract class BaseNavigator {
 
     fun finishActivity() {
         activity?.finish()
-            ?: fragment?.activity?.recreate()
-            ?: fragment?.activity?.recreate()
+            ?: fragment?.activity?.finish()
+            ?: dialogFragment?.activity?.finish()
     }
 
     fun restartActivity() {
