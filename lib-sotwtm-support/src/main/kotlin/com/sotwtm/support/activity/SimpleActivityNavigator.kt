@@ -7,4 +7,4 @@ import javax.inject.Inject
 @ActivityScope
 class SimpleActivityNavigator
 @Inject
-constructor(activity: AppHelpfulActivity) : BaseNavigator(activity)
+constructor(activity: AppHelpfulActivity<*>) : BaseNavigator(activity)

@@ -1,7 +1,7 @@
 package com.sotwtm.support.dialog
 
-import androidx.annotation.StringRes
 import android.widget.Toast
+import androidx.annotation.StringRes
 import com.sotwtm.support.activity.AppHelpfulActivity
 import com.sotwtm.support.base.BaseMessenger
 import com.sotwtm.support.scope.FragmentScope
@@ -22,8 +22,8 @@ class DialogFragmentMessenger(private val fragmentRef: WeakReference<out AppHelp
     private val fragment: AppHelpfulDialogFragment?
         get() = fragmentRef.get()
 
-    override val activity: AppHelpfulActivity?
-        get() = fragment?.activity as? AppHelpfulActivity
+    override val activity: AppHelpfulActivity<*>?
+        get() = fragment?.activity as? AppHelpfulActivity<*>
 
     fun showLoadingDialog() {
         try {

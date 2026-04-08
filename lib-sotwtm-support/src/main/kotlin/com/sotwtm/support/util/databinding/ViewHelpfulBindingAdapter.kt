@@ -1,10 +1,10 @@
 package com.sotwtm.support.util.databinding
 
+import android.view.View
+import androidx.annotation.DrawableRes
 import androidx.databinding.BindingAdapter
 import androidx.databinding.adapters.ListenerUtil
-import androidx.annotation.DrawableRes
 import com.google.android.material.snackbar.Snackbar
-import android.view.View
 import com.sotwtm.support.R
 import com.sotwtm.support.activity.AppHelpfulActivity
 import com.sotwtm.support.util.createSnackbar
@@ -18,7 +18,7 @@ object ViewHelpfulBindingAdapter {
         view: View,
         menuId: Int?
     ) {
-        (view.context as? AppHelpfulActivity)?.apply {
+        (view.context as? AppHelpfulActivity<*>)?.apply {
             menuResId = menuId
             invalidateOptionsMenu()
         }
@@ -45,6 +45,7 @@ object ViewHelpfulBindingAdapter {
             "snackbarAction"],
         requireAll = false
     )
+
     fun showSnackbar(
         view: View,
         msg: String?,

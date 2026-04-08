@@ -10,6 +10,7 @@ import com.sotwtm.support.activity.AppHelpfulDataBindingActivity
 import com.sotwtm.support.dialog.AppHelpfulDialogFragment
 import com.sotwtm.support.fragment.AppHelpfulFragment
 import java.lang.ref.WeakReference
+import kotlin.system.exitProcess
 
 /**
  * A base class of navigator for either [AppHelpfulDataBindingActivity], [AppHelpfulFragment]
@@ -20,7 +21,7 @@ import java.lang.ref.WeakReference
 
 abstract class BaseNavigator {
 
-    constructor(_activity: AppHelpfulActivity) : this(WeakReference(_activity))
+    constructor(_activity: AppHelpfulActivity<*>) : this(WeakReference(_activity))
     constructor(_fragment: AppHelpfulFragment) : this(WeakReference(_fragment))
     constructor(_fragment: AppHelpfulDialogFragment) : this(WeakReference(_fragment))
     constructor(_contextRef: WeakReference<*>) {
@@ -29,8 +30,8 @@ abstract class BaseNavigator {
 
     private val contextRef: WeakReference<*>
 
-    val activity: AppHelpfulActivity?
-        get() = contextRef.get() as? AppHelpfulActivity
+    val activity: AppHelpfulActivity<*>?
+        get() = contextRef.get() as? AppHelpfulActivity<*>
     val fragment: AppHelpfulFragment?
         get() = contextRef.get() as? AppHelpfulFragment
     val dialogFragment: AppHelpfulDialogFragment?
@@ -148,7 +149,7 @@ abstract class BaseNavigator {
                             setClassName(activity, activityInfo.name)
                             setPackage(activity.packageName)
                         },
-                        PendingIntent.FLAG_CANCEL_CURRENT
+                        PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_MUTABLE
                     )?.let { pendingIntent ->
                         (activity.getSystemService(Context.ALARM_SERVICE) as? AlarmManager)
                             ?.set(
@@ -160,6 +161,6 @@ abstract class BaseNavigator {
                 }
         }
 
-        System.exit(0)
+        exitProcess(0)
     }
 }

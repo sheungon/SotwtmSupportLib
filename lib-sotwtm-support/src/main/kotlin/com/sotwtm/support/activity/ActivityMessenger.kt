@@ -15,12 +15,12 @@ import javax.inject.Inject
  */
 
 @ActivityScope
-class ActivityMessenger(private val activityRef: WeakReference<out AppHelpfulActivity>) :
+class ActivityMessenger(private val activityRef: WeakReference<out AppHelpfulActivity<*>>) :
     BaseMessenger() {
     @Inject
-    constructor(_activity: AppHelpfulActivity) : this(WeakReference(_activity))
+    constructor(_activity: AppHelpfulActivity<*>) : this(WeakReference(_activity))
 
-    override val activity: AppHelpfulActivity?
+    override val activity: AppHelpfulActivity<*>?
         get() = activityRef.get()
 
     override fun showLoadingDialog(@StringRes msgRes: Int) {

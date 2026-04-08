@@ -1,11 +1,11 @@
 package com.sotwtm.support.fragment
 
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 
 /**
  * A fragment contains helpful API.
@@ -32,7 +32,6 @@ abstract class AppHelpfulDataBindingFragment<DataBindingClass : ViewDataBinding>
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         dataBinding?.unbind()
         dataBinding = DataBindingUtil.inflate(inflater, layoutResId, container, false)
 

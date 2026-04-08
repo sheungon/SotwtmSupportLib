@@ -7,11 +7,15 @@ import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import android.view.Surface
 import android.view.View
-import androidx.annotation.*
+import androidx.annotation.AnimRes
+import androidx.annotation.IdRes
+import androidx.annotation.MenuRes
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.BaseContextWrappingDelegate
@@ -19,9 +23,15 @@ import androidx.appcompat.widget.Toolbar
 import com.google.android.material.snackbar.Snackbar
 import com.sotwtm.support.R
 import com.sotwtm.support.SotwtmSupportLib
+import com.sotwtm.support.activity.AppHelpfulActivity.Companion.requestAppOrientation
 import com.sotwtm.support.dialog.LoadingDialogFragment
 import com.sotwtm.support.dialog.StringOrStringRes
-import com.sotwtm.support.util.*
+import com.sotwtm.support.util.SnackbarDuration
+import com.sotwtm.support.util.createSnackbar
+import com.sotwtm.support.util.hideNavigationAndStatusBar
+import com.sotwtm.support.util.hideNavigationBar
+import com.sotwtm.support.util.hideSoftKeyboard
+import com.sotwtm.support.util.hideStatusBar
 import com.sotwtm.support.util.locale.setAppLocale
 import com.sotwtm.util.Log
 import dagger.Lazy
@@ -40,7 +50,7 @@ import javax.inject.Inject
  *
  * @author sheungon
  */
-abstract class AppHelpfulActivity
+abstract class AppHelpfulActivity<ViewBindingClass : Any>
     : AppCompatActivity(),
     IOverridePendingTransition,
     HasAndroidInjector {
@@ -54,10 +64,13 @@ abstract class AppHelpfulActivity
     open val daggerEnabled: Boolean = true
 
     /**
-     * The layout ID for this activity
+     * The view data binding for this activity
+     * Ref, https://developer.android.com/topic/libraries/view-binding#activities
      */
-    @get:LayoutRes
-    abstract val layoutResId: Int
+    protected lateinit var viewBinding: ViewBindingClass
+    protected abstract fun bindingRootView(): View
+
+    protected abstract fun createViewDataBinding(layoutInflater: LayoutInflater): ViewBindingClass
 
     /**
      * The [Toolbar] view ID in this activity.
@@ -144,7 +157,7 @@ abstract class AppHelpfulActivity
 
     private var actionBarTitle: String? = null
     private var loadingDialogMsg: StringOrStringRes? = null
-    private lateinit var backStackListener: MyBackStackChangedListener
+    private lateinit var backStackListener: MyBackStackChangedListener<ViewBindingClass>
     private var fullScreenFlag = 0x0
     private var orientationBeforePause: Int? = null
     private var orientationToResume: Int? = null
@@ -215,7 +228,8 @@ abstract class AppHelpfulActivity
         SotwtmSupportLib.getInstance()
             .registerOnAppLocaleChangedListener(onAppLocaleChangedListener)
 
-        setContentViewInternal(layoutResId, savedInstanceState)
+        this.viewBinding = this.createViewDataBinding(layoutInflater)
+        setContentViewInternal(this.bindingRootView(), savedInstanceState)
 
         toolbarId?.let { toolbarId ->
             val toolbar = findViewById<Toolbar?>(toolbarId)
@@ -231,10 +245,9 @@ abstract class AppHelpfulActivity
     }
 
     protected open fun setContentViewInternal(
-        @LayoutRes layoutResId: Int,
-        savedInstanceState: Bundle?
+        view: View, savedInstanceState: Bundle?,
     ) {
-        setContentView(layoutResId)
+        setContentView(view)
     }
 
     override fun onStart() {
@@ -351,6 +364,7 @@ abstract class AppHelpfulActivity
                 onBackPressed()
                 true
             }
+
             else -> dataBinder.onOptionsItemSelected(item)
         }
 
@@ -493,6 +507,7 @@ abstract class AppHelpfulActivity
                     ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
                 }
             }
+
             Surface.ROTATION_180 -> {
                 if (orientation == Configuration.ORIENTATION_PORTRAIT) {
                     ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
@@ -500,6 +515,7 @@ abstract class AppHelpfulActivity
                     ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
                 }
             }
+
             Surface.ROTATION_270 -> {
                 if (orientation == Configuration.ORIENTATION_PORTRAIT) {
                     ActivityInfo.SCREEN_ORIENTATION_REVERSE_PORTRAIT
@@ -507,6 +523,7 @@ abstract class AppHelpfulActivity
                     ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE
                 }
             }
+
             else -> {
                 if (orientation == Configuration.ORIENTATION_PORTRAIT) {
                     ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
@@ -685,10 +702,12 @@ abstract class AppHelpfulActivity
     ///////////////////////////////
     // Class and interface
     ///////////////////////////////
-    private class MyBackStackChangedListener internal constructor(activity: AppHelpfulActivity) :
+    private class MyBackStackChangedListener<ViewBindingClass : Any>
+        (activity: AppHelpfulActivity<ViewBindingClass>) :
         androidx.fragment.app.FragmentManager.OnBackStackChangedListener {
 
-        private val activityRef: WeakReference<AppHelpfulActivity> = WeakReference(activity)
+        private val activityRef: WeakReference<AppHelpfulActivity<ViewBindingClass>> =
+            WeakReference(activity)
 
         override fun onBackStackChanged() {
 
@@ -698,11 +717,13 @@ abstract class AppHelpfulActivity
         }
     }
 
-    private class MySystemUiVisibilityChangeListener internal constructor(activity: AppHelpfulActivity) :
+    private class MySystemUiVisibilityChangeListener<ViewBindingClass : Any>(activity: AppHelpfulActivity<ViewBindingClass>) :
         View.OnSystemUiVisibilityChangeListener {
 
-        internal val activityRef: WeakReference<AppHelpfulActivity> = WeakReference(activity)
+        val activityRef: WeakReference<AppHelpfulActivity<ViewBindingClass>> =
+            WeakReference(activity)
 
+        @Deprecated("Deprecated in Java")
         override fun onSystemUiVisibilityChange(visibility: Int) {
 
             val activity = activityRef.get() ?: return

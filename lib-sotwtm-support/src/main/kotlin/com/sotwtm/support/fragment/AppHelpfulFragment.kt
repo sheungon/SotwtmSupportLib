@@ -172,10 +172,12 @@ abstract class AppHelpfulFragment : androidx.fragment.app.Fragment() {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun startActivityForResult(intent: Intent, requestCode: Int) {
         startActivityForResult(intent, requestCode, null)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun startActivityForResult(intent: Intent, requestCode: Int, options: Bundle?) {
         startActivityForResult(intent, requestCode, true, options)
     }
@@ -210,7 +212,7 @@ abstract class AppHelpfulFragment : androidx.fragment.app.Fragment() {
 
         val activity = activity
         if (activity != null) {
-            (activity as? AppHelpfulActivity)?.showLoadingDialog()
+            (activity as? AppHelpfulActivity<*>)?.showLoadingDialog()
                 ?: Log.wtf("This method can only work with parent is AppHelpfulActivity")
         } else {
             Log.v("Fragment released")
@@ -221,7 +223,7 @@ abstract class AppHelpfulFragment : androidx.fragment.app.Fragment() {
 
         val activity = activity
         if (activity != null) {
-            (activity as? AppHelpfulActivity)?.showLoadingDialog(msg)
+            (activity as? AppHelpfulActivity<*>)?.showLoadingDialog(msg)
                 ?: Log.wtf("This method can only work with parent is AppHelpfulActivity")
         } else {
             Log.v("Fragment released")
@@ -232,7 +234,7 @@ abstract class AppHelpfulFragment : androidx.fragment.app.Fragment() {
 
         val activity = activity
         if (activity != null) {
-            (activity as? AppHelpfulActivity)?.showLoadingDialog(msgRes)
+            (activity as? AppHelpfulActivity<*>)?.showLoadingDialog(msgRes)
                 ?: Log.wtf("This method can only work with parent is AppHelpfulActivity")
         } else {
             Log.v("Fragment released")
@@ -243,7 +245,7 @@ abstract class AppHelpfulFragment : androidx.fragment.app.Fragment() {
 
         val activity = activity
         if (activity != null) {
-            (activity as? AppHelpfulActivity)?.dismissLoadingDialog()
+            (activity as? AppHelpfulActivity<*>)?.dismissLoadingDialog()
                 ?: Log.wtf("This method can only work with parent is AppHelpfulActivity")
         } else {
             Log.v("Fragment released")
@@ -260,7 +262,7 @@ abstract class AppHelpfulFragment : androidx.fragment.app.Fragment() {
     ) {
 
         val activity = activity
-        (activity as? AppHelpfulActivity)?.showSnackBar(messageRes, duration)
+        (activity as? AppHelpfulActivity<*>)?.showSnackBar(messageRes, duration)
             ?: if (activity != null) {
                 showSnackBar(activity.getString(messageRes), duration)
             } else {
@@ -282,7 +284,7 @@ abstract class AppHelpfulFragment : androidx.fragment.app.Fragment() {
         }
 
         val activity = activity
-        (activity as? AppHelpfulActivity)?.showSnackBar(message, duration)
+        (activity as? AppHelpfulActivity<*>)?.showSnackBar(message, duration)
             ?: if (activity != null) {
 
                 val rootView = view
@@ -307,7 +309,10 @@ abstract class AppHelpfulFragment : androidx.fragment.app.Fragment() {
         @SnackbarDuration duration: Int
     ): Snackbar? {
         val activity = activity
-        return (activity as? AppHelpfulActivity)?.createSnackBarWithRootView(messageRes, duration)
+        return (activity as? AppHelpfulActivity<*>)?.createSnackBarWithRootView(
+            messageRes,
+            duration
+        )
             ?: if (activity != null) createSnackBarWithRootView(
                 activity.getString(messageRes),
                 duration
@@ -322,7 +327,7 @@ abstract class AppHelpfulFragment : androidx.fragment.app.Fragment() {
         message: String,
         @SnackbarDuration duration: Int
     ): Snackbar? {
-        return (activity as? AppHelpfulActivity)?.createSnackBarWithRootView(message, duration)
+        return (activity as? AppHelpfulActivity<*>)?.createSnackBarWithRootView(message, duration)
             ?: {
                 Log.e("Fragment is not attached! message lost : $message")
                 null

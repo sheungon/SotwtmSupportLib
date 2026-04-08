@@ -6,10 +6,11 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'jacoco'
 
 android {
+    namespace "com.sotwtm.support"
     compileSdkVersion rootProject.ext.compile_sdk_version
 
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 26
         targetSdkVersion rootProject.ext.target_sdk_version
         versionCode 1
         versionName "1.0.0"
@@ -32,7 +33,10 @@ android {
     * See, https://developer.android.com/topic/libraries/data-binding/index.html
     * */
     buildFeatures {
+        viewBinding = true
         dataBinding = true
+        // https://stackoverflow.com/a/74692390
+        buildConfig = true
     }
 
     // Fix build error on including libs that with these files
@@ -54,8 +58,11 @@ android {
 
     compileOptions {
         encoding "UTF-8"
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = "11"
     }
 
     // continue build even found lint error
@@ -92,9 +99,6 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation "com.google.android.material:material:1.3.0"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
-
-    // Kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-$rootProject.ext.versions.kotlin_env:$rootProject.ext.versions.kotlin_plugin"
 
     // Dagger 2
     implementation "com.google.dagger:dagger:$versions.dagger_2"

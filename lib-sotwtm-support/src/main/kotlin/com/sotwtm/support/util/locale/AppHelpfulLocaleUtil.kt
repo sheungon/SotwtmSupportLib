@@ -8,7 +8,7 @@ import android.content.res.Resources
 import android.os.Build
 import android.os.LocaleList
 import com.sotwtm.util.Log
-import java.util.*
+import java.util.Locale
 
 
 /**
@@ -128,8 +128,8 @@ fun Context.setAppLocale(locale: Locale): Context {
 
             val localeList = LocaleList(locale)
             LocaleList.setDefault(localeList)
-            appConfig.locales = localeList
-            config.locales = localeList
+            appConfig.setLocales( localeList)
+            config.setLocales(localeList)
         }
         Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 -> {
             appConfig.setLocale(locale)

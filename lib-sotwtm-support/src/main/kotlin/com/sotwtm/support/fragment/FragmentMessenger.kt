@@ -22,8 +22,8 @@ class FragmentMessenger(private val fragmentRef: WeakReference<out AppHelpfulFra
     private val fragment: AppHelpfulFragment?
         get() = fragmentRef.get()
 
-    override val activity: AppHelpfulActivity?
-        get() = fragment?.activity as? AppHelpfulActivity
+    override val activity: AppHelpfulActivity<*>?
+        get() = fragment?.activity as? AppHelpfulActivity<*>
 
     fun showLoadingDialog() {
         try {

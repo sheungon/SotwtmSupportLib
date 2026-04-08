@@ -126,10 +126,12 @@ abstract class AppHelpfulDialogFragment : AppCompatDialogFragment() {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun startActivityForResult(intent: Intent, requestCode: Int) {
         startActivityForResult(intent, requestCode, null)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun startActivityForResult(intent: Intent, requestCode: Int, options: Bundle?) {
         startActivityForResult(intent, requestCode, true, options)
     }
@@ -184,19 +186,19 @@ abstract class AppHelpfulDialogFragment : AppCompatDialogFragment() {
     }
 
     internal fun showLoadingDialog() {
-        (activity as? AppHelpfulActivity)?.showLoadingDialog()
+        (activity as? AppHelpfulActivity<*>)?.showLoadingDialog()
     }
 
     internal fun showLoadingDialog(@StringRes msgRes: Int) {
-        (activity as? AppHelpfulActivity)?.showLoadingDialog(msgRes)
+        (activity as? AppHelpfulActivity<*>)?.showLoadingDialog(msgRes)
     }
 
     internal fun showLoadingDialog(msg: String) {
-        (activity as? AppHelpfulActivity)?.showLoadingDialog(msg)
+        (activity as? AppHelpfulActivity<*>)?.showLoadingDialog(msg)
     }
 
     internal fun dismissLoadingDialog() {
-        (activity as? AppHelpfulActivity)?.dismissLoadingDialog()
+        (activity as? AppHelpfulActivity<*>)?.dismissLoadingDialog()
     }
 
     protected fun showNothing() {

@@ -10,7 +10,7 @@ import com.sotwtm.support.util.SnackbarDuration
  */
 abstract class BaseMessenger {
 
-    abstract val activity: AppHelpfulActivity?
+    abstract val activity: AppHelpfulActivity<*>?
 
     /**
      * @param msgRes The message on loading dialog
@@ -22,7 +22,7 @@ abstract class BaseMessenger {
      * @param msg The message on loading dialog
      * *
      */
-    abstract fun showLoadingDialog(@StringRes msg: String)
+    abstract fun showLoadingDialog(msg: String)
 
     abstract fun dismissLoadingDialog()
 

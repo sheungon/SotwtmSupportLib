@@ -1,9 +1,9 @@
 package com.sotwtm.support.activity
 
+import android.os.Bundle
+import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
-import android.os.Bundle
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import java.lang.ref.WeakReference
 
 /**
@@ -13,15 +13,15 @@ import java.lang.ref.WeakReference
  * @author sheungon
  */
 abstract class AppHelpfulDataBindingActivity<DataBindingClass : ViewDataBinding>
-    : AppHelpfulActivity(), IOverridePendingTransition {
+    : AppHelpfulActivity<DataBindingClass>(), IOverridePendingTransition {
 
     override val coordinatorLayoutRef: WeakReference<androidx.coordinatorlayout.widget.CoordinatorLayout?> by lazy {
         WeakReference(
             coordinatorLayoutId?.let {
-                dataBinding?.root?.findViewById<androidx.coordinatorlayout.widget.CoordinatorLayout?>(
+                dataBinding?.root?.findViewById(
                     it
                 )
-                    ?: findViewById<androidx.coordinatorlayout.widget.CoordinatorLayout?>(it)
+                    ?: findViewById(it)
             }
         )
     }
@@ -36,9 +36,9 @@ abstract class AppHelpfulDataBindingActivity<DataBindingClass : ViewDataBinding>
      * */
     abstract fun initDataBinding(dataBinding: DataBindingClass, savedInstanceState: Bundle?)
 
-    override fun setContentViewInternal(layoutResId: Int, savedInstanceState: Bundle?) {
+    override fun setContentViewInternal(view: View, savedInstanceState: Bundle?) {
         dataBinding?.unbind()
-        dataBinding = DataBindingUtil.setContentView(this, layoutResId)
+        dataBinding = DataBindingUtil.getBinding(view)
 
         dataBinding?.let {
             it.lifecycleOwner = this
