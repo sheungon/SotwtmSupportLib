@@ -37,6 +37,8 @@ abstract class AppHelpfulDataBindingActivity<DataBindingClass : ViewDataBinding>
     abstract fun initDataBinding(dataBinding: DataBindingClass, savedInstanceState: Bundle?)
 
     override fun setContentViewInternal(view: View, savedInstanceState: Bundle?) {
+        super.setContentViewInternal(view, savedInstanceState)
+
         dataBinding?.unbind()
         dataBinding = DataBindingUtil.getBinding(view)
 
