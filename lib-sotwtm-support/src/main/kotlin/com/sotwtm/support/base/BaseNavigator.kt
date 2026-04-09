@@ -149,7 +149,7 @@ abstract class BaseNavigator {
                             setClassName(activity, activityInfo.name)
                             setPackage(activity.packageName)
                         },
-                        PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_MUTABLE
+                        PendingIntent.FLAG_CANCEL_CURRENT or PendingIntent.FLAG_IMMUTABLE
                     )?.let { pendingIntent ->
                         (activity.getSystemService(Context.ALARM_SERVICE) as? AlarmManager)
                             ?.set(
