@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.BaseContextWrappingDelegate
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.WindowCompat
 import com.google.android.material.snackbar.Snackbar
 import com.sotwtm.support.R
 import com.sotwtm.support.SotwtmSupportLib
@@ -224,6 +225,8 @@ abstract class AppHelpfulActivity<ViewBindingClass : Any>
         }
 
         super.onCreate(savedInstanceState)
+
+        WindowCompat.enableEdgeToEdge(window)
 
         SotwtmSupportLib.getInstance()
             .registerOnAppLocaleChangedListener(onAppLocaleChangedListener)

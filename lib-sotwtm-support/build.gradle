@@ -96,7 +96,9 @@ dependencies {
     // =============================================================
     // <<<<<<<<<<<<<<<<<<<< MUST ADD LIBS START >>>>>>>>>>>>>>>>>>>>
     // Android support libs
-    implementation 'androidx.appcompat:appcompat:1.7.1'
+    // https://developer.android.com/jetpack/androidx/releases/core
+    implementation "androidx.core:core-ktx:1.18.0"
+    implementation "androidx.appcompat:appcompat:1.7.1"
     implementation "com.google.android.material:material:1.13.0"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.10.0"
 
