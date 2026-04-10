@@ -46,7 +46,7 @@ object AppHelpfulLocaleUtil {
             val unifiedLeft = left.unify()
             val unifiedRight = right.unify()
             unifiedLeft.language.equals(unifiedRight.language, ignoreCase = true)
-                    && (unifiedLeft.language.toUpperCase(Locale.US) != "ZH"
+                    && (unifiedLeft.language.uppercase(Locale.US) != "ZH"
                     || (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
                     && (unifiedLeft.script.isEmpty()
                     || unifiedRight.script.isEmpty()
@@ -56,10 +56,10 @@ object AppHelpfulLocaleUtil {
             left == right
 
     private fun String.convertToZhLang(): String =
-        when (toUpperCase(Locale.US)) {
+        when (uppercase(Locale.US)) {
             "HK" -> "TW"
             "MO" -> "TW"
-            else -> toUpperCase(Locale.US)
+            else -> uppercase(Locale.US)
         }
 
     @Suppress("DEPRECATION")
@@ -161,13 +161,13 @@ fun Context.setAppLocale(locale: Locale): Context {
 fun Locale.unify(): Locale =
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
         && script.isEmpty()
-        && language.toUpperCase(Locale.US) == "ZH"
+        && language.uppercase(Locale.US) == "ZH"
     ) {
         Locale.Builder()
             .setLanguage(language)
             .setRegion(country)
             .also {
-                when (country.toUpperCase(Locale.US)) {
+                when (country.uppercase(Locale.US)) {
                     "CN" -> it.setScript("hans")
                     else -> it.setScript("hant")
                 }
