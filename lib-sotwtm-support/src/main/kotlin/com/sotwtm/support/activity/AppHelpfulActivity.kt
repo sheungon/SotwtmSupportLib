@@ -20,7 +20,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.BaseContextWrappingDelegate
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.ViewCompat
+import androidx.core.view.ViewGroupCompat
 import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.snackbar.Snackbar
 import com.sotwtm.support.R
 import com.sotwtm.support.SotwtmSupportLib
@@ -234,6 +237,14 @@ abstract class AppHelpfulActivity<ViewBindingClass : Any>
         this.viewBinding = this.createViewDataBinding(layoutInflater)
         setContentViewInternal(this.bindingRootView(), savedInstanceState)
 
+        // https://developer.android.com/develop/ui/views/layout/edge-to-edge
+        // Edge-to-edge is enforced for apps targeting SDK 35+, so content would otherwise
+        // draw under the status/navigation bars. installCompatInsetsDispatch makes sure window
+        // insets reach the content root on every API level, and applySystemBarInsetsAsPadding
+        // insets the root so it no longer overlaps the bars (or a display cutout).
+        ViewGroupCompat.installCompatInsetsDispatch(this.bindingRootView())
+        applySystemBarInsetsAsPadding(this.bindingRootView())
+
         toolbarId?.let { toolbarId ->
             val toolbar = findViewById<Toolbar?>(toolbarId)
             if (toolbar != null) {
@@ -251,6 +262,37 @@ abstract class AppHelpfulActivity<ViewBindingClass : Any>
         view: View, savedInstanceState: Bundle?,
     ) {
         setContentView(view)
+    }
+
+    /**
+     * Inset the content [rootView] by the system bar and display cutout insets so it does not
+     * overlap the status bar, navigation bar or camera cutout under the edge-to-edge display
+     * enforced for apps targeting SDK 35+.
+     *
+     * The view's original padding is preserved and the system bar insets are added on top of it,
+     * so repeated inset dispatches (e.g. when a bar is shown or hidden) never accumulate. When a
+     * bar is hidden its inset becomes 0, so full-screen screens self-correct. Insets are returned
+     * unconsumed so descendant views can still react to them. Override to customise (e.g. a
+     * full-bleed screen that intentionally draws under the bars).
+     */
+    protected open fun applySystemBarInsetsAsPadding(rootView: View) {
+        val initialLeft = rootView.paddingLeft
+        val initialTop = rootView.paddingTop
+        val initialRight = rootView.paddingRight
+        val initialBottom = rootView.paddingBottom
+        ViewCompat.setOnApplyWindowInsetsListener(rootView) { view, windowInsets ->
+            val insets = windowInsets.getInsets(
+                WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout()
+            )
+            view.setPadding(
+                initialLeft + insets.left,
+                initialTop + insets.top,
+                initialRight + insets.right,
+                initialBottom + insets.bottom
+            )
+            windowInsets
+        }
+        ViewCompat.requestApplyInsets(rootView)
     }
 
     override fun onStart() {
