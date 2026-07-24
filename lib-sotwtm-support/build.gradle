@@ -6,22 +6,23 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'jacoco'
 
 android {
-    namespace "com.sotwtm.support"
-    compileSdkVersion rootProject.ext.compile_sdk_version
+    namespace = "com.sotwtm.support"
+    compileSdk = rootProject.ext.compile_sdk_version
 
     defaultConfig {
-        minSdkVersion 26
-        targetSdkVersion rootProject.ext.target_sdk_version
-        versionCode 1
-        versionName "1.0.0"
+        minSdk = 26
+        targetSdk = rootProject.ext.target_sdk_version
+        versionCode = 1
+        versionName = "1.0.0"
     }
 
     buildTypes {
         debug {
-            testCoverageEnabled true
+            enableUnitTestCoverage = true
+            enableAndroidTestCoverage = true
         }
         release {
-            minifyEnabled false
+            minifyEnabled = false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -40,24 +41,14 @@ android {
     }
 
     // Fix build error on including libs that with these files
-    packagingOptions {
-        exclude 'LICENSE.txt'
-        exclude 'META-INF/DEPENDENCIES'
-        exclude 'META-INF/DEPENDENCIES.txt'
-        exclude 'META-INF/dependencies.txt'
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/license.txt'
-        exclude 'META-INF/NOTICE'
-        exclude 'META-INF/NOTICE.txt'
-        exclude 'META-INF/notice.txt'
-        exclude 'META-INF/LGPL2.1'
-        exclude 'META-INF/MANIFEST.MF'
-        exclude 'META-INF/main.kotlin_module'
+    packaging {
+        resources {
+            excludes += ['LICENSE.txt', 'META-INF/DEPENDENCIES', 'META-INF/DEPENDENCIES.txt', 'META-INF/dependencies.txt', 'META-INF/LICENSE', 'META-INF/LICENSE.txt', 'META-INF/license.txt', 'META-INF/NOTICE', 'META-INF/NOTICE.txt', 'META-INF/notice.txt', 'META-INF/LGPL2.1', 'META-INF/MANIFEST.MF', 'META-INF/main.kotlin_module']
+        }
     }
 
     compileOptions {
-        encoding "UTF-8"
+        encoding = "UTF-8"
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
@@ -66,14 +57,8 @@ android {
     }
 
     // continue build even found lint error
-    lintOptions {
-        abortOnError false
-    }
-
-    dexOptions {
-        // Avoid proguard build with OOM error
-        javaMaxHeapSize "4g"
-        jumboMode = true
+    lint {
+        abortOnError = false
     }
 
     testOptions {
@@ -86,7 +71,7 @@ android {
     }
 
     defaultConfig {
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 }
 
@@ -99,8 +84,8 @@ dependencies {
     // https://developer.android.com/jetpack/androidx/releases/core
     implementation "androidx.core:core-ktx:1.18.0"
     implementation "androidx.appcompat:appcompat:1.7.1"
-    implementation "com.google.android.material:material:1.13.0"
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.10.0"
+    implementation "com.google.android.material:material:1.14.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.11.0"
 
     // Dagger 2
     implementation "com.google.dagger:dagger:$versions.dagger_2"
@@ -115,15 +100,5 @@ dependencies {
     // ===========================================================
 
     /***** For Unit Test *****/
-    androidTestImplementation "com.google.dagger:dagger:$rootProject.ext.versions.dagger_2"
-    kaptAndroidTest "com.google.dagger:dagger-compiler:$rootProject.ext.versions.dagger_2"
     testImplementation deps.junit
-    testImplementation "com.google.dagger:dagger:$rootProject.ext.versions.dagger_2"
-    kaptTest "com.google.dagger:dagger-compiler:$rootProject.ext.versions.dagger_2"
-    androidTestImplementation "org.mockito:mockito-android:$rootProject.ext.versions.mockito"
-    testImplementation "org.mockito:mockito-core:$rootProject.ext.versions.mockito"
-    testImplementation "org.powermock:powermock-api-mockito2:$rootProject.ext.versions.power_mock"
-    testImplementation "org.powermock:powermock-module-junit4-rule-agent:$rootProject.ext.versions.power_mock"
-    testImplementation "org.powermock:powermock-module-junit4-rule:$rootProject.ext.versions.power_mock"
-    testImplementation "org.powermock:powermock-module-junit4:$rootProject.ext.versions.power_mock"
 }
